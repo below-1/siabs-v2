@@ -18,6 +18,14 @@
     showAccountMenu = !showAccountMenu;
   }
 
+  let showSideMenu = false;
+  function toggleSideMenu() {
+    showSideMenu = !showSideMenu;
+  }
+  function hideSideMenu() {
+    showSideMenu = false;
+  }
+
   function isActive(path) {
     const current_path_pattern = '/' + $page.routeId
     if (current_path_pattern.startsWith('/app/unit-kerja')) {
@@ -38,10 +46,11 @@
     let result = []
     if (sess.user.super_user) {
       result = [
-        { path: '/app/unit-kerja', label: 'unit kerja' },
-        { path: '/app/pegawai', label: 'pegawai' },
-        { path: '/app/jadwal', label: 'jadwal' },
-        { path: '/app/tugas', label: 'tugas' }
+        { path: '/app/dashboard', label: 'dashboard', icon: 'mdi:view-dashboard' },
+        { path: '/app/unit-kerja', label: 'unit kerja', icon: 'mdi:office-building-cog' },
+        { path: '/app/pegawai', label: 'pegawai', icon: 'raphael:employee' },
+        { path: '/app/jadwal', label: 'jadwal', icon: 'clarity:calendar-solid' },
+        { path: '/app/tugas', label: 'tugas', icon: 'bx:task' }
       ]
     } else if (sess.user.uk_admin) {
       result = [
@@ -74,6 +83,7 @@
 </script>
 
 <div class="flex flex-col" style="min-height: 100vh;">
+
   <nav class="border-b-4 border-purple-900 bg-black text-white">
     <div class="container flex px-4 md:px-none">
 
@@ -100,7 +110,7 @@
           <Icon icon="mdi-light:bell" width="2rem" height="2rem" />
         </div>
       </button>
-      <button on:click={toggleAccountMenu} type="button" class="flex items-center">
+      <button on:click={toggleAccountMenu} type="button" class="flex items-center mr-2">
         <img 
           src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
           alt="logo" 
@@ -108,58 +118,15 @@
         />
       </button>
 
-      <!-- <div class="hidden md:flex gap-x-6 font-bold text-sm">
-        <a
-          target="_blank"
-          href="/app"
-          class="gap-x-2 flex items-center px-4 py-2"
-        >
-          <ion-icon name="notifications-outline"></ion-icon>
-          <span>
-            Pesan
-          </span>
-        </a>
-
-        <a class="gap-x-2 flex items-center" href="/app">
-          <ion-icon name="person-outline"></ion-icon>
-          <span>Account</span>
-        </a>
-      </div> -->
-
-      <!-- <div class="md:hidden flex items-center">
-        <ion-icon 
-          on:click={toggleMobileMenu}
-          class="w-8 h-8 px-4" 
-          name="menu-outline"></ion-icon>
-      </div> -->
+      <button 
+        class="flex items-center" 
+        on:click={toggleSideMenu}
+      >
+        <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
+          <Icon icon="mdi-menu" width="2rem" height="2rem" />
+        </div>
+      </button>
     </div>
-
-    <!-- {#if showMobileMenu}
-      <div class="flex flex-col text-gray-400 font-bold text-xl">
-        <a
-          target="_blank"
-          href="/app"
-          class="gap-x-2 flex items-center justify-end px-8 py-2 hover:bg-gray-100 hover:text-gray-700"
-        >
-          <ion-icon name="notifications-outline"></ion-icon>
-          <span>
-            Pesan
-          </span>
-        </a>
-
-        <a
-          target="_blank"
-          href="/app"
-          class="gap-x-2 flex items-center justify-end px-8 py-2 hover:bg-gray-100 hover:text-gray-700"
-        >
-          <ion-icon name="person-outline"></ion-icon>
-          <span>
-            Akun
-          </span>
-        </a>
-
-      </div>
-    {/if} -->
   </nav>
 
   {#if user.superUser}
@@ -217,3 +184,27 @@
     </div>
   </div>
 </Backdrop>
+
+{#if showSideMenu}
+<div 
+  style="position: fixed; top: calc(4rem + 4px); bottom: 0; right:  0; left: 0; background: rgba(250, 250, 250, 0.5);"
+  on:click|self={hideSideMenu}
+>
+  <div class="mr-auto w-4/5 h-full shadow-xl bg-gray-50 flex flex-col px-4 py-6 gap-y-4">
+
+    {#each menus as menu, i}
+      <a 
+        href={menu.path}
+        on:click={hideSideMenu}
+        class="flex items-center gap-x-6"
+      >
+        <div class="p-2 rounded bg-gray-200 rounded flex items-center justify-center">
+          <Icon icon={menu.icon} width="1.5rem" height="1.5rem" />
+        </div> 
+        <span class="text-xl">{menu.label}</span>
+      </a>
+    {/each}
+
+  </div>
+</div>
+{/if}
