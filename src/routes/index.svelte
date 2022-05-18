@@ -78,7 +78,7 @@
 
 <div class="h-screen w-screen bg-gray-50 flex flex-col">
 
-  <nav class="border-b border-gray-200">
+  <nav class="border-b border-gray-200 px-4">
     <div class="h-12 container flex items-center gap-x-2">
       <div class="h-6 w-6 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500"></div>
       <p style="font-family: 'Bungee';" class="font-black text-gray-700 text-lg">SIABS</p>
@@ -98,11 +98,12 @@
     <div class="self-center justify-self-center text-center">
 
       {#each catchphrases as cp, i}
-        <h1 style="font-family: 'Bungee'; font-size: 5rem;" 
-          class={`catchphrase _${i + 1} font-black leading-tight`}
+        <h1 
+          style="font-family: 'Bungee';" 
+          class={`catchphrase _${i + 1} font-black leading-tight text-5xl md:text-8xl`}
         >{cp}.</h1>
       {/each}
-      <h2 class="text-4xl font-black text-gray-700 leading-relaxed">Sistem Informasi Absensi Online</h2>
+      <h2 class="text-xl md:text-3xl font-black text-gray-700 leading-relaxed">Sistem Informasi Absensi Online</h2>
     </div>
   </div>
 
