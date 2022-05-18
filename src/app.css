@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Bungee';
+  src:  url('/Bungee-Regular.ttf');
+}
+
+.container {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  /*width: auto;*/
+}
+
+.container.is-fluid {
+  max-width: none !important;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media screen and (max-width: 1215px) {
+  .container.is-widescreen:not(.is-max-desktop) {
+    max-width: 1152px;
+  }
+}
+
+@media screen and (max-width: 1407px) {
+  .container.is-fullhd:not(.is-max-desktop):not(.is-max-widescreen) {
+    max-width: 1344px;
+  }
+}
+
+@media screen and (min-width: 1216px) {
+  .container:not(.is-max-desktop) {
+    max-width: 1152px;
+  }
+}
+
+@media screen and (min-width: 1408px) {
+  .container:not(.is-max-desktop):not(.is-max-widescreen) {
+    max-width: 1344px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply py-1 px-2 rounded bg-gray-50;
+  }
+  .btn-primary {
+    @apply bg-purple-900 text-white font-semibold px-4;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white font-semibold px-4;
+  }
+  .btn-outline {
+    @apply bg-gray-50 text-gray-700 font-semibold border-2 border-purple-800;
+  }
+  .btn-sm {
+    @apply text-sm;
+  }
+  .btn-lg {
+    @apply text-lg;
+  }
+
+  .link {
+    @apply text-purple-600 underline;
+  }
+}

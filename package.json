@@ -1,0 +1,33 @@
+{
+  "name": "siabs-v2",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview",
+    "prepare": "svelte-kit sync"
+  },
+  "devDependencies": {
+    "@iconify/svelte": "^2.2.1",
+    "@ngneat/falso": "^5.3.0",
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/kit": "next",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "svelte": "^3.46.0",
+    "tailwindcss": "^3.0.24"
+  },
+  "type": "module",
+  "dependencies": {
+    "@fontsource/fira-mono": "^4.5.0",
+    "@lukeed/uuid": "^2.0.0",
+    "bulma": "^0.9.4",
+    "cookie": "^0.4.1",
+    "dayjs": "^1.11.2",
+    "highcharts": "^10.1.0",
+    "imagekit": "^3.2.5",
+    "ioredis": "^5.0.4",
+    "postgres": "^3.1.0"
+  }
+}
