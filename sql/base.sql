@@ -45,7 +45,7 @@ create table unit_kerja (
   id_tenant UUID NOT NULL REFERENCES public.tenant(id)
 );
 
-create type jadwal_type as enum('one-shoot', 'fixed');
+create type jadwal_type as enum('shift', 'fixed');
 create type work_type as enum('wfh', 'wfo', 'dl');
 create type jadwal_status_type as enum('waiting', 'in-progress', 'complete');
 create type absen_status_type as enum('in-time', 'late', 'alpa');
@@ -53,6 +53,7 @@ create type absen_status_type as enum('in-time', 'late', 'alpa');
 create table jadwal (
   id UUID not null primary key default gen_random_uuid(),
   group_id UUID not null,
+  tipe jadwal_type not null,
   waktu_masuk TIMESTAMPTZ not null,
   waktu_keluar TIMESTAMPTZ not null,
   jadwal_status jadwal_status_type default 'waiting',
