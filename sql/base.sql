@@ -15,6 +15,7 @@ create table "user" (
   password STRING,
   super_user BOOL NOT NULL DEFAULT FALSE,
   uk_admin BOOL NOT NULL DEFAULT FALSE,
+  "timezone" STRING NOT NULL,
   tenant_admin BOOL NOT NULL DEFAULT FALSE,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id)
 );
@@ -26,12 +27,13 @@ create table pegawai (
   nip STRING,
   jenis_kelamin jenis_kelamin_type NOT NULL,
   avatar STRING,
-  tanggal_lahir TIMESTAMP NOT NULL,
+  tanggal_lahir TIMESTAMPTZ NOT NULL,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),
   username STRING NOT NULL REFERENCES public.user(username),
   PRIMARY KEY (id_tenant, nik, nip, nama)
 );
 
+create type tipe_unit_kerja as enum('induk', 'satpel');
 create table unit_kerja (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nama STRING NOT NULL,
@@ -39,6 +41,7 @@ create table unit_kerja (
   latitude STRING,
   longitude STRING,
   avatar STRING,
+  tipe tipe_unit_kerja,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id)
 );
 
@@ -50,20 +53,19 @@ create type absen_status_type as enum('in-time', 'late', 'alpa');
 create table jadwal (
   id UUID not null primary key default gen_random_uuid(),
   group_id UUID not null,
-  waktu_masuk timestamp not null,
-  waktu_keluar timestamp not null,
+  waktu_masuk TIMESTAMPTZ not null,
+  waktu_keluar TIMESTAMPTZ not null,
   jadwal_status jadwal_status_type default 'waiting',
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),
-  id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id),
-  nik STRING NOT NULL REFERENCES public.pegawai(nik)
+  id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id)
 );
 
 create table absen (
-  absen_masuk timestamp,
+  absen_masuk TIMESTAMPTZ,
   status_masuk absen_status_type,
   lat_masuk string,
   lng_masuk string,
-  absen_keluar timestamp,
+  absen_keluar TIMESTAMPTZ,
   status_keluar absen_status_type,
   lat_keluar string,
   lng_keluar string,

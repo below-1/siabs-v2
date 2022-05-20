@@ -1,5 +1,6 @@
 <script>
   import { setContext } from 'svelte'
+  import { navigating } from '$app/stores'
   import Icon from '@iconify/svelte';
   import { session, page } from '$app/stores'
   import Backdrop from '$lib/backdrop.svelte'
@@ -82,52 +83,54 @@
   $: menus = _menus($session, $page)
 </script>
 
-<div class="flex flex-col" style="min-height: 100vh;">
+<nav class="bg-black text-white fixed top-0 left-0 right-0" style="z-index:  10;">
+  <div class="container flex px-4 md:px-none">
 
-  <nav class="border-b-4 border-purple-900 bg-black text-white">
-    <div class="container flex px-4 md:px-none">
-
-      <a 
-        href={`/app/tenant/${$session.tenant.id}`}
-        class="flex items-center py-3 gap-x-2 mr-8 flex-grow md:flex-grow-0">
-        <img src={$session.tenant.avatar} class="w-10 h-10 rounded" />
-        <div>
-          <div class="font-bold text-lg" style="line-height: 100%;">{$session.tenant.name}</div>
-          <div class="text-xs">SIABS Management</div>
-        </div>
-      </a>
-
-      <div class="hidden md:flex flex-grow items-center gap-x-8">
-        {#each menus as menu}
-          <a href={menu.path}>
-            {menu.label}
-          </a>
-        {/each}
+    <a 
+      href={`/app/tenant/${$session.tenant.id}`}
+      class="flex items-center py-3 gap-x-2 mr-8 flex-grow md:flex-grow-0">
+      <img src={$session.tenant.avatar} class="w-10 h-10 rounded" />
+      <div>
+        <div class="font-bold text-lg" style="line-height: 100%;">{$session.tenant.name}</div>
+        <div class="text-xs">SIABS Management</div>
       </div>
+    </a>
 
-      <button class="flex items-center mr-2">
-        <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
-          <Icon icon="mdi-light:bell" width="2rem" height="2rem" />
-        </div>
-      </button>
-      <button on:click={toggleAccountMenu} type="button" class="flex items-center mr-2">
-        <img 
-          src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
-          alt="logo" 
-          class="w-10 h-10 rounded"
-        />
-      </button>
-
-      <button 
-        class="flex items-center" 
-        on:click={toggleSideMenu}
-      >
-        <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
-          <Icon icon="mdi-menu" width="2rem" height="2rem" />
-        </div>
-      </button>
+    <div class="hidden md:flex flex-grow items-center gap-x-8">
+      {#each menus as menu}
+        <a href={menu.path}>
+          {menu.label}
+        </a>
+      {/each}
     </div>
-  </nav>
+
+    <button class="flex items-center mr-2">
+      <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
+        <Icon icon="mdi-light:bell" width="2rem" height="2rem" />
+      </div>
+    </button>
+    <button on:click={toggleAccountMenu} type="button" class="flex items-center mr-2">
+      <img 
+        src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
+        alt="logo" 
+        class="w-10 h-10 rounded"
+      />
+    </button>
+
+    <button 
+      class="flex items-center md:hidden" 
+      on:click={toggleSideMenu}
+    >
+      <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
+        <Icon icon="mdi-menu" width="2rem" height="2rem" />
+      </div>
+    </button>
+  </div>
+
+  <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-2 w-full"></div>
+</nav>
+
+<div class="flex flex-col" style="min-height: 100vh; margin-top: 4.5rem;">
 
   {#if user.superUser}
   <nav class="border-b border-gray-200 bg-gray-50">
@@ -187,7 +190,7 @@
 
 {#if showSideMenu}
 <div 
-  style="position: fixed; top: calc(4rem + 4px); bottom: 0; right:  0; left: 0; background: rgba(250, 250, 250, 0.5);"
+  style="position: fixed; top: calc(4.5rem); bottom: 0; right:  0; left: 0; background: rgba(250, 250, 250, 0.5);"
   on:click|self={hideSideMenu}
 >
   <div class="mr-auto w-4/5 h-full shadow-xl bg-gray-50 flex flex-col px-4 py-6 gap-y-4">
@@ -208,3 +211,12 @@
   </div>
 </div>
 {/if}
+
+<Backdrop show={$navigating}>
+  <div class="h-16 w-16 rounded-full bg-gradient-to-r from-purple-800 to-blue-500 animate-pulse shadow-xl flex items-center justify-center">
+    <svg class="animate-spin h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  </div>
+</Backdrop>

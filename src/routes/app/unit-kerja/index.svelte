@@ -57,7 +57,7 @@
     {#each items as item}
       <a 
         href={`/app/unit-kerja/${item.id}/overview`}
-        class="px-4 border-b border-gray-200 py-4 flex items-center gap-x-4"
+        class="px-4 border-b border-gray-200 py-4 flex md:items-center gap-x-4"
       >
         <img
           class="w-12 h-12 rounded"
@@ -65,7 +65,10 @@
         />
         <div>
           <div class="text-lg font-bold">{item.nama}</div>
-          <div class="text-sm">{item.alamat}</div>
+          <div class="">
+            <span class="text-sm py-0.5 px-3 rounded bg-gray-200 rounded">{item.tipe}</span>
+            <span class="text-sm">{item.alamat}</span>
+          </div>
         </div>
         <div class="flex-grow"></div>
       </a>

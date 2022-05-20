@@ -10,6 +10,7 @@ export async function initialize_tenant({ sql }) {
     super_user: true,
     uk_admin: true,
     tenant_admin: true,
+    timezone: 'Asia/Makassar'
   }
   const [tenant] = await sql`
     insert into tenant
@@ -21,7 +22,7 @@ export async function initialize_tenant({ sql }) {
   user_data.id_tenant = tenant.id
   const [user] = await sql`
     insert into "user"
-      (username, password, super_user, uk_admin, id_tenant, tenant_admin)
+      (username, password, super_user, uk_admin, id_tenant, tenant_admin, "timezone")
       values 
       (
         ${user_data.username}, 
@@ -29,7 +30,8 @@ export async function initialize_tenant({ sql }) {
         ${user_data.super_user}, 
         ${user_data.uk_admin},
         ${user_data.id_tenant},
-        ${user_data.tenant_admin}
+        ${user_data.tenant_admin},
+        ${user_data.timezone}
       )
       returning *
   `

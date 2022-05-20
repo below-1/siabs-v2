@@ -10,26 +10,27 @@
   $: next_disabled = !tipe;
 </script>
 
-<div class="flex flex-col gap-y-4 p-4">
-  <TypeOption
-    title="Jadwal Tetap"
-    subtitle="Jadwal Yang berulang dalam jangka waktu tertentu"
-    active={tipe == 'fixed'}
-    on:click={() => {
-      tipe = 'fixed';
-    }}
-  />
-  <TypeOption
-    title="Jadwal One Shoot"
-    subtitle="Jadwal Untuk Satu Kali Shift"
-    active={tipe == 'one-shoot'}
-    on:click={() => {
-      tipe = 'one-shoot';
-    }}
+<div class="container mx-auto">
+  <div class="w-full md:w-3/4 flex flex-col gap-y-4 p-4">
+    <TypeOption
+      title="Jadwal Tetap"
+      subtitle="Jadwal Yang berulang dalam jangka waktu tertentu"
+      active={tipe == 'fixed'}
+      on:click={() => {
+        tipe = 'fixed';
+      }}
+    />
+    <TypeOption
+      title="Jadwal One Shoot"
+      subtitle="Jadwal Untuk Satu Kali Shift"
+      active={tipe == 'one-shoot'}
+      on:click={() => {
+        tipe = 'one-shoot';
+      }}
+    />
+  </div>
+  <Actions 
+    back_disabled={true}
+    {next_disabled}
   />
 </div>
-
-<Actions 
-  back_disabled={true}
-  {next_disabled}
-/>

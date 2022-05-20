@@ -44,7 +44,8 @@ export async function initialize_pegawai({ sql, tenant }) {
     user_payloads.push({
       username,
       password,
-      id_tenant: tenant.id
+      id_tenant: tenant.id,
+      timezone: 'Asia/Makassar'
     })
   }
   const user_list = await sql`

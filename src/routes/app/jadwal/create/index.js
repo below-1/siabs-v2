@@ -27,15 +27,14 @@ export async function post(event) {
   const { tenant } = event.locals.session
   const payload = await event.request.json()
   const items = payload.tipe == 'fixed' ? build_fixed(payload.fixed, tenant.id) : []
-  console.log(items)
-  throw new Error('stop')
-
+  // console.log(items)
+  // throw new Error('stop')
   const sql = db()
   await sql`insert into jadwal ${sql(items)}`
   return {
     status: 303,
     headers: {
-      
+      location: '/app/jadwal'
     }
   }
 }
