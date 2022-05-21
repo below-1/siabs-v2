@@ -10,9 +10,23 @@
       }
     })
     const data = await response.json()
+    console.log(data)
     return {
       status: 200,
       props: data
     }
   }
 </script>
+
+<script>
+  import { setContext } from 'svelte'
+
+  export let fixed = null;
+  export let shift = null;
+
+  setContext('fixed', fixed);
+  setContext('shift', shift);
+</script>
+
+<slot>
+</slot>

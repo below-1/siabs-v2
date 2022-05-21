@@ -61,6 +61,10 @@ create table jadwal (
   id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id)
 );
 
+create index on jadwal (group_id);
+create index on jadwal (id_tenant);
+create index on jadwal (id_unit_kerja);
+
 create table absen (
   absen_masuk TIMESTAMPTZ,
   status_masuk absen_status_type,
