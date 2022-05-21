@@ -24,7 +24,7 @@
       waktu_keluar: '16:00',
       work_type: 'wfo',
       days: [
-        false, false, false, false, false, false, false,
+        true, true, true, true, true, false, false,
       ]
     }
   }

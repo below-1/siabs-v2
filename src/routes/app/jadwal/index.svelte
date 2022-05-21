@@ -4,8 +4,6 @@
 
   const cu = getContext('currentUser')
   const user = cu.getUser()
-  console.log('user')
-  console.log(user)
 
   function formatDates(fixed, user) {
     const formatter = new Intl.DateTimeFormat('id-ID', {
@@ -20,12 +18,14 @@
 
   export let items = []
   $: formatted = items.map(it => {
-    if (it.tipe == 'fixed') {
+    console.log(it);
+    if (it.jadwal.tipe == 'fixed') {
       return {
         ...it,
-        format: formatDates(it, user)
+        format: formatDates(it.jadwal, user)
       }
     }
+    return it
   })
 </script>
 
@@ -38,7 +38,7 @@
 <section class="container px-4">
   {#each formatted as item}
     <a 
-      href={ item.tipe == 'fixed' ? `/app/jadwal/${item.group_id}/fixed` : `/app/jadwal/${item.id}/shift` }
+      href={`/app/jadwal/${item.jadwal.id}/${item.jadwal.tipe}`}
       class="px-4 border-b border-gray-200 py-4 flex flex-col"
     >
       <div class="text-lg flex items-center gap-x-3 font-bold">
@@ -46,19 +46,17 @@
         <span>-</span>
         <span>{item.format.day_end}</span>
       </div>
-      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-bold text-gray-600">
-        <div class="px-2 py-0.5 rounded bg-gray-200 flex items-center gap-x-2">
-          <span>Masuk</span>
-          <span>{item.time_start}</span>
-        </div>
-        <div class="px-2 py-0.5 rounded bg-gray-200 flex items-center gap-x-2">
-          <span>Keluar</span>
-          <span>{item.time_end}</span>
-        </div>
-        <div class="px-2 py-0.5 rounded bg-gray-200 flex items-center gap-x-2">
-          <span>Unit Kerja</span>
-          <span>{item.unit_kerja.nama}</span>
-        </div>
+      <div class="flex items-center flex-wrap gap-x-4 gap-y-2">
+        {#if item.unit_kerja}
+          <div class="px-2 py-0.5 bg-gray-200 text-sm font-bold text-gray-600">
+            unit kerja: { item.unit_kerja.nama }
+          </div>
+        {/if}
+        {#each item.shifts as shift}
+          <div class="px-2 py-0.5 bg-gray-200 text-sm font-bold text-gray-600 flex items-center">
+            <span>{shift.waktu_masuk} - {shift.waktu_keluar}</span>
+          </div>
+        {/each}
       </div>
     </a>
   {/each}
