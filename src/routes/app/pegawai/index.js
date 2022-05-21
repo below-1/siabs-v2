@@ -16,9 +16,6 @@ export async function get(event) {
 
   const sql = db()
 
-  console.log('limit')
-  console.log(limit)
-
   const keywordFilter = (k) => sql`and nama ilike ${'%' + k + '%'}`
   const afterFilter = (af) => sql`nik > ${af}`
 

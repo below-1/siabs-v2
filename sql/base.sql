@@ -82,17 +82,22 @@ create index on shift (id_tenant);
 
 create table absen (
   id UUID not null primary key default gen_random_uuid(),
+
+  alert_masuk TIMESTAMPTZ NOT NULL,
   absen_masuk TIMESTAMPTZ,
   status_masuk absen_status_type,
   lat_masuk string,
   lng_masuk string,
+
+  alert_keluar TIMESTAMPTZ NOT NULL,
   absen_keluar TIMESTAMPTZ,
   status_keluar absen_status_type,
   lat_keluar string,
   lng_keluar string,
+
   tipe work_type not null,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),
-  id_shift UUID NOT NULL REFERENCES public.jadwal(id),
+  id_shift UUID NOT NULL REFERENCES public.shift(id),
   nik STRING NOT NULL REFERENCES public.pegawai(nik)
 );
 

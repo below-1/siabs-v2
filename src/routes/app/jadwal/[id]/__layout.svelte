@@ -21,7 +21,7 @@
   import { setContext } from 'svelte'
 
   export let item = null;
-
+  
   setContext('item', item);
 </script>
 
