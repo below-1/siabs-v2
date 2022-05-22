@@ -1,10 +1,10 @@
-import { Redis } from '@upstash/redis'
+import Redis from 'ioredis'
 
-const redis = new Redis({
-  url: 'https://apn1-amazed-tuna-33092.upstash.io',
-  token: 'AYFEASQgMWZkODM1MjgtMmQ3Zi00OWQ5LTg3ZjktYTM5YzJjOGY1MzljNmI2ZTU4YzQyMzYyNDNhMTk2YTA2YjdiNWUyZGRlY2E=',
-})
-
+let client = null
 export default function () {
-  return redis;
+  if (client) {
+    return client
+  }
+  client = new Redis("rediss://:6b6e58c4236243a196a06b7b5e2ddeca@apn1-amazed-tuna-33092.upstash.io:33092");
+  return client
 }
