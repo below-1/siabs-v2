@@ -70,8 +70,7 @@
   bind:show={show_form}
 >
   <div 
-    class="bg-white p-4 rounded shadow-xl flex flex-col gap-y-4"
-    style="width: calc(100% - 1rem);"
+    class="bg-white p-4 rounded shadow-xl flex flex-col gap-y-4 w-5/6 md:w-1/3"
   >
     <div class="text-xl font-bold">Detail Absen</div>
     <form class="flex flex-col gap-y-4" method="POST" enctype="multipart/form-data">

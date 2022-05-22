@@ -1,13 +1,14 @@
 <script>
   import { getContext } from 'svelte'
   import PageHeader from '$lib/page-header.svelte'
+  import FButton from '$lib/fbutton.svelte'
 
   const cu = getContext('currentUser')
   const user = cu.getUser()
 
   function formatDates(fixed, user) {
     const formatter = new Intl.DateTimeFormat('id-ID', {
-      timeZone: user.timezone,
+      timeZone: 'Asia/Makassar',
       dateStyle: 'full'
     })
     return {
@@ -32,6 +33,7 @@
 <PageHeader>
   <div class="flex flex-col md:flex-row justify-between items-center gap-y-2">
     <h1 class="font-black text-3xl">Daftar Jadwal</h1>
+    <FButton path="/app/jadwal/create" primary>tambah jadwal</FButton>
   </div>
 </PageHeader>
 

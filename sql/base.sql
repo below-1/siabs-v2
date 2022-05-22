@@ -57,7 +57,7 @@ create table jadwal (
   day_end TIMESTAMPTZ not null,
   jadwal_status jadwal_status_type default 'waiting',
 
-  exclude_days TIMESTAMPTZ[] not null default ARRAY[],
+  exclude_days DATE[] not null default ARRAY[],
   exclude_weekdays INTEGER[] not null default ARRAY[],
 
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),

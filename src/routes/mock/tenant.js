@@ -10,7 +10,7 @@ export async function initialize_tenant({ sql }) {
     super_user: true,
     uk_admin: true,
     tenant_admin: true,
-    timezone: 'Asia/Makassar'
+    timezone: '+08:00'
   }
   const [tenant] = await sql`
     insert into tenant

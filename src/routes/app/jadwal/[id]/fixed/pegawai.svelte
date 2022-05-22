@@ -20,15 +20,15 @@
   {#if pegawai_list.length}
     {#each pegawai_list as p}
       <a 
-        href={`/app/pegawai/${p.nik}/overview`}
+        href={`/app/pegawai/${p.pegawai.nik}/overview`}
         class="px-4 border-b border-gray-200 py-4 flex items-center gap-x-4">
         <img
           class="w-12 h-12 rounded"
-          src={p.avatar}
+          src={p.pegawai.avatar}
         />
         <div>
-          <div class="text-lg font-bold">{p.nama}</div>
-          <div class="text-sm">NIP:{p.nip} NIK:{p.nik}</div>
+          <div class="text-lg font-bold">{p.pegawai.nama}</div>
+          <div class="text-sm">NIP:{p.pegawai.nip} NIK:{p.pegawai.nik}</div>
         </div>
         <div class="flex-grow"></div>
       </a>

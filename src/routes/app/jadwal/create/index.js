@@ -9,26 +9,12 @@ function set_hour(d, hstring) {
 }
 
 async function create_fixed({ fixed, tenant, user, sql }) {
-  const dow_index = dayindex(user.timezone)
-  const day_diff = day(fixed.tanggal_akhir).diff(day(fixed.tanggal_awal), 'day') + 1
-  const exclude_days = Array(day_diff).fill(1)
-    .map((_, i) => {
-      let d = set_hour(day(fixed.tanggal_awal).add(i, 'day'), fixed.waktu_masuk).toDate()
-      return d
+  const exclude_dow = fixed.days
+    .map((d, i) => {
+      if (!d) return i + 1;
+      return null;
     })
-    .filter(d => {
-      const weekday = dow_index(d)
-      return !fixed.days[weekday]
-    })
-
-  const jadwal_payload = {
-    tipe: 'fixed',
-    day_start: new Date(fixed.tanggal_awal),
-    day_end: new Date(fixed.tanggal_akhir),
-    exclude_days,
-    id_tenant: tenant.id,
-    id_unit_kerja: fixed.id_unit_kerja
-  }
+    .filter(it => it);
 
   // Fixed Schedule only have 1 Shift
   // Mark it mutable for we will add jadwal.id into it
@@ -38,31 +24,45 @@ async function create_fixed({ fixed, tenant, user, sql }) {
     id_tenant: tenant.id
   }
 
-  const exclude_days_string = exclude_days.map(d => "'" + d.toISOString() + "'")
-
   const result = await sql.begin(async sql => {
     const [ { id: id_jadwal } ] = await sql`
-      insert into jadwal
-        (tipe, day_start, day_end, exclude_days, id_tenant, id_unit_kerja)
-        values (
-          'fixed', 
-          ${jadwal_payload.day_start},
-          ${jadwal_payload.day_end},
-          ${sql.array(exclude_days)},
-          ${tenant.id},
-          ${jadwal_payload.id_unit_kerja}
+      with 
+        days as (
+          select generate_series(
+            ${fixed.tanggal_awal}::timestamptz, 
+            ${fixed.tanggal_akhir}::timestamptz, 
+            '1 day'::interval
+          ) as d
+        ),
+        excls as (
+          select 
+            array_agg(d::date) as exclude_days
+            from days 
+            where extract('isodow', d) in (
+              select unnest(${sql.array(exclude_dow)})::float
+            )
         )
-      returning id
+        insert into jadwal 
+          (tipe, day_start, day_end, exclude_days, id_tenant, id_unit_kerja)
+          values (
+            'fixed',
+            ${new Date(fixed.tanggal_awal)},
+            ${new Date(fixed.tanggal_akhir)},
+            (select excls.exclude_days from excls),
+            ${tenant.id},
+            ${fixed.id_unit_kerja}
+          )
+          returning id
     `
     shift_payload.id_jadwal = id_jadwal
-    const [ id_shift ] = await sql`
+    const [ { id: id_shift } ] = await sql`
       insert into shift ${sql(shift_payload)} returning id
     `
     return {
       id_jadwal,
       id_shift
     }
-  })
+  });
 
   return result
 }
@@ -82,12 +82,13 @@ export async function post(event) {
       fixed: payload.fixed,
       sql
     })
+  } else if (tipe == 'shift') {
+    throw new Error('TODO: IMPLEMENT SHIFT SCHEDULE CREATION')
   }
-  throw new Error('TODO: IMPLEMENT SHIFT SCHEDULE CREATION')
   return {
     status: 200,
     body: {
-      message: 'OK'
+      result
     }
   }
 }

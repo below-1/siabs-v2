@@ -9,7 +9,7 @@
 
   function formatDates(item, user) {
     const formatter = new Intl.DateTimeFormat('id-ID', {
-      timeZone: user.timezone,
+      timeZone: 'Asia/Makassar',
       dateStyle: 'full'
     })
     return {

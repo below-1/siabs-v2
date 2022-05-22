@@ -46,12 +46,19 @@
   }
 
   async function save_jadwal() {
-    const resp = await client_fetch_json({
-      method: 'POST',
-      path: '/app/jadwal/create',
-      payload: $payload
-    })
-    console.log(resp)
+    try {
+      const resp = await client_fetch_json({
+        method: 'POST',
+        path: '/app/jadwal/create',
+        payload: $payload
+      })
+      const { result } = resp;
+      const { id_jadwal } = resp;
+      window.location = `/app/jadwal/${id_jadwal}/fixed`
+    } catch (err) {
+      console.log(err)
+      alert('gagal menambah jadwal')
+    }
   }
 
   onMount(loadUnitKerjas)

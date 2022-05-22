@@ -45,7 +45,7 @@ export async function initialize_pegawai({ sql, tenant }) {
       username,
       password,
       id_tenant: tenant.id,
-      timezone: 'Asia/Makassar'
+      timezone: '+08:00'
     })
   }
   const user_list = await sql`
