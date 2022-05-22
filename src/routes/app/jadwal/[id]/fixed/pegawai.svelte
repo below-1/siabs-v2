@@ -20,7 +20,7 @@
   {#if pegawai_list.length}
     {#each pegawai_list as p}
       <a 
-        href={`/app/pegawai/${p.pegawai.nik}/overview`}
+        href={`/app/jadwal/${item.jadwal.id}/fixed/detail-pegawai/${p.pegawai.nik}`}
         class="px-4 border-b border-gray-200 py-4 flex items-center gap-x-4">
         <img
           class="w-12 h-12 rounded"
