@@ -1,8 +1,8 @@
-<script>
+<script context="module">
   import { browser } from '$app/env'
 
   export async function load({ params, session, fetch }) {
-    const response = await fetch(`/app/absen/${params.nik}/layout-data`, {
+    const response = await fetch(`/app/absen/${params.id}/layout-data`, {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json'
@@ -13,6 +13,7 @@
       status: 200,
       props: data
     }
+  }
 </script>
 
 <script>
@@ -26,8 +27,13 @@
 </script>
 
 <PageHeader>
-  <div>
-    <div class="text-2xl font-bold">Detail Absen</div>
+  <div class="flex items-center justify-between">
+    <div>
+      <div class="text-2xl font-bold">Detail Absen</div>
+      <div class="font-bold text-gray-600">{item.absen.id}</div>
+    </div>
+    <FButton danger>Hapus</FButton>
   </div>
 </PageHeader>
 
+<slot></slot>

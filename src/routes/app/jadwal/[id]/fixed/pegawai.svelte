@@ -11,7 +11,10 @@
 
 <div class="container px-4">
   <div class="flex flex-col md:flex-row items-center justify-center md:justify-between py-4 border-b gap-y-2 mb-4">
-    <div class="text-xl font-bold">Daftar Pegawai</div>
+    <div class="flex items-center gap-x-2">
+      <div class="text-xl font-bold">Daftar Pegawai</div>
+      <span class="px-1 rounded bg-gray-200 text-sm">{pegawai_list.length}</span>
+    </div>
     <FButton path={`/app/jadwal/${item.jadwal.id}/fixed/add-pegawai`} primary>Tambah Pegawai</FButton>
   </div>
   <FInput bind:value={keyword} placeholder="Cari Pegawai.." />
