@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "@iconify/svelte": "^2.2.1",
-    "@ngneat/falso": "^5.3.0",
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "autoprefixer": "^10.4.7",
@@ -20,6 +19,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@ngneat/falso": "^5.3.0",
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
     "bulma": "^0.9.4",

@@ -1,0 +1,1 @@
+import{S as o,i as r,s as c,e as l,c as d,a as m,d as s,g as p,E as a}from"../../chunks/index-a824c1dc.js";function f(n){let e;return{c(){e=l("div")},l(t){e=d(t,"DIV",{}),m(e).forEach(s)},m(t,i){p(t,e,i)},p:a,i:a,o:a,d(t){t&&s(e)}}}class h extends o{constructor(e){super(),r(this,e,null,f,c,{})}}export{h as default};
