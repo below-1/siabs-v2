@@ -88,15 +88,18 @@
     {#each absen as ab}
       <a 
         href={`/app/absen/${ab.id}/overview`}
-        class="border py-3 hover:bg-gray-100 px-4"
+        class="py-3 hover:bg-gray-100"
       >
         <div class="flex items-center gap-x-4 flex-wrap gap-y-2">
+          
           <div class="w-full md:w-6/12">
             <div class="tracking-widest text-sm font-bold">{ab.format.title}</div>
             <div class="text-xs italic">{ab.format.subtitle}</div>
           </div>
+          
           <div class="hidden md:flex flex-grow"></div>
-          <div class="w-full md:w-3/12 text-xs justify-end flex gap-x-2">
+          
+          <div class="w-full md:w-3/12 text-xs justify-start md:justify-end flex gap-x-2">
             <div class="flex items-center gap-x-2 bg-gray-200 rounded px-2">
               <span>masuk</span>
               <div class="w-2 h-2 rounded-full bg-green-500"></div>
