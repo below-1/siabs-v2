@@ -21,7 +21,7 @@
     }
     const resp = await client_fetch_json({
       method: 'GET',
-      path: '/app/pegawai',
+      path: `/app/jadwal/${item.jadwal.id}/fixed/free-pegawai`,
       params: {
         keyword,
         limit: 5

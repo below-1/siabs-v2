@@ -1,19 +1,38 @@
 <script>
   import { getContext } from 'svelte'
+  import day from '$lib/day'
 
   const item = getContext('item')
+
+  const alert_masuk = day(item.absen.alert_masuk)
+  const absen_masuk = day(item.absen.absen_masuk)
+  const status_masuk = item.absen.status_masuk ? item.absen.status_masuk : ''
+
+  const alert_keluar = day(item.absen.alert_keluar)
+  const absen_keluar = day(item.absen.absen_keluar)
+  const status_keluar = item.absen.status_keluar ? item.absen.status_keluar : ''
+
+  const format = {
+    alert_masuk: alert_masuk.format('DD MMMM YYYY HH:mm'),
+    absen_masuk: absen_masuk ? absen_masuk.format('DD MMMM YYYY HH:mm') : null,
+    status_masuk: status_masuk,
+
+    alert_keluar: alert_keluar.format('DD MMMM YYYY HH:mm'),
+    absen_masuk: absen_masuk ? absen_masuk.format('DD MMMM YYYY HH:mm') : null,
+    status_masuk: status_masuk,
+  }
 </script>
 
 <div class="container px-4">
   <div class="flex flex-col gap-y-4">
     <div class="hidden md:flex border-b-2 py-4 items-center">
       <div class="w-1/3 font-bold text-2xl">Pegawai</div>
-      <div class="w-1/3 font-bold text-2xl">Jadwal</div>
-      <div class="w-1/3 font-bold text-2xl">Absen</div>
+      <div class="w-1/3 font-bold text-2xl">Masuk</div>
+      <div class="w-1/3 font-bold text-2xl">Keluar</div>
     </div>
   </div>
 
-  <div class="flex flex-wrap gap-y-8 py-4">
+  <div class="flex gap-y-8 gap-x-4 py-4">
 
     <div class="w-full md:w-1/3 flex flex-col gap-y-4">
       <div class="flex items-center gap-x-4">
@@ -46,25 +65,39 @@
       </div>
     </div>
 
-    <div class="w-full md:w-1/3 flex flex-col gap-y-4">
+    <div class="w-full md:w-1/3 flex flex-col gap-y-6">
       <div>
-        <div class="text-sm">Hari Tanggal</div>
-        <div class="font-bold text-xl">23 Maret 2022</div>
+        <div class="text-sm">Jadwal Check In</div>
+        <div class="font-bold text-xl">{format.alert_masuk}</div>
       </div>
 
       <div>
-        <div class="text-sm">Waktu</div>
-        <div class="font-bold text-xl">Pukul 22:00 WIB</div>
+        <div class="text-sm mb-2">Waktu Check In</div>
+        {#if item.absen.absen_masuk}
+          <div class="font-bold text-xl">{format.absen_masuk}</div>
+        {:else}
+          <div class="flex items-center justify-center p-2 rounded font-bold bg-gray-200 text-gray-600">
+            belum check in
+          </div>
+        {/if}
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/3 flex flex-col gap-y-6">
+      <div>
+        <div class="text-sm">Jadwal Check Out</div>
+        <div class="font-bold text-xl">{format.alert_keluar}</div>
       </div>
 
       <div>
-        <div class="text-sm">Tipe Jadwal</div>
-        <div class="font-bold text-xl">Jadwal {item.absen.tipe}</div>
-      </div>
-
-      <div>
-        <div class="text-sm">ID Jadwal</div>
-        <a href={`/app/jadwal/${item.jadwal.id}/pegawai`} class="font-bold text-xl link">#{item.jadwal.id}</a>
+        <div class="text-sm mb-2">Waktu Check Out</div>
+        {#if item.absen.absen_keluar}
+          <div class="font-bold text-xl">{format.absen_keluar}</div>
+        {:else}
+          <div class="flex items-center justify-center p-2 rounded font-bold bg-gray-200 text-gray-600">
+            belum check out
+          </div>
+        {/if}
       </div>
     </div>
 

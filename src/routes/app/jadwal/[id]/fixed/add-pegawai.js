@@ -46,7 +46,7 @@ export async function post(event) {
 
   return {
     status: 303,
-    location: {
+    headers: {
       location: `/app/jadwal/${id}/fixed/pegawai`
     }
   }

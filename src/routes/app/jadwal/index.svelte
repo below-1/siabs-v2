@@ -41,7 +41,7 @@
   {#each formatted as item}
     <a 
       href={`/app/jadwal/${item.jadwal.id}/${item.jadwal.tipe}`}
-      class="px-4 border-b border-gray-200 py-4 flex flex-col"
+      class="border-b border-gray-200 py-4 flex flex-col"
     >
       <div class="text-lg flex items-center gap-x-3 font-bold">
         <span>{item.format.day_start}</span>
