@@ -8,10 +8,10 @@
 
   const item = getContext('item')
 
-  let day_start = '2022-01-01'
-  let day_end = '2022-01-31'
-  let waktu_masuk = '07:00'
-  let waktu_keluar = '16:00'
+  let day_start = day(item.jadwal.day_start).format('YYYY-MM-DD')
+  let day_end = day(item.jadwal.day_end).format('YYYY-MM-DD')
+  let waktu_masuk = item.shift.waktu_masuk.substr(0, 5)
+  let waktu_keluar = item.shift.waktu_keluar.substr(0, 5)
 </script>
 
 <div class="container px-4">
