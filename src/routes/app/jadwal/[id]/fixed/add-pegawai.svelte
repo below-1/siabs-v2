@@ -107,7 +107,7 @@
       <input 
         hidden 
         name="shift" 
-        value={item.shifts[0].id}
+        value={item.shift.id}
       />
 
       <FButton primary>

@@ -88,25 +88,39 @@
     {#each absen as ab}
       <a 
         href={`/app/absen/${ab.id}/overview`}
-        class="py-3 hover:bg-gray-100"
+        class="py-5 hover:bg-gray-100 border-b"
       >
-        <div class="flex items-center gap-x-4 flex-wrap gap-y-2">
+        <div class="flex items-center gap-x-4 flex-wrap md:flew-nowrap gap-y-2">
           
           <div class="w-full md:w-6/12">
-            <div class="tracking-widest text-sm font-bold">{ab.format.title}</div>
+            <div class="tracking-widest md:text-sm font-bold">{ab.format.title}</div>
             <div class="text-xs italic">{ab.format.subtitle}</div>
           </div>
           
-          <div class="hidden md:flex flex-grow"></div>
-          
-          <div class="w-full md:w-3/12 text-xs justify-start md:justify-end flex gap-x-2">
-            <div class="flex items-center gap-x-2 bg-gray-200 rounded px-2">
-              <span>masuk</span>
-              <div class="w-2 h-2 rounded-full bg-green-500"></div>
+          <div class="w-full md:w-6/12 text-sm justify-start md:justify-end flex gap-x-2">
+
+            <div class="bg-gray-200 px-2 uppercase">
+              {ab.tipe}
             </div>
+
             <div class="flex items-center gap-x-2 bg-gray-200 rounded px-2">
-              <span>keluar</span>
-              <div class="w-2 h-2 rounded-full bg-red-500"></div>
+              {#if ab.absen_masuk}
+                <span>check in</span>
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+              {:else}
+                <span>belum check in</span>
+                <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+              {/if}
+            </div>
+
+            <div class="flex items-center gap-x-2 bg-gray-200 rounded px-2">
+              {#if ab.absen_keluar}
+                <span>check out</span>
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+              {:else}
+                <span>belum check out</span>
+                <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+              {/if}
             </div>
           </div>
         </div>
