@@ -90,7 +90,7 @@
         href={`/app/absen/${ab.id}/overview`}
         class="py-5 hover:bg-gray-100 border-b"
       >
-        <div class="flex items-center gap-x-4 flex-wrap md:flew-nowrap gap-y-2">
+        <div class="flex items-center gap-x-4 flex-wrap md:flex-nowrap gap-y-2">
           
           <div class="w-full md:w-6/12">
             <div class="tracking-widest md:text-sm font-bold">{ab.format.title}</div>

@@ -32,10 +32,10 @@
     </div>
   </div>
 
-  <div class="flex gap-y-8 gap-x-4 py-4">
+  <div class="flex flex-wrap md:flex-nowrap gap-y-8 gap-x-4 py-4">
 
     <div class="w-full md:w-1/3 flex flex-col gap-y-4">
-      <div class="flex items-center gap-x-4">
+      <div class="flex gap-x-2 p-2 bg-gray-50 border">
         <img 
           src={item.pegawai.avatar}
           class="rounded border w-12 h-12" 
@@ -49,23 +49,28 @@
           <div class="font-bold text-gray-600">{item.pegawai.nip}</div>
         </div>
       </div>
-      <div class="flex items-center gap-x-4">
+      <div class="flex gap-x-2 p-2 bg-gray-50 border">
         <img 
           src={item.unit_kerja.avatar}
           class="rounded border w-12 h-12" 
           alt="gambar"
         />
         <div>
-          <a 
-            href={`/app/unit-kerja/${item.unit_kerja.id}/detail`} 
+          <a
+            href={`/app/pegawai/${item.unit_kerja.id}/overview`} 
             class="text-xl font-bold link"
-          >{item.unit_kerja.nama}</a>
-          <div class="font-bold text-gray-600">{item.unit_kerja.alamat}</div>
+          >{item.pegawai.nama}</a>
+          <p class="font-bold text-gray-600">{item.unit_kerja.alamat.substr(0, 20) + '...'}</p>
         </div>
+      </div>
+
+      <div class="bg-gray-50 border p-2">
+        <h2 class="text-2xl font-semibold text-gray-700 tracking-widest text-center">{item.absen.tipe.toUpperCase()}</h2>
       </div>
     </div>
 
-    <div class="w-full md:w-1/3 flex flex-col gap-y-6">
+    <div class="flex flex-col w-full md:w-1/3 gap-x-2 gap-y-4 p-2 bg-gray-50 border">
+      <h1 class="text-xl font-semibold">Check In</h1>
       <div>
         <div class="text-sm">Jadwal Check In</div>
         <div class="font-bold text-xl">{format.alert_masuk}</div>
@@ -83,7 +88,8 @@
       </div>
     </div>
 
-    <div class="w-full md:w-1/3 flex flex-col gap-y-6">
+    <div class="flex flex-col w-full md:w-1/3 gap-x-2 gap-y-4 p-2 bg-gray-50 border">
+      <h1 class="text-xl font-semibold">Check Out</h1>
       <div>
         <div class="text-sm">Jadwal Check Out</div>
         <div class="font-bold text-xl">{format.alert_keluar}</div>
