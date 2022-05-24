@@ -21,11 +21,11 @@
       }}
     />
     <TypeOption
-      title="Jadwal One Shoot"
-      subtitle="Jadwal Untuk Satu Kali Shift"
-      active={tipe == 'one-shoot'}
+      title="Jadwal Shift"
+      subtitle="Satu hari terdiri dari satu atau lebih Shift"
+      active={tipe == 'shift'}
       on:click={() => {
-        tipe = 'one-shoot';
+        tipe = 'shift';
       }}
     />
   </div>

@@ -5,11 +5,18 @@
   import TypeOption from './_type-option.svelte'
   import ChooseType from './_choose-type.svelte'
   import FixedForm from './_fixed-form.svelte'
+  import ShiftForm from './_shift-form.svelte'
   import FButton from '$lib/fbutton.svelte'
 
   let step = writable(0)
   let payload = writable({
     tipe: null,
+    shift: {
+      id_unit_kerja: null,
+      tanggal_awal: null,
+      tanggal_akhir: null,
+      work_type: null,
+    },
     fixed: {
       id_unit_kerja: null,
       tanggal_awal: null,
@@ -52,7 +59,8 @@
   />
 {:else if $step == 1}
   {#if $payload.tipe == 'fixed'}
-    <FixedForm
-    />
+    <FixedForm />
+  {:else if $payload.tipe == 'shift'}
+    <ShiftForm />
   {/if}
 {/if}

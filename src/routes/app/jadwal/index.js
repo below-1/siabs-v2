@@ -18,6 +18,7 @@ export async function get(event) {
       group by j.id
       limit 10
   `
+  console.log(items)
   response.status = 200
   response.body = {}
   response.body.items = items

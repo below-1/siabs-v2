@@ -67,6 +67,60 @@ async function create_fixed({ fixed, tenant, user, sql }) {
   return result
 }
 
+async function create_shift({ shift, tenant, user, sql }) {
+  const exclude_dow = shift.days
+    .map((d, i) => {
+      if (!d) return i + 1;
+      return null;
+    })
+    .filter(it => it);
+
+  const data = {
+    day_start: new Date(shift.day_start),
+    day_end: new Date(shift.day_end),
+    id_tenant: tenant.id,
+    id_unit_kerja: shift.id_unit_kerja,
+    tipe: 'shift'
+  }
+  const [{ id: id_jadwal }] = await sql`
+    with 
+      days as (
+        select generate_series(
+          ${shift.tanggal_awal}::timestamptz, 
+          ${shift.tanggal_akhir}::timestamptz, 
+          '1 day'::interval
+        ) as d
+      ),
+      excls as (
+        select 
+          array_agg(d::date) as exclude_days
+          from days 
+          where extract('isodow', d) in (
+            select unnest(${sql.array(exclude_dow)})::float
+          )
+      )
+      insert into jadwal 
+        (
+          tipe, 
+          day_start, 
+          day_end, 
+          exclude_days, 
+          id_tenant, 
+          id_unit_kerja
+        )
+        values (
+          'shift',
+          ${new Date(shift.tanggal_awal)},
+          ${new Date(shift.tanggal_akhir)},
+          (select excls.exclude_days from excls),
+          ${tenant.id},
+          ${shift.id_unit_kerja}
+        )
+        returning id
+  `
+  return { id_jadwal }
+}
+
 export async function post(event) {
   const { tenant, user } = event.locals.session
   const payload = await event.request.json()
@@ -74,7 +128,8 @@ export async function post(event) {
   const sql = db()
 
   const { tipe } = payload
-  let result = null;
+  let result = null
+
   if (tipe == 'fixed') {
     result = await create_fixed({
       user,
@@ -83,7 +138,12 @@ export async function post(event) {
       sql
     })
   } else if (tipe == 'shift') {
-    throw new Error('TODO: IMPLEMENT SHIFT SCHEDULE CREATION')
+    result = await create_shift({
+      user,
+      tenant,
+      shift: payload.shift,
+      sql
+    })
   }
   return {
     status: 200,
