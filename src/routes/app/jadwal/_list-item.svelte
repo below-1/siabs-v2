@@ -19,6 +19,9 @@
     <div class="px-2 py-0.5 bg-gray-200 text-sm font-bold text-gray-600 uppercase">
       {item.jadwal.tipe}
     </div>
+    <div class="px-2 py-0.5 bg-gray-200 text-sm font-bold text-gray-600 uppercase">
+      {item.jadwal.work_type}
+    </div>
     {#if item.unit_kerja}
       <div class="px-2 py-0.5 bg-gray-200 text-sm font-bold text-gray-600">
         unit kerja: { item.unit_kerja.nama }

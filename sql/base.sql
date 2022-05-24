@@ -53,6 +53,7 @@ create type absen_status_type as enum('in-time', 'late', 'alpa');
 create table jadwal (
   id UUID not null primary key default gen_random_uuid(),
   tipe jadwal_type not null,
+  work_type work_type not null default 'wfo'::work_type,
   day_start TIMESTAMPTZ not null,
   day_end TIMESTAMPTZ not null,
   jadwal_status jadwal_status_type default 'waiting',
