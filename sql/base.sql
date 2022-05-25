@@ -30,6 +30,7 @@ create table pegawai (
   tanggal_lahir TIMESTAMPTZ NOT NULL,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),
   username STRING NOT NULL REFERENCES public.user(username),
+  whatsapp STRING,
   PRIMARY KEY (id_tenant, nik, nip, nama)
 );
 
@@ -61,7 +62,7 @@ create table jadwal (
   exclude_days DATE[] not null default ARRAY[],
   exclude_weekdays INTEGER[] not null default ARRAY[],
 
-  id_tenant UUID NOT NULL REFERENCES public.tenant(id),
+  id_tenant UUID NOT NULL REFERENCES public.tenant(id) ON DELETE CASCADE,
   id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id)
 );
 
@@ -74,8 +75,8 @@ create table shift (
   waktu_masuk TIME not null,
   waktu_keluar TIME not null,
 
-  id_jadwal UUID NOT NULL REFERENCES public.jadwal(id),
-  id_tenant UUID NOT NULL REFERENCES public.tenant(id)
+  id_jadwal UUID NOT NULL REFERENCES public.jadwal(id) ON DELETE CASCADE,
+  id_tenant UUID NOT NULL REFERENCES public.tenant(id) ON DELETE CASCADE
 );
 
 create index on shift (id_jadwal);
@@ -97,9 +98,9 @@ create table absen (
   lng_keluar string,
 
   tipe work_type not null,
-  id_tenant UUID NOT NULL REFERENCES public.tenant(id),
-  id_shift UUID NOT NULL REFERENCES public.shift(id),
-  nik STRING NOT NULL REFERENCES public.pegawai(nik)
+  id_tenant UUID NOT NULL REFERENCES public.tenant(id) ON DELETE CASCADE,
+  id_shift UUID NOT NULL REFERENCES public.shift(id) ON DELETE CASCADE,
+  nik STRING NOT NULL REFERENCES public.pegawai(nik) ON DELETE CASCADE
 );
 
 create index on absen (nik);

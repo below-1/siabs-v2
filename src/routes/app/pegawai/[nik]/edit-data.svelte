@@ -16,6 +16,7 @@
   let nik = pegawai.nik;
   let jenis_kelamin = pegawai.jenis_kelamin;
   let tanggal_lahir = pegawai.tanggal_lahir;
+  let whatsapp = pegawai.whatsapp;
 
   $: payload = ({
     nama,
@@ -70,6 +71,13 @@
       <FInput 
         name="nip"
         bind:value={nip}
+      />
+    </Field>
+
+    <Field label="WhatsApp">
+      <FInput 
+        name="whatsapp"
+        bind:value={whatsapp}
       />
     </Field>
 

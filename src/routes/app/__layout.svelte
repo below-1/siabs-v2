@@ -50,20 +50,17 @@
         { path: '/app/dashboard', label: 'dashboard', icon: 'mdi:view-dashboard' },
         { path: '/app/unit-kerja', label: 'unit kerja', icon: 'mdi:office-building-cog' },
         { path: '/app/pegawai', label: 'pegawai', icon: 'raphael:employee' },
-        { path: '/app/jadwal', label: 'jadwal', icon: 'clarity:calendar-solid' },
-        { path: '/app/tugas', label: 'tugas', icon: 'bx:task' }
+        { path: '/app/jadwal', label: 'jadwal', icon: 'clarity:calendar-solid' }
       ]
     } else if (sess.user.uk_admin) {
       result = [
         { path: '/app/unit-kerja', label: 'unit kerja' },
         { path: '/app/pegawai', label: 'pegawai' },
-        { path: '/app/jadwal', label: 'jadwal' },
-        { path: '/app/tugas', label: 'tugas' }
+        { path: '/app/jadwal', label: 'jadwal' }
       ]
     } else {
       result = [
-        { path: '/app/jadwal', label: 'jadwal' },
-        { path: '/app/tugas', label: 'tugas' }
+        { path: '/app/jadwal', label: 'jadwal' }
       ]
     }
 
