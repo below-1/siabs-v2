@@ -27,7 +27,8 @@ export async function post(event) {
   let user_payload = {
     username,
     password,
-    id_tenant: tenant.id
+    id_tenant: tenant.id,
+    timezone: data.get('timezone')
   }
 
   const sql = db()

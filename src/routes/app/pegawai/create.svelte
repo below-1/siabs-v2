@@ -10,6 +10,7 @@
   import FSelect from '$lib/fselect.svelte'
   import FDate from '$lib/fdate.svelte'
   import Ffile from '$lib/ffile.svelte'
+  import FTimezone from '$lib/ftimezone.svelte';
 
   const cu = getContext('currentUser');
   const user = cu.getUser();
@@ -23,6 +24,7 @@
   let username = '';
   let password = '';
   let unitKerjaId = null;
+  let timezone = '+08:00';
 
   $: payload = ({
     nama,
@@ -31,7 +33,8 @@
     jenis_kelamin,
     tanggal_lahir,
     username,
-    password
+    password,
+    timezone
   });
 
   $: verr = useValidation({
@@ -52,6 +55,9 @@
     password: [
       required('username harus diisi'),
       min_length(6, 'panjang NIP minimal 6 karakter')
+    ],
+    timezone: [
+      required('timezone harus diisi')
     ],
   }, payload);
 
@@ -101,6 +107,9 @@
         </Field>
         <Field label="Foto">
           <Ffile name="avatar" />
+        </Field>
+        <Field label="Zona Waktu">
+          <FTimezone name="timezone" bind:selected={timezone} />
         </Field>
         <FButton 
           primary={true} 
