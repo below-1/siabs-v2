@@ -10,7 +10,8 @@ export async function post(event) {
     alamat: data.get('alamat'),
     latitude: data.get('latitude'),
     longitude: data.get('longitude'),
-    id_tenant: tenant.id
+    id_tenant: tenant.id,
+    tipe: data.get('tipe')
   }
 
   const avatar_file = data.get('avatar')

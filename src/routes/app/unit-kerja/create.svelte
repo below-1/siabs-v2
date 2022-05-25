@@ -7,6 +7,7 @@
   import Field from '$lib/field.svelte'
   import Ffile from '$lib/ffile.svelte'
   import Finput from '$lib/finput.svelte'
+  import FSelect from '$lib/fselect.svelte'
 
   const cu = getContext('currentUser');
   const user = cu.getUser();
@@ -15,12 +16,14 @@
   let alamat = '';
   let latitude = null;
   let longitude = null;
+  let tipe = 'induk';
 
   $: payload = ({
     nama,
     alamat,
     latitude,
     longitude,
+    tipe,
   });
 
   $: verr = useValidation({
@@ -70,6 +73,16 @@
         </Field>
         <Field label="Pilih Gambar">
           <Ffile name="avatar" />
+        </Field>
+        <Field label="Tipe Unit Kerja">
+          <FSelect
+            bind:selected={tipe}
+            name="tipe"
+            options={[
+              { text: 'Kantor Induk', value: 'induk' },
+              { text: 'Kantor Satpel', value: 'satpel' }
+            ]}
+          />
         </Field>
         <FButton 
           primary={true} 

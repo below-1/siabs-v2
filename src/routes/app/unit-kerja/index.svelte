@@ -56,7 +56,7 @@
     </div>
     {#each items as item}
       <a 
-        href={`/app/unit-kerja/${item.id}/overview`}
+        href={`/app/unit-kerja/${item.id}/edit-data`}
         class="px-4 border-b border-gray-200 py-4 flex md:items-center gap-x-4"
       >
         <img
