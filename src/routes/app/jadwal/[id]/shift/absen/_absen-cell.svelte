@@ -85,7 +85,7 @@
   {:else}
     {#each participants as p}
       <div
-        class="border bg-gray-50 px-2 rounded py-2 flex items-center gap-x-4"
+        class="border bg-gray-50 px-2 rounded py-2 flex items-center gap-x-2"
       >
         <img
           class="w-12 h-12 rounded"
@@ -95,6 +95,12 @@
           <div class="font-bold">{p.pegawai.nama}</div>
           <div class="text-xs">NIP:{p.pegawai.nip} NIK:{p.pegawai.nik}</div>
         </div>
+        <a
+          class="px-1 py-1 rounded bg-blue-500 text-white text-sm"
+          href={`/app/absen/${p.absen.id}/overview`}
+        >
+          <Icon icon="mdi:cube-scan" />
+        </a>
         <button 
           class="px-1 py-1 rounded bg-red-400 text-white text-sm"
           on:click={() => remove(p.absen.id)}
