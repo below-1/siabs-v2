@@ -16,7 +16,7 @@ export async function get(event) {
         join sh_ctx on sh_ctx.id = id_shift
         where 
           id_shift = sh_ctx.id and
-          nik = '1c818h5uk6'
+          nik = ${nik}
         order by alert_masuk desc
         limit 10
     ),
