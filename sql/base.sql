@@ -29,7 +29,7 @@ create table pegawai (
   avatar STRING,
   tanggal_lahir TIMESTAMPTZ NOT NULL,
   id_tenant UUID NOT NULL REFERENCES public.tenant(id),
-  username STRING NOT NULL REFERENCES public.user(username),
+  username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE,
   whatsapp STRING,
   PRIMARY KEY (id_tenant, nik, nip, nama)
 );

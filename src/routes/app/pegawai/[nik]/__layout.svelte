@@ -41,15 +41,15 @@
   ]
 
   let deleteModal = false;
-  $: deleteMessage = `Apakah anda menghapus data pegawai #${pegawai ? pegawai.id : ''}`
+  $: deleteMessage = `Apakah anda menghapus ${pegawai.nama}`
 
   function showDeleteModal() {
     deleteModal = true;
     console.log(`deleteModal = ${deleteModal}`)
   }
 
-  async function onDelete() {
-    window.location = `/app/pegawai/${pegawai.id}/delete`
+  function onDelete() {
+    window.location = `/app/user/remove?username=${pegawai.user.username}&section_redirect=pegawai`
   }
 </script>
 
