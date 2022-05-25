@@ -33,10 +33,13 @@ export async function post(event) {
   await redis_client.set(user.username, JSON.stringify(session_data))
   let cookies = []
   cookies.push(`username=${user.username}; Path=/`)
+  const location = pegawai
+    ? `/app/pegawai/${pegawai.nik}/overview`
+    : '/app/dashboard'
   return {
     status: 302,
     headers: {
-      location: '/app',
+      location,
       'Set-Cookie': cookies
     }
   }

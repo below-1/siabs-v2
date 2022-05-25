@@ -10,10 +10,14 @@
 
   let nama = unitKerja.nama;
   let alamat = unitKerja.alamat;
+  let latitude = unitKerja.latitude;
+  let longitude = unitKerja.longitude;
 
   $: payload = {
     nama,
-    alamat
+    alamat,
+    latitude,
+    longitude
   };
 
   $: verr = useValidation({
@@ -39,6 +43,20 @@
         name="nama" 
         bind:value={nama}
         error={verr.fields.nama}
+      />
+    </Field>
+
+    <Field label="Latitude">
+      <FInput 
+        name="latitude" 
+        bind:value={latitude}
+      />
+    </Field>
+
+    <Field label="Longitude">
+      <FInput 
+        name="longitude" 
+        bind:value={longitude}
       />
     </Field>
 

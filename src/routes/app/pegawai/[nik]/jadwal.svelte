@@ -22,11 +22,22 @@
     subtitle.push( alert_keluar.diff(alert_masuk, 'hour') + ' jam' );
     subtitle.push( alert_masuk.fromNow() );
 
+    let status_masuk = null;
+    if (it.absen.status_masuk) {
+      if (it.absen.status_masuk == 'in-time') {
+        status_masuk = 'tepat waktu';
+      } else if (it.absen.status_masuk == 'late') {
+        status_masuk = 'terlambat';
+      }
+      subtitle.push(status_masuk);
+    }
+
     return {
       ...it,
       format: {
         title,
-        subtitle
+        subtitle,
+        status_masuk
       }
     }
   })
@@ -70,6 +81,11 @@
         <div class="text-left flex-grow">
           <p class="font-bold text-sm md:text-base">{item.format.title}</p>
           <div class="text-xs md:text-sm flex flex-wrap items-center gap-x-2">
+            {#if item.format.status_masuk}
+            <div class="bg-green-600 border-2 border-green-500 px-2 py-0.5 text-white font-bold">
+              {item.format.status_masuk}
+            </div>
+            {/if}
             <a 
               class="py-0.5 px-2 bg-gray-100 rounded border whitespace-nowrap"
               href={`/app/unit-kerja/${item.unit_kerja.id}`}

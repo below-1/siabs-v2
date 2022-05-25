@@ -57,9 +57,9 @@
         />
         <div>
           <a
-            href={`/app/pegawai/${item.unit_kerja.id}/overview`} 
+            href={`/app/unit-kerja/${item.unit_kerja.id}/jadwal`} 
             class="text-xl font-bold link"
-          >{item.pegawai.nama}</a>
+          >{item.unit_kerja.nama}</a>
           <p class="font-bold text-gray-600">{item.unit_kerja.alamat.substr(0, 20) + '...'}</p>
         </div>
       </div>
@@ -70,6 +70,7 @@
     </div>
 
     <div class="flex flex-col w-full md:w-1/3 gap-x-2 gap-y-4 p-2 bg-gray-50 border">
+
       <h1 class="text-xl font-semibold">Check In</h1>
       <div>
         <div class="text-sm">Jadwal Check In</div>
@@ -86,6 +87,14 @@
           </div>
         {/if}
       </div>
+
+      {#if item.absen.status_masuk}
+        <div>
+          <div class="text-sm mb-2"> Status Check In </div>
+          <div class="font-bold text-xl"> {item.absen.status_masuk} </div>
+        </div>
+      {/if}
+
     </div>
 
     <div class="flex flex-col w-full md:w-1/3 gap-x-2 gap-y-4 p-2 bg-gray-50 border">

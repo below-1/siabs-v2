@@ -60,7 +60,9 @@
       ]
     } else {
       result = [
-        { path: '/app/jadwal', label: 'jadwal' }
+        { path: '/app/me', label: 'Dashboard' },
+        { path: '/app/account', label: 'Account' },
+        { path: '/app/jadwal', label: 'Jadwal' }
       ]
     }
 
