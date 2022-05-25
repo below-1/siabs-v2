@@ -1,0 +1,51 @@
+<script>
+  import { getContext } from 'svelte';
+  import { required, min_length, max_length, useValidation } from '$lib/validation'
+  import PageHeader from '$lib/page-header.svelte';
+  import Field from '$lib/field.svelte';
+  import FInput from '$lib/finput.svelte';
+  import FButton from '$lib/fbutton.svelte';
+
+  const unitKerja = getContext('unitKerja');
+
+  let nama = unitKerja.nama;
+  let alamat = unitKerja.alamat;
+
+  $: payload = {
+    nama,
+    alamat
+  };
+
+  $: verr = useValidation({
+    nama: [
+      required('nama harus diisi'), 
+      min_length('panjang nama minimal 6 karakter') 
+    ],
+  }, payload);
+</script>
+
+<PageHeader>
+  <h1 class="font-bold text-2xl">Ubah Data {unitKerja.nama}</h1>
+</PageHeader>
+
+<div class="container py-6 px-4">
+  <form
+    method="POST"
+    enctype="multipart/form-data"
+    class="md:w-1/2 flex flex-col gap-y-4"
+  >
+    <Field label="Nama">
+      <FInput 
+        name="nama" 
+        bind:value={nama}
+        error={verr.fields.nama}
+      />
+    </Field>
+
+    <FButton
+      primary
+    >
+      Simpan
+    </FButton>
+  </form>
+</div>

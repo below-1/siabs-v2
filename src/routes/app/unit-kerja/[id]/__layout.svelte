@@ -41,7 +41,7 @@
   }
 
   const submenus = [
-    { label: 'overview', path: `/app/unit-kerja/${unitKerja.id}/overview` },
+    { label: 'edit data', path: `/app/unit-kerja/${unitKerja.id}/edit-data` },
     { label: 'jadwal', path: `/app/unit-kerja/${unitKerja.id}/jadwal` }
   ]
 </script>
@@ -52,6 +52,7 @@
     <div class="flex-grow">
       <h1 class="font-black text-3xl">{unitKerja.nama}</h1>
       <h2 class="text-sm">{unitKerja.alamat}</h2>
+      <h2 class="text-sm font-bold">kantor {unitKerja.tipe}</h2>
     </div>
     <FButton 
       on:click={showDeleteModal}

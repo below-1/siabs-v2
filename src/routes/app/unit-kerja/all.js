@@ -18,4 +18,3 @@ export async function get(event) {
   response.body.items = items
   return response
 }
-

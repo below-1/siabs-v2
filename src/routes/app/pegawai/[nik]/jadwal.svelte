@@ -60,7 +60,7 @@
 </script>
 
 <div class="container py-6 px-4">
-  <h1 class="text-2xl font-bold mb-6">Data Absen ${pegawai.nama}</h1>
+  <h1 class="text-2xl font-bold mb-6">Data Absen {pegawai.nama}</h1>
 
   <div class="flex flex-col gap-y-4">
     {#each formatted as item}
