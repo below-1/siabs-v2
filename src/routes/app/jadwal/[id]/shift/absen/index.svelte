@@ -9,12 +9,38 @@
   export let shifts = []
 </script>
 
-<div class="container px-4 py-6">
+<div class="container md:px-4 py-6">
+
+  <table class="w-full">
+    <thead>
+      <tr class="border-b text-sm">
+        <th class="text-left md:px-1 px-4 py-2">Hari Tanggal</th>
+        {#each shifts as shift}
+          <th class="text-left px-1 py-2">
+            {shift.waktu_masuk.substr(0, 5)}
+            -
+            {shift.waktu_keluar.substr(0, 5)}
+          </th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      {#each days as d}
+        <tr class="border-b hover:bg-gray-100">
+          <td class="py-2 px-4 md:px-1 text-sm">{day(d.day).format('dddd, DD MMMM, YYYY')}</td>
+          <td class="py-2 px-4 md:px-1 text-sm">12 Pegawai</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+
+</div>
+
+<!-- <div class="container px-4 py-6">
   <h1 class="text-2xl font-bold text-gray-600 mb-8">Absen Pegawai</h1>
 
   <div class="flex flex-col gap-y-4">
 
-    <!-- Headers -->
     <div class="flex items-center gap-x-2 sticky" style="top: 4.5rem; z-index: 9;">
       <div class="w-1/5 text-center bg-gray-50 py-2 border">Hari Tanggal</div>
       {#each shifts as shift}
@@ -25,8 +51,6 @@
         </div>
       {/each}
     </div>
-
-    <!-- Using context to triggering modal from deep child -->
     <AddParticipantContext>
 
       {#each days as d}
@@ -46,6 +70,5 @@
     </AddParticipantContext>
 
   </div>
-
-
 </div>
+ -->

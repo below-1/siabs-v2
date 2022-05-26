@@ -19,7 +19,6 @@ export async function get(event) {
         d::date as day
       from days
       order by day
-      limit 5
   `
   const shifts = await sql`
     select * 
