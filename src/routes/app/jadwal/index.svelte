@@ -43,7 +43,7 @@
   </div>
 </PageHeader>
 
-<section class="container px-4">
+<section class="container">
   {#each formatted as item}
     <ListItem item={item} />
   {/each}

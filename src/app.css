@@ -74,4 +74,8 @@
   .link {
     @apply text-purple-600 underline;
   }
+
+  .outer-padding {
+    @apply px-4 md:px-0 md:mx-4;
+  }
 }

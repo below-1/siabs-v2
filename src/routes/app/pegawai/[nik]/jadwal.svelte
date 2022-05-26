@@ -70,13 +70,13 @@
   }
 </script>
 
-<div class="container py-6 px-4">
-  <h1 class="text-2xl font-bold mb-6">Data Absen {pegawai.nama}</h1>
+<div class="container py-6">
+  <h1 class="text-2xl font-bold mb-6 px-4">Data Absen {pegawai.nama}</h1>
 
   <div class="flex flex-col gap-y-4">
     {#each formatted as item}
       <div
-        class="flex items-center gap-x-4 border-b py-3"
+        class="flex items-center gap-x-4 border-b py-3 px-4"
       >
         <div class="text-left flex-grow">
           <p class="font-bold text-sm md:text-base">{item.format.title}</p>

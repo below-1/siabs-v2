@@ -18,7 +18,7 @@
   <form
     method="POST"
     enctype="multipart/form-data"
-    class="w-1/2 p-4 rounded border flex flex-col gap-y-4"
+    class="md:w-1/2 p-4 rounded border flex flex-col gap-y-4"
   >
     <h1 class="text-xl font-semibold">Ganti Username</h1>
     <FField label="Username">
@@ -34,7 +34,7 @@
   <form
     method="POST"
     enctype="multipart/form-data"
-    class="w-1/2 p-4 rounded border flex flex-col gap-y-4"
+    class="md:w-1/2 p-4 rounded border flex flex-col gap-y-4"
   >
     <h1 class="text-xl font-semibold">Ganti Password</h1>
     <FField label="Password">
@@ -50,7 +50,7 @@
     </FButton>
   </form>
 
-  <div class="p-4 rounded border flex flex-col w-1/2">
+  <div class="md:w-1/2 p-4 rounded border flex flex-col">
     <FButton danger>
       Hapus Akun
     </FButton>
