@@ -1,65 +1,78 @@
-import db from '../../../db'
+import db from '../../../db';
+import day from '$lib/day';
 
 export async function get(event) {
   const { pegawai } = event.locals.session
   const sql = db()
   const [ item ] = await sql`
-    with abs_wd as (
-      select
-        (extract(epoch from (current_timestamp() - absen.alert_masuk)) / 60) as in_diff,
-        (abs(extract(epoch from (current_timestamp() - absen.alert_masuk))) / 60) as in_abs_diff,
-
-        (extract(epoch from (current_timestamp() - absen.alert_keluar)) / 60) as out_diff,
-        (abs(extract(epoch from (current_timestamp() - absen.alert_keluar))) / 60) as out_abs_diff,
-
-        absen.*
-      from absen 
-        where nik = ${pegawai.nik}
-    )
-      select * from abs_wd
-          where 
-            in_abs_diff < 90
-            or out_diff > 0
-          limit 1
+    select 
+        *
+      from absen
+        where 
+          (
+            (alert_masuk - '60 minute'::interval) < current_timestamp()
+            and (alert_masuk + '30 minute'::interval) > current_timestamp()
+          )
+          or (
+            alert_keluar < current_timestamp()
+            and (alert_keluar + '190 minute'::interval) > current_timestamp()
+          )
   `;
 
-  console.log(item)
-  console.log('item')
-
   if (item) {
-    const in_diff = parseInt(item.in_diff);
+    if (!item.absen_masuk)  {
+      let diff = parseInt(day(item.alert_masuk).diff(day(new Date()), 'hour'))
+      diff = Math.abs(diff)
+      let status_masuk = null;
+      if (diff < 30) {
+        status_masuk = 'in-time';
+      } else if (diff > 30) {
+        status_masuk = 'late';
+      }
 
-    console.log('perbedaan waktu')
-    console.log(in_diff)
+      const check_payload = {
+        absen_masuk: new Date(),
+        status_masuk
+      }
+      const update_result = await sql`
+        update absen set
+            ${sql(check_payload)}
+          where id = ${item.id}
+          returning id
+      `
+      return {
+        body: {
+          ...update_result
+        }
+      }
+    } else if (!item.absen_keluar) {
+      let diff = parseInt(day(item.alert_keluar_masuk).diff(day(new Date()), 'hour'))
+      diff = Math.abs(diff)
+      let status_keluar = null;
+      if (diff < 30) {
+        status_keluar = 'in-time';
+      } else if (diff > 30) {
+        status_keluar = 'late';
+      }
 
-    let status_masuk = null;
-    if (in_diff < 30) {
-      status_masuk = 'in-time';
-    } else if (in_diff > 30) {
-      status_masuk = 'late';
+      const check_payload = {
+        absen_keluar: new Date(),
+        status_keluar
+      }
+      const update_result = await sql`
+        update absen set
+            ${sql(check_payload)}
+          where id = ${item.id}
+          returning id
+      `
+      return {
+        body: {
+          ...update_result
+        }
+      }
     }
-
-    // console.log(`status = ${status_masuk}`);
-    // throw new Error('stop');
-
-    const check_payload = {
-      absen_masuk: new Date(),
-
-    }
-    const update_result = await sql`
-      update absen set
-          absen_masuk = ${new Date()},
-          status_masuk = ${status_masuk}
-        where id = ${item.id}
-        returning id
-    `
-    console.log(update_result)
   }
-  return {
-    body: {
-      item
-    }
-  }
+
   if (pegawai) {
     return {
       status: 303,

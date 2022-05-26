@@ -4,12 +4,11 @@ export async function get(event) {
   const id_shift = event.params.id
   const keyword = event.url.searchParams.get('keyword')
   const sql = db()
-  const keyword_part = keyword ? sql`nama ilike ${'%' + keyword + '%'}` : sql``
+  const keyword_part = keyword ? sql`where nama ilike ${'%' + keyword + '%'}` : sql``
   const items = await sql`
     select *
     from pegawai
-      where 
-        ${keyword_part}
+      ${keyword_part}
       order by nama desc
       limit 5
   `
