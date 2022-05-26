@@ -47,21 +47,23 @@
     let result = []
     if (sess.user.super_user) {
       result = [
-        { path: '/app/dashboard', label: 'dashboard', icon: 'mdi:view-dashboard' },
-        { path: '/app/unit-kerja', label: 'unit kerja', icon: 'mdi:office-building-cog' },
-        { path: '/app/pegawai', label: 'pegawai', icon: 'raphael:employee' },
-        { path: '/app/jadwal', label: 'jadwal', icon: 'clarity:calendar-solid' }
+        { path: '/app/dashboard', label: 'Dashboard', icon: 'mdi:view-dashboard' },
+        { path: '/app/unit-kerja', label: 'Unit Kerja', icon: 'mdi:office-building-cog' },
+        { path: '/app/pegawai', label: 'Pegawai', icon: 'raphael:employee' },
+        { path: '/app/jadwal', label: 'Jadwal', icon: 'clarity:calendar-solid' },
+        { path: '/app/account', label: 'Akun' }
       ]
     } else if (sess.user.uk_admin) {
       result = [
         { path: '/app/unit-kerja', label: 'unit kerja' },
         { path: '/app/pegawai', label: 'pegawai' },
-        { path: '/app/jadwal', label: 'jadwal' }
+        { path: '/app/jadwal', label: 'jadwal' },
+        { path: '/app/account', label: 'Account' },
       ]
     } else {
       result = [
         { path: '/app/me', label: 'Dashboard' },
-        { path: '/app/account', label: 'Account' },
+        { path: '/app/account', label: 'Akun' },
         { path: '/app/jadwal', label: 'Jadwal' }
       ]
     }
