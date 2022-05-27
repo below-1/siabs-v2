@@ -2,7 +2,6 @@
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import PageHeader from '$lib/page-header.svelte'
-  import TypeOption from './_type-option.svelte'
   import ChooseType from './_choose-type.svelte'
   import FixedForm from './_fixed-form.svelte'
   import ShiftForm from './_shift-form.svelte'

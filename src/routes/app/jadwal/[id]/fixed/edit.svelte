@@ -1,17 +1,17 @@
 <script>
-  import { getContext } from 'svelte'
-  import FButton from '$lib/fbutton.svelte'
-  import FField from '$lib/field.svelte'
-  import FTime from '$lib/ftime.svelte'
-  import FDate from '$lib/fdate.svelte'
-  import day from '$lib/day'
+  import { getContext } from 'svelte';
+  import FButton from '$lib/fbutton.svelte';
+  import FField from '$lib/field.svelte';
+  import FTime from '$lib/ftime.svelte';
+  import FDate from '$lib/fdate.svelte';
+  import day from '$lib/day';
 
   const item = getContext('item')
 
   let day_start = day(item.jadwal.day_start).format('YYYY-MM-DD')
   let day_end = day(item.jadwal.day_end).format('YYYY-MM-DD')
-  let waktu_masuk = item.shift.waktu_masuk.substr(0, 5)
-  let waktu_keluar = item.shift.waktu_keluar.substr(0, 5)
+  let waktu_masuk = item.shifts[0].waktu_masuk.substr(0, 5)
+  let waktu_keluar = item.shifts[0].waktu_keluar.substr(0, 5)
 </script>
 
 <div class="container px-4">
