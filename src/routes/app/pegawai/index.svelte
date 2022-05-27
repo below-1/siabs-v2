@@ -25,7 +25,25 @@
         keyword,
         limit
       }
-    })
+    });
+    items = response.items;
+  }
+
+  async function loadNext() {
+    if (items.length == 0) {
+      return;
+    }
+    const last = items[items.length - 1];
+    const params = {
+      keyword,
+      limit,
+      after: last.nik
+    };
+    const response = await client_fetch_json({
+      method: 'GET',
+      path: '/app/pegawai',
+      params
+    });
     items = response.items;
   }
 
@@ -40,6 +58,7 @@
       size="lg"
       path="/app/pegawai/create"
       primary
+
     >
       tambah pegawai
     </FButton>
@@ -59,17 +78,24 @@
     {#each items as item}
       <a 
         href={`/app/pegawai/${item.nik}/overview`}
-        class="outer-padding border-b border-gray-200 py-3 flex items-center gap-x-4">
+        class="outer-padding border-b border-gray-200 py-4 flex items-center gap-x-4">
         <img
-          class="w-8 h-8 rounded"
+          class="w-12 h-12 rounded"
           src={item.avatar}
         />
         <div>
-          <div class="font-bold text-base">{item.nama}</div>
+          <div class="font-bold text-lg">{item.nama}</div>
           <div class="text-xs">NIP:{item.nip} NIK:{item.nik}</div>
         </div>
         <div class="flex-grow"></div>
       </a>
     {/each}
+  </div>
+
+  <div class="px-4">
+    <FButton 
+      on:click={loadNext} 
+      outline
+    >Muat Lebih Banyak</FButton>
   </div>
 </section>
