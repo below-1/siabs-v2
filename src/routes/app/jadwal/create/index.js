@@ -64,7 +64,7 @@ async function create_fixed({ fixed, tenant, user, sql }) {
     }
   });
 
-  return result
+  return result;
 }
 
 async function create_shift({ shift, tenant, user, sql }) {
@@ -148,7 +148,7 @@ export async function post(event) {
   return {
     status: 200,
     body: {
-      result
+      ...result
     }
   }
 }

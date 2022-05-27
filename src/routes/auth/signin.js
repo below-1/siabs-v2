@@ -34,7 +34,7 @@ export async function post(event) {
   let cookies = []
   cookies.push(`username=${user.username}; Path=/`)
   const location = pegawai
-    ? `/app/pegawai/${pegawai.nik}/overview`
+    ? `/app/absen/current`
     : '/app/dashboard'
   return {
     status: 302,

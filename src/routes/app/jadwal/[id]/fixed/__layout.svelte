@@ -52,7 +52,7 @@
   const deleteMessage = `Data absen dan shift akan ikut terhapus`
 
   function onDelete() {
-
+    window.location = `/app/jadwal/${item.jadwal.id}/delete`
   }
 
 </script>

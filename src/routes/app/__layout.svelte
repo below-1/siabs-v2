@@ -63,7 +63,6 @@
     } else {
       result = [
         { path: '/app/me', label: 'Dashboard' },
-        { path: '/app/account', label: 'Akun' },
         { path: '/app/account', label: 'Akun', icon: 'mdi:account-cog' }
       ]
     }
@@ -129,7 +128,7 @@
   <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-1"></div>
 </nav>
 
-<div class="flex flex-col" style="min-height: 100vh; margin-top: 3.5rem;">
+<div class="flex flex-col" style="min-height: 100vh; padding-top: 3.5rem;">
 
   {#if user.superUser}
   <nav class="border-b border-gray-200 bg-gray-50">
@@ -149,11 +148,11 @@
   </nav>
   {/if}
 
-  <div class="flex-grow pb-12">
+  <div class="flex flex-col flex-grow">
     <slot></slot>
   </div>
 
-  <footer class="border-t border-gray-200 flex justify-center items-center h-12 bg-gray-900">
+  <footer class="flex justify-center items-center h-12 bg-gray-900">
     <div class="text-sm font-bold text-gray-200">Copyright Jordan Meta</div>
   </footer>
 </div>
