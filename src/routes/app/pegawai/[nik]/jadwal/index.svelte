@@ -97,7 +97,10 @@
 </script>
 
 <div class="container py-6">
-  <div class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 outer-padding mb-6">
+  <div 
+    class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
+    style="top: 3.5rem;"
+  >
     <h1 class="text-xl font-bold">Daftar Jadwal</h1>
     <MonthYearSelect 
       bind:year={year}
