@@ -16,7 +16,7 @@ export async function post(event) {
     id_tenant: tenant.id
   }
   const avatar_file = data.get('avatar')
-  const avatar = await upload_image(avatar_file)
+  const avatar = await upload_image(avatar_file);
   pegawai_payload.avatar = avatar;
 
   let username = data.get('username')

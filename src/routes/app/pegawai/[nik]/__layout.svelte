@@ -37,7 +37,7 @@
       icon: '<ion-icon name="apps-outline"></ion-icon>' },
     { label: 'jadwal', path: `/app/pegawai/${pegawai.nik}/jadwal` },
     { label: 'edit data', path: `/app/pegawai/${pegawai.nik}/edit-data` },
-    { label: 'hapus', path: `/app/pegawai/${pegawai.nik}/hapus` }
+    { label: 'foto', path: `/app/pegawai/${pegawai.nik}/foto` }
   ]
 
   let deleteModal = false;
@@ -57,7 +57,9 @@
   <div class="container grid grid-cols-12">
     <img class="hidden md:block h-20 rounded" src={pegawai.avatar} />
     <div class="col-span-12 md:col-span-6 flex flex-col items-center md:items-start justify-center text-gray-500 mb-4">
-      <img class="h-32 md:hidden rounded" src={pegawai.avatar} />
+      <a href={`/app/pegawai/${pegawai.nik}/foto`}>
+        <img class="h-32 md:hidden rounded" src={pegawai.avatar} />
+      </a>
       <div class="font-black text-lg md:text-xl text-black">{pegawai.nama}</div>
       <div class="font-black text-lg text-black">{pegawai.user.username}</div>
       <div class="text-sm font-semibold">NIP: {pegawai.nip}, NIK: {pegawai.nik}</div>
