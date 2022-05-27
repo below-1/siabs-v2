@@ -37,7 +37,10 @@
     }
     const { items: unit_kerja_list } = await client_fetch_json({
       method: 'GET',
-      path: '/app/unit-kerja/all'
+      path: '/app/unit-kerja/all',
+      params: {
+        tipe: 'induk'
+      }
     })
     unit_kerja_options = unit_kerja_list.map(it => ({
       text: it.nama,

@@ -1,18 +1,19 @@
 <script>
-  import { getContext } from 'svelte'
-  import FButton from '$lib/fbutton.svelte'
-  import FInput from '$lib/finput.svelte'
-  import FField from '$lib/field.svelte'
-  import Backdrop from '$lib/backdrop.svelte'
-  import WorkStatusSelect from '$lib/work-status-select.svelte'
-  import { browser } from '$app/env'
-  import { client_fetch_json } from '$lib/http'
+  import { getContext } from 'svelte';
+  import FButton from '$lib/fbutton.svelte';
+  import FInput from '$lib/finput.svelte';
+  import FField from '$lib/field.svelte';
+  import FSelect from '$lib/fselect.svelte';
+  import Backdrop from '$lib/backdrop.svelte';
+  import WorkStatusSelect from '$lib/work-status-select.svelte';
+  import { browser } from '$app/env';
+  import { client_fetch_json } from '$lib/http';
 
-  const item = getContext('item')
-  let keyword = ''
-  let show_form = false
+  const item = getContext('item');
+  let keyword = '';
+  let show_form = false;
   let work_status = null;
-  let options = []
+  let options = [];
   let selected = null;
 
   async function search_pegawai(keyword) {

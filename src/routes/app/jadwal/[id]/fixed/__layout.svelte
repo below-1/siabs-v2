@@ -15,8 +15,8 @@
   const format = {
     ds: ds.format('dddd, DD MMM, YYYY'),
     de: de.format('dddd, DD MMM, YYYY'),
-    ts: item.shift.waktu_masuk.substr(0, 5),
-    te: item.shift.waktu_keluar.substr(0, 5),
+    ts: item.shifts[0].waktu_masuk.substr(0, 5),
+    te: item.shifts[0].waktu_keluar.substr(0, 5),
 
     mobile: {
       ds: ds.format('DD-MM-YYYY'),

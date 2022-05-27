@@ -59,7 +59,8 @@
         </div>
 
         {#each shift.items as item}
-          <div
+          <a
+            href={`/app/absen/${item.absen.id}/overview`} 
             class="border-b border-gray-200 py-3 px-2 flex items-center gap-x-4"
           >
             <img
@@ -67,16 +68,15 @@
               src={item.pegawai.avatar}
             />
             <div>
-              <a 
-                href={`/app/pegawai/${item.pegawai.nik}/overview`} 
-                class="font-bold text-base hover:underline hover:text-gray-900"
+              <div
+                class="font-bold text-base"
               >
                 {item.pegawai.nama}
-              </a>
+              </div>
               <div class="text-xs">NIP:{item.pegawai.nip} NIK:{item.pegawai.nik}</div>
             </div>
             <div class="flex-grow"></div>
-          </div>
+          </a>
         {/each}
 
       </div>

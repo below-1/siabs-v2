@@ -6,13 +6,25 @@ function set_hour(d, hstring) {
   return d.hour(parseInt(shour)).minute(parseInt(smin))
 }
 
+export async function get(event) {
+  const sql = db()
+  const items = await sql`
+    select * from pegawai
+  `
+  return {
+    body: {
+      pegawaiList: item
+    }
+  }
+}
+
 export async function post(event) {
   const { id } = event.params;
   const { tenant, user } = event.locals.session
-  const fd = await event.request.formData()
-  const id_shift = fd.get('shift')
-  const nik = fd.get('nik')
-  const tipe = fd.get('work_status')
+  const fd = await event.request.json()
+  const id_shift = fd.id_shift
+  const nik = fd.nik
+  const tipe = fd.tipe
   const sql = db()
 
   const [ { id: new_id } ] = await sql`
@@ -45,9 +57,9 @@ export async function post(event) {
   `
 
   return {
-    status: 303,
-    headers: {
-      location: `/app/jadwal/${id}/fixed/pegawai`
+    status: 201,
+    body: {
+      message: 'ok'
     }
   }
 }

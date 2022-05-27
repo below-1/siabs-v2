@@ -49,6 +49,7 @@
         path: `/app/jadwal/${item.jadwal.id}/shift/shifts/${shift.id}`,
         payload
       })
+      window.location = `/app/jadwal/${item.jadwal.id}/shift/shifts`
     } catch (err) {
       console.log(err);
     }

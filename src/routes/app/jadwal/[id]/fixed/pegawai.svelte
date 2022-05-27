@@ -1,12 +1,27 @@
 <script>
-  import { getContext } from 'svelte'
-  import FButton from '$lib/fbutton.svelte'
-  import FInput from '$lib/finput.svelte'
+  import { getContext } from 'svelte';
+  import { client_fetch_json } from '$lib/http';
+  import FButton from '$lib/fbutton.svelte';
+  import FInput from '$lib/finput.svelte';
+  import AddPegawaiDialog from './_add-pegawai.svelte';
 
   const item = getContext('item')
-  let keyword = ''
+  let keyword = '';
 
-  export let pegawai_list = []
+  let addPegawaiDialog = false;
+  function showAddPegawaiDialog() {
+    addPegawaiDialog = true;
+  }
+
+  export let pegawai_list = [];
+
+  async function loadPegawaiList() {
+    const response = await client_fetch_json({
+      path: `/app/jadwal/${item.jadwal.id}/fixed/pegawai`,
+      method: 'GET'
+    });
+    pegawai_list = response.pegawai_list;
+  }
 </script>
 
 <div class="container px-4">
@@ -15,7 +30,10 @@
       <div class="text-xl font-bold">Daftar Pegawai</div>
       <span class="px-1 rounded bg-gray-200 text-sm">{pegawai_list.length}</span>
     </div>
-    <FButton path={`/app/jadwal/${item.jadwal.id}/fixed/add-pegawai`} primary>Tambah Pegawai</FButton>
+    <FButton 
+      on:click={showAddPegawaiDialog}
+      primary
+    >Tambah Pegawai</FButton>
   </div>
   <FInput bind:value={keyword} placeholder="Cari Pegawai.." />
   <div class="mb-4"></div>
@@ -42,3 +60,9 @@
     </div>
   {/if}
 </div>
+
+
+<AddPegawaiDialog
+  bind:show={addPegawaiDialog}
+  on:created={loadPegawaiList}
+/>
