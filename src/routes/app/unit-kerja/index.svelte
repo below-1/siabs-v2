@@ -46,7 +46,7 @@
 </PageHeader>
 
 <section class="container">
-  <div class="w-full py-6 flex flex-col gap-y-4">
+  <div class="w-full py-6 flex flex-col">
     <div class="px-4 w-full md:w-1/3">
       <FInput
         name="keyword"
@@ -60,14 +60,14 @@
         class="px-4 border-b border-gray-200 py-4 flex md:items-center gap-x-4"
       >
         <img
-          class="w-12 h-12 rounded"
+          class="w-10 h-10 rounded"
           src={item.avatar}
         />
         <div>
-          <div class="text-lg font-bold">{item.nama}</div>
-          <div class="">
-            <span class="text-sm py-0.5 px-3 rounded bg-gray-200 rounded">{item.tipe}</span>
-            <span class="text-sm">{item.alamat}</span>
+          <div class="font-bold">{item.nama}</div>
+          <div class="text-xs">
+            <span class="py-0.5 px-3 rounded bg-gray-200 rounded">{item.tipe}</span>
+            <span class="">{item.alamat}</span>
           </div>
         </div>
         <div class="flex-grow"></div>

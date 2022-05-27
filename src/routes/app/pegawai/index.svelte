@@ -48,8 +48,8 @@
 </PageHeader>
 
 <section class="container">
-  <div class="w-full py-6 flex flex-col gap-y-4">
-    <div class="px-4 w-full md:w-1/3">
+  <div class="w-full py-6 flex flex-col">
+    <div class="px-4 w-full md:w-1/3 mb-6">
       <FInput
         name="keyword"
         placeholder="Keyword..."
@@ -59,14 +59,14 @@
     {#each items as item}
       <a 
         href={`/app/pegawai/${item.nik}/overview`}
-        class="outer-padding border-b border-gray-200 py-4 flex items-center gap-x-4">
+        class="outer-padding border-b border-gray-200 py-3 flex items-center gap-x-4">
         <img
-          class="w-12 h-12 rounded"
+          class="w-8 h-8 rounded"
           src={item.avatar}
         />
         <div>
-          <div class="text-lg font-bold">{item.nama}</div>
-          <div class="text-sm">NIP:{item.nip} NIK:{item.nik}</div>
+          <div class="font-bold text-base">{item.nama}</div>
+          <div class="text-xs">NIP:{item.nip} NIK:{item.nik}</div>
         </div>
         <div class="flex-grow"></div>
       </a>

@@ -7,68 +7,79 @@
   const item = getContext('item')
   export let days = []
   export let shifts = []
+
+  let transformed = [];
+
+  function transform(days) {
+    let hash_table = new Map();
+    shifts.forEach(shift => {
+      hash_table.set(shift.id, []);
+    });
+
+    const day = new Set();
+    let result = [];
+    let last_d = null;
+    let last_obj = null;
+    let counter = 0;
+    for (let d of days) {
+      if (d.day != last_d) {
+        last_d = d.day;
+        last_obj = {
+          ...d,
+          shifts: {}
+        };
+        counter = 0;
+      }
+      last_obj.shifts[d.id_shift] = d.total_absen;
+      counter += 1;
+      if (counter == shifts.length) {
+        result.push({ ...last_obj });
+        last_obj = null;
+        last_d = null;
+      }
+    }
+    return result;
+  }
+
+  $: sh_data = transform(days);
 </script>
 
 <div class="container md:px-4 py-6">
-
-  <table class="w-full">
-    <thead>
-      <tr class="border-b text-sm">
-        <th class="text-left md:px-1 px-4 py-2">Hari Tanggal</th>
-        {#each shifts as shift}
-          <th class="text-left px-1 py-2">
-            {shift.waktu_masuk.substr(0, 5)}
-            -
-            {shift.waktu_keluar.substr(0, 5)}
-          </th>
-        {/each}
-      </tr>
-    </thead>
-    <tbody>
-      {#each days as d}
-        <tr class="border-b hover:bg-gray-100">
-          <td class="py-2 px-4 md:px-1 text-sm">{day(d.day).format('dddd, DD MMMM, YYYY')}</td>
-          <td class="py-2 px-4 md:px-1 text-sm">12 Pegawai</td>
+  <p class="font-bold text-gray-600 mb-6 px-4 md:px-0">Daftar Absen Per Hari</p>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-600 dark:text-gray-400">
+      <thead>
+        <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <th class="px-6 py-3">Tanggal</th>
+          <th class="px-6 py-3">Hari</th>
+          {#each shifts as shift}
+            <th class="px-6 py-3">
+              {shift.waktu_masuk.substr(0, 5)}
+              -
+              {shift.waktu_keluar.substr(0, 5)}
+            </th>
+          {/each}
+          <th></th>
         </tr>
-      {/each}
-    </tbody>
-  </table>
-
-</div>
-
-<!-- <div class="container px-4 py-6">
-  <h1 class="text-2xl font-bold text-gray-600 mb-8">Absen Pegawai</h1>
-
-  <div class="flex flex-col gap-y-4">
-
-    <div class="flex items-center gap-x-2 sticky" style="top: 4.5rem; z-index: 9;">
-      <div class="w-1/5 text-center bg-gray-50 py-2 border">Hari Tanggal</div>
-      {#each shifts as shift}
-        <div class="flex-grow text-center bg-gray-50 py-2 border">
-          {shift.waktu_masuk.substr(0, 5)}
-          -
-          {shift.waktu_keluar.substr(0, 5)}
-        </div>
-      {/each}
-    </div>
-    <AddParticipantContext>
-
-      {#each days as d}
-      <div class="flex items-start gap-x-2 hover:bg-gray-100">
-        <div class="w-1/5 text-center text-sm py-2">
-          {day(d.day).format('dddd, DD MMMM, YYYY')}
-        </div>
-        {#each shifts as shift}
-          <AbsenCell 
-            shift={shift} 
-            date={d.day}
-          />
+      </thead>
+      <tbody>
+        {#each sh_data as d}
+          <tr class="border-b hover:bg-gray-100">
+            <td class="px-6 py-3">{day(d.day).format('DD-MM-YYYY')}</td>
+            <td class="px-6 py-3">{day(d.day).format('dddd')}</td>
+            {#each shifts as shift}
+              <td class="px-6 py-3">{d.shifts[shift.id]}</td>
+            {/each}
+            <td class="px-6 py-3">
+              <a 
+                href={`/app/jadwal/${item.jadwal.id}/shift/absen/date?date=${day(d.day).format('YYYY-MM-DD')}`}
+                class="border p-1 rounded bg-gray-100 text-xs font-bold text-gray-600"
+              >detail</a>
+            </td>
+          </tr>
         {/each}
-      </div>
-      {/each}
-
-    </AddParticipantContext>
-
+      </tbody>
+    </table>
   </div>
+
 </div>
- -->

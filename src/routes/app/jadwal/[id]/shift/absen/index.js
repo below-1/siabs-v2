@@ -14,11 +14,27 @@ export async function get(event) {
           jadwal.day_end,
           '1 day'::interval
         ) as d from jadwal
+      ),
+      shifts as (
+        select * from shift where id_jadwal = ${id}
+      ),
+      sh_with_date as (
+        select 
+          days.d,
+          sh.id,
+          sh.waktu_masuk
+        from days, shifts sh
       )
-      select 
-        d::date as day
-      from days
-      order by day
+
+  select 
+    shd.d::date as day,
+        shd.id as id_shift,
+        coalesce( count(ab.id), 0 ) as total_absen
+      from sh_with_date shd
+        left join absen ab on 
+          (shd.d::date = ab.alert_masuk::date)
+            and (shd.id = ab.id_shift)
+      group by shd.d, shd.id
   `
   const shifts = await sql`
     select * 

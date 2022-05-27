@@ -28,7 +28,7 @@ export async function get(event) {
       row_to_json(j) as jadwal,
       json_agg(t)->0 as tenant,
       json_agg(uk)->0 as unit_kerja,
-      json_agg(shift)->0 as shift
+      json_agg(shift) as shifts
       from jadwal j
       left join shift on shift.id_jadwal = j.id
       left join tenant t on t.id = j.id_tenant

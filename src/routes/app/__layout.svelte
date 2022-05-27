@@ -84,37 +84,36 @@
   $: menus = _menus($session, $page)
 </script>
 
-<nav class="bg-black text-white fixed top-0 left-0 right-0" style="z-index:  10;">
-  <div class="container flex px-4 md:px-none">
-
+<nav class="bg-black text-white fixed top-0 left-0 right-0 flex flex-col h-14" style="z-index:  10;">
+  <div class="container flex flex-grow px-4 md:px-none">
     <a 
       href={`/app/tenant/${$session.tenant.id}`}
-      class="flex items-center py-3 gap-x-2 mr-8 flex-grow md:flex-grow-0">
-      <img src={$session.tenant.avatar} class="w-10 h-10 rounded" />
+      class="flex items-center gap-x-2 flex-grow md:flex-grow-0 md:mr-12">
+      <img src={$session.tenant.avatar} class="w-8 h-8 rounded" />
       <div>
-        <div class="font-bold text-lg" style="line-height: 100%;">{$session.tenant.name}</div>
+        <div class="font-bold text-sm" style="line-height: 100%;">{$session.tenant.name}</div>
         <div class="text-xs">SIABS Management</div>
       </div>
     </a>
 
     <div class="hidden md:flex flex-grow items-center gap-x-8">
       {#each menus as menu}
-        <a href={menu.path}>
+        <a href={menu.path} class="text-sm text-gray-200">
           {menu.label}
         </a>
       {/each}
     </div>
 
     <button class="flex items-center mr-2">
-      <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
-        <Icon icon="mdi-light:bell" width="2rem" height="2rem" />
+      <div class="h-8 w-8 rounded bg-gray-900 flex items-center justify-center">
+        <Icon icon="mdi-light:bell" class="h-6 w-6" />
       </div>
     </button>
     <button on:click={toggleAccountMenu} type="button" class="flex items-center mr-2">
       <img 
         src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
         alt="logo" 
-        class="w-10 h-10 rounded"
+        class="w-8 h-8 rounded"
       />
     </button>
 
@@ -122,16 +121,15 @@
       class="flex items-center md:hidden" 
       on:click={toggleSideMenu}
     >
-      <div class="h-10 w-10 rounded bg-gray-900 flex items-center justify-center">
-        <Icon icon="mdi-menu" width="2rem" height="2rem" />
+      <div class="h-8 w-8 rounded bg-gray-900 flex items-center justify-center">
+        <Icon icon="mdi-menu" class="h-6 w-8" />
       </div>
     </button>
   </div>
-
-  <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-2 w-full"></div>
+  <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-1"></div>
 </nav>
 
-<div class="flex flex-col" style="min-height: 100vh; margin-top: 4.5rem;">
+<div class="flex flex-col" style="min-height: 100vh; margin-top: 3.5rem;">
 
   {#if user.superUser}
   <nav class="border-b border-gray-200 bg-gray-50">

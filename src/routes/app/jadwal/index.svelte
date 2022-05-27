@@ -44,7 +44,15 @@
 </PageHeader>
 
 <section class="container">
+
   {#each formatted as item}
     <ListItem item={item} />
   {/each}
+
+  <div class="text-center">
+    <button class="border rounded p-2 mt-6 bg-gray-100 text-gray-600 text-sm">
+      muat lebih banyak
+    </button>
+  </div>
+
 </section>
