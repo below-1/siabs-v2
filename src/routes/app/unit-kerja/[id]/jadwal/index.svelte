@@ -43,7 +43,11 @@
 </script>
 
 <div class="container py-6">
-  <div class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 outer-padding mb-6">
+
+  <div 
+    class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
+    style="top: 3.5rem;"
+  >
     <h1 class="text-xl font-bold">Daftar Jadwal</h1>
     <MonthYearSelect 
       bind:year={year}
@@ -53,7 +57,10 @@
 
   <div class="flex flex-col md:px-4 border-t">
     {#each aggregation as dateGroup}
-      <div class="flex border-b hover:bg-gray-200">
+      <a 
+        class="flex border-b hover:bg-gray-200"
+        href={`/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.date).format('YYYY-MM-DD')}`}
+      >
 
         <div class="bg-gray-100 p-2 flex flex-col items-center justify-center w-20">
           <div class="text-lg font-bold">{day(dateGroup.date).format('DD')}</div>
@@ -67,7 +74,7 @@
         <div class="flex-grow flex flex-wrap items-center justify-end gap-x-4 pr-4 md:pr-0">
           <span class="font-bold">{dateGroup.total_absen} pegawai</span>
         </div>
-      </div>
+      </a>
     {/each}
   </div>
 </div>
