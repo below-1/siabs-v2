@@ -46,6 +46,14 @@
       />
     </Field>
 
+    <Field label="Alamat">
+      <FInput 
+        name="alamat" 
+        bind:value={alamat}
+        error={verr.fields.alamat}
+      />
+    </Field>
+
     <Field label="Latitude">
       <FInput 
         name="latitude" 

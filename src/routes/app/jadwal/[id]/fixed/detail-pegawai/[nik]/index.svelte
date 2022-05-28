@@ -131,7 +131,7 @@
   <button 
     type="button"
     disabled={!has_next}
-    class="border rounded px-4 py-1 bg-gray-100 text-sm disabled:opacity-50"
+    class="border rounded px-4 py-1 bg-gray-100 text-sm disabled:opacity-50 mb-8"
     on:click={load_items}
   >
     muat lebih banyak

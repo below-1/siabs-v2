@@ -81,9 +81,9 @@
     {#each items as item}
       <a 
         href={`/app/pegawai/${item.nik}/overview`}
-        class="outer-padding border-b border-gray-200 py-2 flex items-center gap-x-4">
+        class="outer-padding border-b border-gray-200 py-3 flex items-center gap-x-4">
         <img
-          class="w-10 h-10 rounded"
+          class="w-12 h-12 rounded"
           src={item.avatar}
         />
         <div>

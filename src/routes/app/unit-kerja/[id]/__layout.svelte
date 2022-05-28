@@ -42,7 +42,8 @@
 
   const submenus = [
     { label: 'edit data', path: `/app/unit-kerja/${unitKerja.id}/edit-data` },
-    { label: 'jadwal', path: `/app/unit-kerja/${unitKerja.id}/jadwal` }
+    { label: 'jadwal', path: `/app/unit-kerja/${unitKerja.id}/jadwal` },
+    { label: 'foto', path: `/app/unit-kerja/${unitKerja.id}/foto` },
   ]
 </script>
 
