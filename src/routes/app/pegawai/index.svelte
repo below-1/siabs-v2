@@ -44,7 +44,10 @@
       path: '/app/pegawai',
       params
     });
-    items = response.items;
+    items = [
+      ...items,
+      ...response.items
+    ]
   }
 
   $: searcItems(keyword);
@@ -78,13 +81,13 @@
     {#each items as item}
       <a 
         href={`/app/pegawai/${item.nik}/overview`}
-        class="outer-padding border-b border-gray-200 py-4 flex items-center gap-x-4">
+        class="outer-padding border-b border-gray-200 py-2 flex items-center gap-x-4">
         <img
-          class="w-12 h-12 rounded"
+          class="w-10 h-10 rounded"
           src={item.avatar}
         />
         <div>
-          <div class="font-bold text-lg">{item.nama}</div>
+          <div class="font-bold">{item.nama}</div>
           <div class="text-xs">NIP:{item.nip} NIK:{item.nik}</div>
         </div>
         <div class="flex-grow"></div>

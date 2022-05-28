@@ -16,6 +16,10 @@ async function create_fixed({ fixed, tenant, user, sql }) {
     })
     .filter(it => it);
 
+  const excludeDateParts = exclude_dow.length == 0 
+    ? sql`array[]::int[]` 
+    : sql`${sql.array(exclude_dow)}`;
+
   // Fixed Schedule only have 1 Shift
   // Mark it mutable for we will add jadwal.id into it
   let shift_payload = {
@@ -39,7 +43,7 @@ async function create_fixed({ fixed, tenant, user, sql }) {
             array_agg(d::date) as exclude_days
             from days 
             where extract('isodow', d) in (
-              select unnest(${sql.array(exclude_dow)})::float
+              select unnest(${excludeDateParts})::float
             )
         )
         insert into jadwal 
@@ -48,7 +52,7 @@ async function create_fixed({ fixed, tenant, user, sql }) {
             'fixed',
             ${new Date(fixed.tanggal_awal)},
             ${new Date(fixed.tanggal_akhir)},
-            (select excls.exclude_days from excls),
+            coalesce((select excls.exclude_days from excls), array[]),
             ${tenant.id},
             ${fixed.id_unit_kerja}
           )
@@ -81,7 +85,12 @@ async function create_shift({ shift, tenant, user, sql }) {
     id_tenant: tenant.id,
     id_unit_kerja: shift.id_unit_kerja,
     tipe: 'shift'
-  }
+  };
+
+  const excludeDateParts = exclude_dow.length == 0 
+    ? sql`array[]::int[]` 
+    : sql`${sql.array(exclude_dow)}`;
+
   const [{ id: id_jadwal }] = await sql`
     with 
       days as (
@@ -96,7 +105,7 @@ async function create_shift({ shift, tenant, user, sql }) {
           array_agg(d::date) as exclude_days
           from days 
           where extract('isodow', d) in (
-            select unnest(${sql.array(exclude_dow)})::float
+            select unnest(${excludeDateParts})::float
           )
       )
       insert into jadwal 
@@ -112,7 +121,7 @@ async function create_shift({ shift, tenant, user, sql }) {
           'shift',
           ${new Date(shift.tanggal_awal)},
           ${new Date(shift.tanggal_akhir)},
-          (select excls.exclude_days from excls),
+          coalesce((select excls.exclude_days from excls), array[]),
           ${tenant.id},
           ${shift.id_unit_kerja}
         )

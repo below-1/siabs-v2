@@ -19,10 +19,11 @@
     tipe: 'shift',
     shift: {
       ...$payload.shift,
-      tanggal_awal: '2022-07-11',
-      tanggal_akhir: '2022-08-30',
+      tanggal_awal: '2022-05-27',
+      tanggal_akhir: '2022-06-04',
+      work_type: 'wfo',
       days: [
-        true, true, true, true, true, false, false,
+        true, true, true, true, true, true, true,
       ]
     }
   }
@@ -55,7 +56,7 @@
       })
       const { result } = resp;
       const { id_jadwal } = resp;
-      window.location = `/app/jadwal/${id_jadwal}/shift`
+      window.location = `/app/jadwal/${id_jadwal}/shift/shifts`;
     } catch (err) {
       console.log(err)
       alert('gagal menambah jadwal')
