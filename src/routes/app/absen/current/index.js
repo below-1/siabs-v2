@@ -34,6 +34,15 @@ async function checkIn(absen, payload, sql) {
 }
 
 async function checkOut(absen, payload, sql) {
+  const time = day(payload.time);
+  const alert_masuk = day(absen.alert_keluar);
+
+  // Halt the execution if pegawai try
+  // to change absen status BEFORE the expected time
+  if (time.isBefore(alert_masuk)) {
+    throw new Error('CHECK_OUT_BEFORE');
+  }
+
   return await sql`
     update absen
       set
@@ -91,7 +100,11 @@ export async function post(event) {
     return response;
   } catch (err) {
     console.log(err);
-    response.body.code = 'ERROR';
+    if (err.message) {
+      response.body.code = err.message;
+    } else {
+      response.body.code = 'ERROR';
+    }
     return response;
   }
 }

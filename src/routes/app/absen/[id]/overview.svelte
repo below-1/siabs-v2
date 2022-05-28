@@ -3,6 +3,8 @@
   import day from '$lib/day'
 
   const item = getContext('item')
+  console.log(item);
+  console.log('item');
 
   const alert_masuk = day(item.absen.alert_masuk)
   const absen_masuk = day(item.absen.absen_masuk)
@@ -18,8 +20,8 @@
     status_masuk: status_masuk,
 
     alert_keluar: alert_keluar.format('DD MMMM YYYY HH:mm'),
-    absen_masuk: absen_masuk ? absen_masuk.format('DD MMMM YYYY HH:mm') : null,
-    status_masuk: status_masuk,
+    absen_keluar: absen_keluar ? absen_keluar.format('DD MMMM YYYY HH:mm') : null,
+    status_keluar: status_keluar,
   }
 </script>
 
@@ -114,6 +116,12 @@
           </div>
         {/if}
       </div>
+      {#if item.absen.status_keluar}
+        <div>
+          <div class="text-sm mb-2"> Status Check Out </div>
+          <div class="font-bold text-xl"> {item.absen.status_keluar} </div>
+        </div>
+      {/if}
     </div>
 
   </div>
