@@ -12,10 +12,10 @@ function getDifferenceStatus(expectedTime, actualTime) {
     }
   } else {
     const diffInMinutes = day(expectedTime).diff(actualTime, 'minute');
-    if (diffInMinutes < 30) {
+    if (diffInMinutes < 60) {
       status = 'in-time';
     } else if (diffInMinutes) {
-      status = 'alpa';
+      throw new Error('TOO_EARLY');
     }
   }
   return status;
@@ -28,7 +28,19 @@ async function checkIn(absen, payload, sql) {
         lat_masuk = ${payload.latitude},
         lng_masuk = ${payload.longitude},
         absen_masuk = ${payload.time},
-        status = ${getDifferenceStatus(absen.waktu_masuk, payload.time)}
+        status_masuk = ${getDifferenceStatus(absen.alert_masuk, payload.time)}
+      where id = ${absen.id}
+  `;
+}
+
+async function checkOut(absen, payload, sql) {
+  return await sql`
+    update absen
+      set
+        lat_keluar = ${payload.latitude},
+        lng_keluar = ${payload.longitude},
+        absen_keluar = ${payload.time},
+        status_keluar = ${getDifferenceStatus(absen.alert_keluar, payload.time)}
       where id = ${absen.id}
   `;
 }
@@ -67,14 +79,19 @@ export async function post(event) {
   console.log('absen');
 
   // Check in absen
-  if (!absen.absen_masuk) {
-    await checkIn(absen, payload, sql);
-  } else if (!absen.absen_keluar) {
-    throw new Error('NOT_IMPLEMENTED');
-  } else {
-    throw new Error('ABSEN_STATE_INVALID');
+  try {
+    if (!absen.absen_masuk) {
+      await checkIn(absen, payload, sql);
+    } else if (!absen.absen_keluar) {
+      await checkOut(absen, payload, sql);
+    } else {
+      throw new Error('ABSEN_STATE_INVALID');
+    }
+    response.body.code = 'SUCCESS_CHECK_IN';
+    return response;
+  } catch (err) {
+    console.log(err);
+    response.body.code = 'ERROR';
+    return response;
   }
-
-  response.body.code = 'SUCCESS_CHECK_IN';
-  return response;
 }

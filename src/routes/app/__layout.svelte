@@ -98,7 +98,7 @@
 <nav class="bg-black text-white fixed top-0 left-0 right-0 flex flex-col h-14" style="z-index:  10;">
   <div class="container flex flex-grow px-4 md:px-none">
     <a 
-      href={ isSuperUser ? `/app/tenant/${$session.tenant.id}` : `/app/pegawai/${$session.pegawai.nik}/overview`}
+      href={ isSuperUser ? `/app/tenant` : `/app/pegawai/${$session.pegawai.nik}/overview`}
       class="flex items-center gap-x-2 flex-grow md:flex-grow-0 md:mr-12">
       <img src={$session.tenant.avatar} class="w-8 h-8 rounded" />
       <div>
