@@ -66,8 +66,8 @@
   </div>
 </PageHeader>
 
-<section class="container">
-  <div class="w-full py-6 flex flex-col">
+<section class="container py-6">
+  <div class="w-full flex flex-col mb-6">
     <div class="px-4 w-full md:w-1/3 mb-6">
       <FInput
         name="keyword"
@@ -92,7 +92,7 @@
     {/each}
   </div>
 
-  <div class="px-4">
+  <div class="px-4 mb-6">
     <FButton 
       on:click={loadNext} 
       outline
