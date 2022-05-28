@@ -35,8 +35,8 @@
 <NextCheckOut />
 
 <div class="container grid grid-cols-12 py-12 md:px-4 md:gap-x-8 gap-y-8 text-gray-700">
-  <div class="col-span-12 flex flex-wrap justify-between items-center">
-    <div class="text-2xl font-black text-left px-4 md:px-0">Rangkuman Jadwal {formattedMonth}</div>
+  <div class="col-span-12 flex flex-wrap justify-between items-center px-4 md:px-0">
+    <div class="text-2xl font-black text-left">Rangkuman Jadwal {formattedMonth}</div>
     <MonthYearSelect 
       bind:year={year}
       bind:month={month}
