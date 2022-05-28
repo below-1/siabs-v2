@@ -61,8 +61,9 @@
         { path: '/app/account', label: 'Akun', icon: 'mdi:account-cog' }
       ]
     } else {
+      const pegawai = $session.pegawai;
       result = [
-        { path: '/app/me', label: 'Dashboard' },
+        { path: `/app/pegawai/${pegawai.nik}/overview`, label: 'Dashboard' },
         { path: '/app/account', label: 'Akun', icon: 'mdi:account-cog' }
       ]
     }
