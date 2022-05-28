@@ -6,12 +6,22 @@
   import Backdrop from '$lib/backdrop.svelte'
 
   $: user = $session.user;
+  let showAccountMenu = false;
+  let showMobileMenu = false;
+  $: menus = _menus($session, $page);
+  $: accountAvatar = getAccountAvatar($session);
+
   setContext('currentUser', {
     getUser: () => user
   });
 
-  let showAccountMenu = false;
-  let showMobileMenu = false;
+  function getAccountAvatar(session) {
+    if (session.pegawai) {
+      return session.pegawai.avatar;
+    }
+    return 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50';
+  }
+
   function toggleMobileMenu() {
     showMobileMenu = !showMobileMenu;
   }
@@ -80,8 +90,6 @@
 
     return result;
   }
-
-  $: menus = _menus($session, $page)
 </script>
 
 <nav class="bg-black text-white fixed top-0 left-0 right-0 flex flex-col h-14" style="z-index:  10;">
@@ -111,7 +119,7 @@
     </button>
     <button on:click={toggleAccountMenu} type="button" class="flex items-center mr-2">
       <img 
-        src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
+        src={accountAvatar}
         alt="logo" 
         class="w-8 h-8 rounded"
       />
@@ -163,7 +171,7 @@
     <div class="flex flex-col">
       <div class="flex items-center gap-x-4 border-b p-4">
         <img 
-          src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" 
+          src={accountAvatar}
           alt="logo" 
           class="w-10 h-10 rounded-full mr-2"
         />
