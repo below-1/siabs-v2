@@ -1,7 +1,7 @@
 import db from '../../../../../db';
 
 export async function get(event) {
-  const { pegawai } = event.locals.session;
+  const nik = event.params.nik;
   const now = new Date();
   let response = {
     body: {},
@@ -14,7 +14,7 @@ export async function get(event) {
       ab.tipe, 
       ab.alert_keluar
       from absen ab
-        where ab.nik = ${pegawai.nik}
+        where ab.nik = ${nik}
           and ab.alert_keluar > ${now}
           and ab.absen_keluar is null
   `;
