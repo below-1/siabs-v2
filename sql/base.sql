@@ -28,7 +28,7 @@ create table pegawai (
   jenis_kelamin jenis_kelamin_type NOT NULL,
   avatar STRING,
   tanggal_lahir TIMESTAMPTZ NOT NULL,
-  id_tenant UUID NOT NULL REFERENCES public.tenant(id),
+  id_tenant UUID NOT NULL REFERENCES public.tenant(id) ON DELETE CASCADE,
   username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE,
   whatsapp STRING,
   PRIMARY KEY (id_tenant, nik, nip, nama)
@@ -63,7 +63,7 @@ create table jadwal (
   exclude_weekdays INTEGER[] not null default ARRAY[],
 
   id_tenant UUID NOT NULL REFERENCES public.tenant(id) ON DELETE CASCADE,
-  id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id)
+  id_unit_kerja UUID REFERENCES public.unit_kerja(id) ON DELETE CASCADE
 );
 
 create index on jadwal (id_tenant);

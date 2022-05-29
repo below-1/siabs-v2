@@ -200,7 +200,7 @@
 
 {#if showSideMenu}
 <div 
-  style="position: fixed; top: calc(4.5rem); bottom: 0; right:  0; left: 0; background: rgba(250, 250, 250, 0.5);"
+  style="position: fixed; top: calc(3rem); bottom: 0; right:  0; left: 0; background: rgba(250, 250, 250, 0.5);"
   on:click|self={hideSideMenu}
 >
   <div class="mr-auto w-4/5 h-full shadow-xl bg-gray-50 flex flex-col px-4 py-6 gap-y-4">
@@ -211,10 +211,10 @@
         on:click={hideSideMenu}
         class="flex items-center gap-x-6"
       >
-        <div class="p-2 rounded bg-gray-200 rounded flex items-center justify-center">
-          <Icon icon={menu.icon} width="1.5rem" height="1.5rem" />
+        <div class="p-1 rounded bg-gray-200 rounded flex items-center justify-center">
+          <Icon icon={menu.icon} width="1.2rem" height="1.2rem" />
         </div> 
-        <span class="text-xl">{menu.label}</span>
+        <span>{menu.label}</span>
       </a>
     {/each}
 

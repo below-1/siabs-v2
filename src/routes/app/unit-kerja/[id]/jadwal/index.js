@@ -10,10 +10,6 @@ export async function get(event) {
   console.log(`end = ${end}`)
   end = end ? new Date(end) : day(start).endOf('month').toDate();
 
-  console.log(`id = ${id}`)
-  console.log(`start = ${start}`)
-  console.log(`end = ${end}`)
-
   const sql = db()
 
   const aggregation = await sql`
@@ -27,15 +23,16 @@ export async function get(event) {
       ),
     foo as (
       select 
-        a.alert_masuk::date as d, count(a.id)
+        a.alert_masuk::date as d, 
+        count(distinct a.nik)
         from jadwal j
             join shift s on j.id = s.id_jadwal
-              join absen a on a.id_shift = s.id
+            join absen a on a.id_shift = s.id
           where 
-            id_unit_kerja = '4bed80d5-3224-44e0-b5dd-71c77b60a43e'
-            and alert_masuk >= ${start}
-            and alert_keluar <= ${end}
-          group by a.alert_masuk
+            j.id_unit_kerja = ${id}
+            and a.alert_masuk >= ${start}
+            and a.alert_keluar <= ${end}
+          group by a.alert_masuk::date
       )
       select days.d date, coalesce(foo.count, 0) as total_absen 
         from days left join foo on days.d = foo.d
