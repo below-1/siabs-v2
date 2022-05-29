@@ -8,6 +8,22 @@ function set_hour(d, hstring) {
   return d.hour(parseInt(shour)).minute(parseInt(smin))
 }
 
+async function create_dl({ dl, tenant, user, sql }) {
+  const date = set_hour(day(dl.tanggal), dl.waktu)
+  const jadwalPayload = {
+    day_start: date.toDate(),
+    day_end: date.toDate(),
+    tipe: 'dl',
+    id_tenant: tenant.id,
+    lat_dl: dl.lat_dl,
+    lng_dl: dl.lng_dl
+  }
+  let shiftPayload = {
+    waktu_masuk: dl.waktu,
+    waktu_keluar: dl.waktu
+  }
+}
+
 async function create_fixed({ fixed, tenant, user, sql }) {
   const exclude_dow = fixed.days
     .map((d, i) => {

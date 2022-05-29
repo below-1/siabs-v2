@@ -20,6 +20,7 @@ export async function get(event) {
 
       where j.id_tenant = ${tenant.id}
       group by j.id
+      order by j.day_start
       limit 10
   `
   console.log(items)

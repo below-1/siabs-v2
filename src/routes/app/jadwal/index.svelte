@@ -43,7 +43,7 @@
   </div>
 </PageHeader>
 
-<section class="container">
+<section class="container py-12">
 
   {#each formatted as item}
     <ListItem item={item} />

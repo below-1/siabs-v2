@@ -24,11 +24,11 @@
   }
 </script>
 
-<div class="container px-4">
+<div class="container px-4 pb-12">
   <div class="flex flex-col md:flex-row items-center justify-center md:justify-between py-4 border-b gap-y-2 mb-4">
     <div class="flex items-center gap-x-2">
       <div class="text-xl font-bold">Daftar Pegawai</div>
-      <span class="px-1 rounded bg-gray-200 text-sm">{pegawai_list.length}</span>
+      <span class="px-1 rounded border-4 border-purple-500 bg-gray-50 text-gray-600">{pegawai_list.length}</span>
     </div>
     <FButton 
       on:click={showAddPegawaiDialog}
