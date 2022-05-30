@@ -2,20 +2,23 @@
   import { getContext } from 'svelte';
   import { browser } from '$app/env';
   import PageHeader from '$lib/page-header.svelte';
-  import ListItem from './_list-item.svelte';
+  import ListItem from '../_list-item.svelte';
+  import FButton from '$lib/fbutton.svelte';
   import MonthYearSelect from '$lib/month-year-select.svelte';
+  import CreateDialog from './_create.svelte';
   import { client_fetch_json } from '$lib/http';
+  import ViewToggle from './_view-toggle.svelte';
   import day from '$lib/day';
 
   const unitKerja = getContext('unitKerja');
   const d = day();
-
+  export let aggregation = [];
+  export let nikList = [];
   let items = [];
-  let aggregation = [];
-
   let loading = false;
   let year = d.year();
   let month = d.month();
+  let showCreateDialog = false;
 
   function getDateInterval(year, month) {
     const start = new Date(year, month, 1);
@@ -40,19 +43,26 @@
   }
   $: loadAggregation(dateInterval);
 
+  function reload() {
+    loadAggregation(dateInterval);
+  }
+
 </script>
 
 <div class="container py-6">
 
   <div 
-    class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
+    class="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
     style="top: 3.5rem;"
   >
-    <h1 class="text-xl font-bold">Daftar Jadwal</h1>
+    <ViewToggle/>
     <MonthYearSelect 
       bind:year={year}
       bind:month={month}
     />
+    <FButton on:click={() => {
+      showCreateDialog = true;
+    }} outline>Tambah Pegawai</FButton>
   </div>
 
   <div class="flex flex-col md:px-4 border-t">
@@ -61,7 +71,6 @@
         class="flex border-b hover:bg-gray-200"
         href={`/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.d).format('YYYY-MM-DD')}`}
       >
-
         <div class="bg-gray-100 p-2 flex flex-col items-center justify-center w-20">
           <div class="text-lg font-bold">{day(dateGroup.d).format('DD')}</div>
           <div class="text-xs font-bold">{day(dateGroup.d).format('dddd')}</div>
@@ -78,3 +87,12 @@
     {/each}
   </div>
 </div>
+
+<CreateDialog 
+  bind:show={showCreateDialog} 
+  {year}
+  {month}
+  excludeNIK={nikList}
+  on:created={reload}
+/>
+

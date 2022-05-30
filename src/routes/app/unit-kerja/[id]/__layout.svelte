@@ -27,6 +27,8 @@
 
   export let unitKerja = {};
   setContext('unitKerja', unitKerja);
+  console.log(unitKerja);
+  console.log('unitKerja');
 
   let deleteModal = false;
   $: deleteMessage = `Apakah anda menghapus data Unit Kerja #${unitKerja ? unitKerja.nama : ''}`
@@ -40,11 +42,18 @@
     window.location = `/app/unit-kerja/${unitKerja.id}/delete`
   }
 
-  const submenus = [
-    { label: 'edit data', path: `/app/unit-kerja/${unitKerja.id}/edit-data` },
-    { label: 'jadwal', path: `/app/unit-kerja/${unitKerja.id}/jadwal` },
-    { label: 'foto', path: `/app/unit-kerja/${unitKerja.id}/foto` },
-  ]
+  function getSubmenus(unitKerja) {
+    const jadwalPath = unitKerja.tipe == 'satpel'
+      ? `/app/unit-kerja/${unitKerja.id}/jadwal/satpel`
+      : `/app/unit-kerja/${unitKerja.id}/jadwal/induk`;
+    return [
+      { label: 'edit data', path: `/app/unit-kerja/${unitKerja.id}/edit-data` },
+      { label: 'jadwal', path: jadwalPath },
+      { label: 'foto', path: `/app/unit-kerja/${unitKerja.id}/foto` },
+    ]
+  }
+
+  $: submenus = getSubmenus(unitKerja);
 </script>
 
 <PageHeader>

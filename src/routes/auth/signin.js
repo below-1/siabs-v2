@@ -17,16 +17,10 @@ export async function post(event) {
     throw new Error('PASS_NOT_MATCH')
   }
 
-  const [ tenant ] = await sql`select * from tenant where id = ${user.id_tenant}`
-  if (!tenant) {
-    throw new Error('TENANT_NOT_FOUND')
-  }
-
   const [ pegawai ] = await sql`select * from pegawai where username = ${user.username}`
   const session_data = {
     user,
     pegawai,
-    tenant,
     expired: day().add(1, 'day').toDate(),
   }
   const redis_client = redis()

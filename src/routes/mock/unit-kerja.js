@@ -1,6 +1,6 @@
 import { randProduct, randSentence, randFullAddress } from '@ngneat/falso';
 
-export async function initialize_unit_kerja({ sql, tenant }) {
+export async function initialize_unit_kerja({ sql }) {
   let payloads = []
   let satpel_payloads = []
   const n = 10
@@ -14,8 +14,7 @@ export async function initialize_unit_kerja({ sql, tenant }) {
       nama,
       alamat,
       avatar,
-      tipe: 'induk',
-      id_tenant: tenant.id
+      tipe: 'induk'
     })
   }
   for (let i = 0; i < 5; i++) {
@@ -28,8 +27,7 @@ export async function initialize_unit_kerja({ sql, tenant }) {
       nama,
       alamat,
       avatar,
-      tipe: 'satpel',
-      id_tenant: tenant.id
+      tipe: 'satpel'
     })
   }
   const all_payloads = [ ...payloads, ...satpel_payloads ]

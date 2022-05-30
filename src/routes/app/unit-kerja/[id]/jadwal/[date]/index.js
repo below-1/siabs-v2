@@ -9,18 +9,20 @@ export async function get(event) {
   const sql = db()
   const items = await sql` 
     select 
+      ab.id,
+      ab.alert_masuk,
+      ab.alert_keluar,
+      ab.tipe,
       p.nik,
-      json_agg(p)->0 as pegawai,
-      json_agg(a) as absen
+      p.nama,
+      p.avatar
       from 
-        jadwal j
-          join shift s on j.id = s.id_jadwal
-          join absen a on a.id_shift = s.id
-          join pegawai p on a.nik = p.nik
+        absen ab
+        left join pegawai p on p.nik = ab.nik
         where 
-          id_unit_kerja = ${id}
-            and a.alert_masuk >= ${start} and a.alert_masuk <= ${end}
-        group by p.nik
+          ab.id_unit_kerja = ${id}
+          and ab.alert_masuk >= ${start} and ab.alert_masuk <= ${end}
+        order by ab.alert_masuk
   `;
   // console.log(items.map(it => it.absen));
   // console.log(items);

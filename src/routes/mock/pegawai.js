@@ -8,7 +8,7 @@ import {
   rand
 } from '@ngneat/falso';
 
-export async function initialize_pegawai({ sql, tenant }) {
+export async function initialize_pegawai({ sql }) {
   const jenis_kelamin_options = ['Laki - Laki', 'Perempuan']
   const t0 = new Date('1990-01-01')
   const t1 = new Date('2001-01-01')
@@ -38,13 +38,11 @@ export async function initialize_pegawai({ sql, tenant }) {
       avatar,
       tanggal_lahir,
       jenis_kelamin,
-      username,
-      id_tenant: tenant.id
+      username
     })
     user_payloads.push({
       username,
       password,
-      id_tenant: tenant.id,
       timezone: '+08:00'
     })
   }

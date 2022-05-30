@@ -8,11 +8,10 @@ export async function get(event) {
   console.log(sql)
   await sql.begin(async sql => {
     const {
-      user,
-      tenant
+      user
     } = await initialize_tenant({ sql })
-    const unit_kerja_list = await initialize_unit_kerja({ sql, tenant })
-    const pegawai_list = await initialize_pegawai({ sql, tenant })
+    const unit_kerja_list = await initialize_unit_kerja({ sql })
+    const pegawai_list = await initialize_pegawai({ sql })
   })
   return {
     status: 200,
