@@ -40,11 +40,24 @@ export async function get(event) {
           order by days.d
   `;
 
-  console.log(aggregation);
+  const pegawaiList = await sql`
+    select 
+      distinct a.nik,
+      p.nama,
+      p.nip,
+      p.avatar
+    from absen a
+      left join pegawai p on p.nik = a.nik
+      where 
+        a.id_unit_kerja = ${id}
+        and a.alert_masuk >= ${start}
+        and a.alert_masuk <= ${end}
+  `;
 
   return {
     body: {
-      aggregation
+      aggregation,
+      pegawaiList
     }
   }
 }

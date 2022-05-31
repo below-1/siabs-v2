@@ -84,20 +84,34 @@
   onMount(loadPegawai);
 </script>
 
-<Backdrop bind:show={show}>
-  <div class="bg-white p-4 rounded border text-gray-700 flex flex-col gap-y-4">
-    <p class="text-xl font-bold">Tambah Absen</p>
+<div 
+  class="modal"
+  class:is-active={show}
+>
+  <div 
+    class="modal-background"
+    on:click|self={() => {
+      show = false;
+    }} 
+  ></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Tambah Pegawai</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <FField label="Pegawai">
+        <FSelect bind:selected={nik} options={filteredOptions} />
+      </FField>
 
-    <FField label="Pegawai">
-      <FSelect bind:selected={nik} options={filteredOptions} />
-    </FField>
+      <FField label="Status">
+        <WorkStatusSelect bind:selected={tipe} />
+      </FField>
 
-    <FField label="Status">
-      <WorkStatusSelect bind:selected={tipe} />
-    </FField>
-
-    <FButton primary on:click={addAbsen}>
-      Tambah
-    </FButton>
+      <FButton primary on:click={addAbsen}>
+        Tambah
+      </FButton>
+    </section>
   </div>
-</Backdrop>
+</div>
+

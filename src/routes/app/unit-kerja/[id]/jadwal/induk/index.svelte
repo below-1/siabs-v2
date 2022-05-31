@@ -23,6 +23,7 @@
   let year = d.year();
   let month = d.month();
   let showCreateDialog = false;
+  $: dateInterval = getDateInterval(year, month);
   $: nikList = pegawaiList.map(pegawai => {
     return pegawai.nik;
   });
@@ -35,7 +36,6 @@
       end: end.toISOString()
     }
   }
-  $: dateInterval = getDateInterval(year, month);
 
   async function loadAggregation(dateInterval) {
     if (!browser) {
@@ -43,10 +43,13 @@
     }
     const response = await client_fetch_json({
       method: 'GET',
-      path: `/app/unit-kerja/${unitKerja.id}/jadwal`,
+      path: `/app/unit-kerja/${unitKerja.id}/jadwal/induk`,
       params: dateInterval
-    })
+    });
+    console.log(response);
+    console.log('response');
     aggregation = response.aggregation;
+    pegawaiList = response.pegawaiList;
   }
   $: loadAggregation(dateInterval);
 

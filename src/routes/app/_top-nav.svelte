@@ -48,7 +48,7 @@
   }
 </script>
 
-<nav class="navbar" style="z-index: 11;">
+<nav class="navbar is-black" style="z-index: 11;">
   <div class="container">
     <div class="navbar-brand">
       <a href="/" class="navbar-item is-flex">
