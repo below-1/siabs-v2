@@ -31,23 +31,25 @@
 </script>
 
 <PageHeader>
-  <div class="flex flex-col md:flex-row justify-between items-center gap-y-2">
-    <h1 class="font-black text-3xl">Unit Kerja</h1>
-    {#if user.tenant_admin}
-    <FButton 
-      size="lg"
-      path="/app/unit-kerja/create"
-      primary
-    >
-      tambah unit kerja
-    </FButton>
-    {/if}
+  <div class="columns is-vcentered has-text-weight-bold">
+    <div class="column has-text-left-tablet has-text-centered-mobile">
+      <h1 class="title">Unit Kerja</h1>
+    </div>
+    <div class="column has-text-right-tablet has-text-centered-mobile">
+      <FButton 
+        path="/app/unit-kerja/create"
+        primary
+        disabled
+      >
+        tambah unit kerja
+      </FButton>
+    </div>
   </div>
 </PageHeader>
 
-<section class="container">
-  <div class="w-full py-6 flex flex-col">
-    <div class="px-4 w-full md:w-1/3">
+<section class="section">
+  <div class="container">
+    <div class="mb-4">
       <FInput
         name="keyword"
         placeholder="Keyword..."
@@ -57,20 +59,24 @@
     {#each items as item}
       <a 
         href={`/app/unit-kerja/${item.id}/edit-data`}
-        class="px-4 border-b border-gray-200 py-4 flex md:items-center gap-x-4"
+        class="media"
       >
-        <img
-          class="w-10 h-10 rounded"
-          src={item.avatar}
-        />
-        <div>
-          <div class="font-bold">{item.nama}</div>
-          <div class="text-xs">
-            <span class="py-0.5 px-3 rounded bg-gray-200 rounded">{item.tipe}</span>
-            <span class="">{item.alamat}</span>
+        <figure class="media-left">
+          <p class="image is-48x48">
+            <img
+              src={item.avatar}
+            />
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content hast-text-black" style="color: black;">
+            <div>{item.nama}</div>
+            <div class="is-size-7">
+              <span>{item.tipe}</span>
+              <span>{item.alamat}</span>
+            </div>
           </div>
         </div>
-        <div class="flex-grow"></div>
       </a>
     {/each}
   </div>

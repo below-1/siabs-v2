@@ -12,28 +12,28 @@
   <a
     href={path}
     on:click
-    class="btn flex items-center justify-center"
-    class:btn-primary={primary}
-    class:btn-danger={danger}
-    class:btn-outline={outline}
-    class:btn-lg={size == 'lg'}
-    class:btn-sm={size == 'sm'}
-    disabled={disabled || loading}
-    class:opacity-50={disabled || loading}
+    class="button"
+    class:is-primary={primary}
+    class:is-danger={danger}
+    class:is-outlined={outline}
+    class:is-large={size == 'lg'}
+    class:is-small={size == 'sm'}
+    disabled={disabled ? undefined : 'disabled'}
+    class:is-loading={loading}
   >
     <slot></slot>
   </a>
 {:else}
   <button 
     on:click
-    class="btn flex items-center justify-center"
-    class:btn-primary={primary}
-    class:btn-danger={danger}
-    class:btn-outline={outline}
-    class:btn-lg={size == 'lg'}
-    class:btn-sm={size == 'sm'}
-    disabled={disabled || loading}
-    class:opacity-50={disabled || loading}
+    class="button"
+    class:is-primary={primary}
+    class:is-danger={danger}
+    class:is-outlined={outline}
+    class:is-large={size == 'lg'}
+    class:is-small={size == 'sm'}
+    disabled={disabled}
+    class:is-loading={loading}
   >
     {#if loading}
       <svg 

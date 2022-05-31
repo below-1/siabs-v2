@@ -15,37 +15,26 @@
 <form 
   method="POST" 
   enctype="multipart/form-data" 
-  class="bg-white border rounded"
+  class="card"
 >
   <div 
-    class="p-4 text-lg"
-    class:bg-red-500={!valid}
-    class:text-white={!valid}
+    class="card-header"
+    class:has-background-danger={!valid}
   >
-    <p 
-      class="card-header-title" 
-      class:has-text-white={!valid}
-    >
-      Login ke dalam sistem
-    </p>
+    <div class="card-header-title">
+      <span class:has-text-white={!valid}>Login Form</span>
+    </div>
   </div>
-
-  <div class="flex flex-col gap-y-4 p-4">
+  <div class="card-content">
     <FField label="Username">
-      <input 
-        class="border p-2 rounded" 
-        type="text"
-        class:is-danger={errors.username}
-        required 
+      <FInput
         name="username"
+        error={errors.username}
       />
-      {#if errors.username}
-        <p class="help is-danger">{errors.username}</p>
-      {/if}
     </FField>
     <FField label="Password">
       <input 
-        class="border p-2 rounded" 
+        class="input" 
         class:is-danger={errors.password}
         type="password" 
         required 

@@ -76,40 +76,48 @@
   <title>SIABS -- Home</title>
 </svelte:head>
 
-<div class="h-screen w-screen bg-gray-50 flex flex-col">
+<div>
 
-  <nav class="border-b border-gray-200 px-4">
-    <div class="h-12 container flex items-center gap-x-2">
-      <div class="h-6 w-6 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500"></div>
-      <p style="font-family: 'Bungee';" class="font-black text-gray-700 text-lg">SIABS</p>
-      <div class="grow"></div>
-      <div class="self-stretch flex">
-        {#each menus as menu}
-          <a 
-            class="text-sm flex items-center px-4 hover:bg-gray-100 font-semibold text-gray-500" 
-            href={menu.path}
-          >{menu.label}</a>
-        {/each}
+  <nav class="navbar is-light is-fixed-top">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-flex">
+          <img src="/logo.svg" style="max-height: 2.5rem;" class="mr-2">
+          <div class="is-flex is-flex-direction-column">
+            <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
+            <small>Absensi Online</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="/auth/signin">signin</a>
+          <a class="navbar-item" href="/about">about us</a>
+        </div>
       </div>
     </div>
   </nav>
 
-  <div class="container self-stretch grid grid-cols-1">
-    <div class="self-center justify-self-center text-center">
-
+  <section class="hero is-fullheight-with-navbar">
+    <div class="hero-body is-flex is-flex-direction-column is-justify-content-center is-align-items-center has-text-centered">
       {#each catchphrases as cp, i}
-        <h1 
-          style="font-family: 'Bungee';" 
-          class={`catchphrase _${i + 1} font-black leading-tight text-5xl md:text-8xl`}
-        >{cp}.</h1>
+        <h1
+          style="font-family: 'Bungee'; font-size: 5rem;" 
+          class={`catchphrase _${i + 1} has-text-weight-bold`}
+        >{cp}</h1>
       {/each}
-      <h2 class="text-xl md:text-3xl font-black text-gray-700 leading-relaxed">Sistem Informasi Absensi Online</h2>
+      <h2 class="is-size-5">Sistem Informasi Absensi Online</h2>
     </div>
-  </div>
+  </section>
 
-  <footer class="border-t">
-    <div class="h-12 container flex items-center gap-x-2">
-      <p class="flex-grow text-sm text-center font-bold text-gray-400">proudly presented by jordan meta</p>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+      </p>
     </div>
   </footer>
 </div>

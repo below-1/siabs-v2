@@ -57,26 +57,39 @@
 </script>
 
 <PageHeader>
-  <div class="flex flex-col md:flex-row items-center gap-y-2 gap-x-4">
-    <img class="hidden md:block h-20 rounded" src={unitKerja.avatar} />
-    <div class="flex-grow">
-      <h1 class="font-black text-3xl">{unitKerja.nama}</h1>
-      <h2 class="text-sm">{unitKerja.alamat}</h2>
-      <h2 class="text-sm font-bold">kantor {unitKerja.tipe}</h2>
+  <div class="columns is-vcentered ">
+    <div class="column is-2 has-text-centered">
+      <figure class="image is-128x128 mx-auto">
+        <img
+          class="is-rounded"
+          src={unitKerja.avatar}
+        />
+      </figure>
     </div>
-    <FButton 
-      on:click={showDeleteModal}
-      danger
-    >
-      Hapus Data
-    </FButton>
+    <div class="column is-8">
+      <h1 class="title">{unitKerja.nama}</h1>
+      <h3 class="subtitle mb-2">
+        <span>{unitKerja.alamat}</span>
+      </h3>
+      <h3 class="subtitle">Kantor {unitKerja.tipe}</h3>
+    </div>
+    <div class="column is-2">
+      <FButton 
+        on:click={showDeleteModal}
+        danger
+      >
+        Hapus Data
+      </FButton>
+    </div>
   </div>
 </PageHeader>
 
-<Submenus
-  menus={submenus}
->
-</Submenus>
+<div class="container">
+  <Submenus
+    menus={submenus}
+  >
+  </Submenus>
+</div>
 
 <slot></slot>
 

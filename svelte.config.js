@@ -11,11 +11,23 @@ const config = {
     methodOverride: {
       allowed: ["PATCH", "DELETE"],
     },
+
+    vite: {
+      css: {
+        preprocessorOptions: {
+          scss: {
+            additionalData: '@use "src/variables.scss" as *;',
+          },
+        },
+      },
+    },
   },
 
   preprocess: [
     preprocess({
-      postcss: true
+      scss: {
+        prependData: '@use "src/variables.scss" as *;',
+      },
     }),
   ],
 };

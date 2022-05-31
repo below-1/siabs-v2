@@ -28,50 +28,60 @@
   }, payload);
 </script>
 
-<PageHeader>
-  <h1 class="font-bold text-2xl">Ubah Data {unitKerja.nama}</h1>
-</PageHeader>
+<div class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title is-size-4">Ubah Data {unitKerja.nama}</h1>
+      </div>
+    </div>
+    <div class="columns">
+    <div class="column is-5">
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="card"
+      >
+        <div class="card-content">
+          <Field label="Nama">
+            <FInput 
+              name="nama"
+              bind:value={nama}
+              error={verr.fields.nama}
+            />
+          </Field>
 
-<div class="container py-6 px-4">
-  <form
-    method="POST"
-    enctype="multipart/form-data"
-    class="md:w-1/2 flex flex-col gap-y-4"
-  >
-    <Field label="Nama">
-      <FInput 
-        name="nama" 
-        bind:value={nama}
-        error={verr.fields.nama}
-      />
-    </Field>
+          <Field label="Alamat">
+            <FInput 
+              name="alamat" 
+              bind:value={alamat}
+              error={verr.fields.alamat}
+            />
+          </Field>
 
-    <Field label="Alamat">
-      <FInput 
-        name="alamat" 
-        bind:value={alamat}
-        error={verr.fields.alamat}
-      />
-    </Field>
+          <Field label="Latitude">
+            <FInput 
+              name="latitude" 
+              bind:value={latitude}
+            />
+          </Field>
 
-    <Field label="Latitude">
-      <FInput 
-        name="latitude" 
-        bind:value={latitude}
-      />
-    </Field>
+          <Field label="Longitude">
+            <FInput 
+              name="longitude" 
+              bind:value={longitude}
+            />
+          </Field>
+          <FButton
+            primary
+          >
+            Simpan
+          </FButton>
+        </div>
 
-    <Field label="Longitude">
-      <FInput 
-        name="longitude" 
-        bind:value={longitude}
-      />
-    </Field>
-
-    <FButton
-      primary
-    >
-      Simpan
-    </FButton>
-  </form>
+      </form>
+    </div>
+  </div>
+  </div>
 </div>
+

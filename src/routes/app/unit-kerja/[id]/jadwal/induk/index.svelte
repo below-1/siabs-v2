@@ -49,44 +49,60 @@
 
 </script>
 
-<div class="container py-6">
+<style>
+  td {
+    vertical-align: middle;
+  }
+</style>
 
-  <div 
-    class="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
-    style="top: 3.5rem;"
-  >
-    <ViewToggle/>
-    <MonthYearSelect 
-      bind:year={year}
-      bind:month={month}
-    />
-    <FButton on:click={() => {
-      showCreateDialog = true;
-    }} outline>Tambah Pegawai</FButton>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Data Jadwal</h1>
+    <div class="columns">
+      <div class="column is-8 is-flex is-align-items-center is-flex-wrap-wrap" 
+        style="row-gap:4px; column-gap: 4px;">
+        <ViewToggle/>
+        <MonthYearSelect 
+          bind:year={year}
+          bind:month={month}
+        />
+      </div>
+      <div class="column is-4 has-text-right">
+        <FButton on:click={() => {
+          showCreateDialog = true;
+        }} outline>Tambah Pegawai</FButton>
+      </div>
+    </div>
+    
+    <table class="table is-fullwidth is-hoverable">
+      <thead>
+        <tr>
+          <th class="has-text-centered">Hari</th>
+          <th>Tanggal</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each aggregation as dateGroup}
+          <tr on:click={(event) => {
+            window.location = `/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.d).format('YYYY-MM-DD')}`
+          }}>
+            <td width="10%" style="background: rgb(250, 250, 250);">
+              <div class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
+                <div class="has-text-weight-bold is-size-5">{day(dateGroup.d).format('DD')}</div>
+                <div class="is-size-6">{day(dateGroup.d).format('dddd')}</div>
+              </div>
+            </td>
+            <td>
+              {day(dateGroup.d).format('DD-MM-YYYY')}
+            </td>
+            <td>{dateGroup.total_absen}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
   </div>
-
-  <div class="flex flex-col md:px-4 border-t">
-    {#each aggregation as dateGroup}
-      <a 
-        class="flex border-b hover:bg-gray-200"
-        href={`/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.d).format('YYYY-MM-DD')}`}
-      >
-        <div class="bg-gray-100 p-2 flex flex-col items-center justify-center w-20">
-          <div class="text-lg font-bold">{day(dateGroup.d).format('DD')}</div>
-          <div class="text-xs font-bold">{day(dateGroup.d).format('dddd')}</div>
-        </div>
-
-        <div class="bg-gray-100 p-2 px-4 flex flex-col items-center justify-center border-l">
-          <div class="text-gray-600">{day(dateGroup.d).format('DD-MM-YYYY')}</div>
-        </div>
-
-        <div class="flex-grow flex flex-wrap items-center justify-end gap-x-4 pr-4 md:pr-0">
-          <span class="font-bold">{dateGroup.total_absen} pegawai</span>
-        </div>
-      </a>
-    {/each}
-  </div>
-</div>
+</section>
 
 <CreateDialog 
   bind:show={showCreateDialog} 

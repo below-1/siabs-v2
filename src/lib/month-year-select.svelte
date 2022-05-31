@@ -21,13 +21,13 @@
   ];
 </script>
 
-<div class="flex items-center gap-x-2">
+<div class="is-flex" style="column-gap: 4px;">
   <FSelect
     bind:selected={month}
     options={monthOptions}
   />
   <input 
-    class="w-full rounded px-2 py-1 font-semibold text-gray-700 border disabled:bg-gray-100 disabled:opacity-75"
+    class="input"
     type="number"
     min=2021
     max=2050

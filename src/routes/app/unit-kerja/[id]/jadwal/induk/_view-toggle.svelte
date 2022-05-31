@@ -1,12 +1,19 @@
 <script>
   import ToggleButton from './_toggle-button.svelte';
+  export let active = 'jadwal';
+
+  const items = [
+    { text: 'Jadwal', value: 'jadwal' },
+    { text: 'Pegawai', value: 'pegawai' }
+  ]
 </script>
 
-<div class="view-toggle flex-grow flex border-collapse">
-  <ToggleButton>
-    Pegawai
-  </ToggleButton>
-  <ToggleButton>
-    Jadwal
-  </ToggleButton>
+<div class="tabs is-toggle mb-0">
+  <ul>
+    {#each items as item}
+      <li class:is-active={active == item.value}>
+        <a>{item.text}</a>
+      </li>
+    {/each}
+  </ul>
 </div>

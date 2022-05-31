@@ -8,15 +8,14 @@
 </script>
 
 <input 
-  class="w-full rounded px-2 py-1 font-semibold text-gray-700 border disabled:bg-gray-100 disabled:opacity-75"
+  class="input"
   name={name}
-  class:border-red-600={error}
-  class:border-2={error}
+  class:is-danger={error}
   bind:value={value}
   readonly={readonly}
   disabled={disabled}
   {placeholder}
 />
 {#if error}
-  <div class="text-xs text-red-500 font-semibold">{error}</div>
+  <small class="has-text-danger">{error}</small>
 {/if}
