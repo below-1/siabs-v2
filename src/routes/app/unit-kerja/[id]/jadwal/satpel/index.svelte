@@ -1,5 +1,6 @@
 <script>
   import { getContext } from 'svelte';
+  import { client_fetch_json } from '$lib/http';
   import MonthYearSelect from '$lib/month-year-select.svelte';
   import day from '$lib/day';
   import ViewToggle from './_view-toggle.svelte';
@@ -15,6 +16,37 @@
   let year = d.year();
   let month = d.month();
   let showCreateDialog = false;
+  let loading = false;
+  $: dateInterval = getDateInterval(year, month);
+
+  $: getData(dateInterval);
+
+  function getDateInterval(year, month) {
+    const start = new Date(year, month, 1);
+    const end = day(start).endOf('month').toDate();
+    return {
+      start: start.toISOString(),
+      end: end.toISOString()
+    }
+  }
+
+  async function getData(dateInterval) {
+    loading = true;
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: `/app/unit-kerja/${unitKerja.id}/jadwal/satpel`,
+        params: dateInterval
+      });
+      aggregation = response.aggregation;
+      pegawaiList = response.pegawaiList;
+    } catch (err) {
+      console.log(err);
+      alert('gagal mengambil data');
+    } finally {
+      loading = true;
+    }
+  }
 </script>
 
 <style>
