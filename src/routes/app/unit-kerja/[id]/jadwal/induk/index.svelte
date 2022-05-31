@@ -8,17 +8,24 @@
   import CreateDialog from './_create.svelte';
   import { client_fetch_json } from '$lib/http';
   import ViewToggle from './_view-toggle.svelte';
+  import JadwalList from './_jadwal-list.svelte';
+  import PegawaiList from './_pegawai-list.svelte';
   import day from '$lib/day';
 
   const unitKerja = getContext('unitKerja');
   const d = day();
   export let aggregation = [];
-  export let nikList = [];
+  export let pegawaiList = [];
+
+  let activeTab = 'jadwal';
   let items = [];
   let loading = false;
   let year = d.year();
   let month = d.month();
   let showCreateDialog = false;
+  $: nikList = pegawaiList.map(pegawai => {
+    return pegawai.nik;
+  });
 
   function getDateInterval(year, month) {
     const start = new Date(year, month, 1);
@@ -61,7 +68,9 @@
     <div class="columns">
       <div class="column is-8 is-flex is-align-items-center is-flex-wrap-wrap" 
         style="row-gap:4px; column-gap: 4px;">
-        <ViewToggle/>
+        <ViewToggle
+          bind:active={activeTab}
+        />
         <MonthYearSelect 
           bind:year={year}
           bind:month={month}
@@ -74,33 +83,15 @@
       </div>
     </div>
     
-    <table class="table is-fullwidth is-hoverable">
-      <thead>
-        <tr>
-          <th class="has-text-centered">Hari</th>
-          <th>Tanggal</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each aggregation as dateGroup}
-          <tr on:click={(event) => {
-            window.location = `/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.d).format('YYYY-MM-DD')}`
-          }}>
-            <td width="10%" style="background: rgb(250, 250, 250);">
-              <div class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
-                <div class="has-text-weight-bold is-size-5">{day(dateGroup.d).format('DD')}</div>
-                <div class="is-size-6">{day(dateGroup.d).format('dddd')}</div>
-              </div>
-            </td>
-            <td>
-              {day(dateGroup.d).format('DD-MM-YYYY')}
-            </td>
-            <td>{dateGroup.total_absen}</td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+    {#if activeTab == 'jadwal'}
+      <JadwalList
+        items={aggregation}
+      />
+    {:else if activeTab == 'pegawai'}
+      <PegawaiList
+        items={pegawaiList}
+      />
+    {/if}
   </div>
 </section>
 

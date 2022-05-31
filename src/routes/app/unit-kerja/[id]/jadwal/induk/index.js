@@ -42,22 +42,24 @@ export async function get(event) {
           group by days.d
   `;
 
-  const nikList = await sql`
+  const pegawaiList = await sql`
     select 
-      distinct nik
-    from absen
+      distinct a.nik,
+      p.nama,
+      p.nip,
+      p.avatar
+    from absen a
+      left join pegawai p on p.nik = a.nik
       where 
-        id_unit_kerja = ${id}
-        and alert_masuk >= ${start}
-        and alert_masuk <= ${end}
+        a.id_unit_kerja = ${id}
+        and a.alert_masuk >= ${start}
+        and a.alert_masuk <= ${end}
   `;
-  console.log(nikList);
-  console.log('nikList');
 
   return {
     body: {
       aggregation,
-      nikList: nikList.map(object => object.nik)
+      pegawaiList
     }
   }
 }
