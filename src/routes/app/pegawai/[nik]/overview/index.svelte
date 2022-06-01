@@ -33,32 +33,63 @@
 
 <NextCheckIn />
 <NextCheckOut />
+<!-- <section class="section"> -->
+<!-- </section> -->
 
-<div class="container grid grid-cols-12 py-12 md:px-4 md:gap-x-8 gap-y-8 text-gray-700">
-  <div class="col-span-12 flex flex-wrap justify-between items-center px-4 md:px-0">
-    <div class="text-2xl font-black text-left">Rangkuman Jadwal {formattedMonth}</div>
-    <MonthYearSelect 
-      bind:year={year}
-      bind:month={month}
-    />
-  </div>
-  <div class="md:col-span-4 col-span-12 flex flex-col gap-y-4">
-    <div class="text-lg font-bold text-left outer-padding">Statistik</div>
-    <ul>
-      {#each pegawaiInfos as pi}
-        <li class="border-b border-gray-200 px-4 md:px-2 py-3 flex items-center justify-between text-sm font-bold text-gray-600 hover:bg-gray-100">
-          <div>{pi.label}</div>
-          <div>{pi.value}</div>
-        </li>
-      {/each}
-    </ul>
-  </div>
+<section class="section">
+  <div class="container">
 
-  <div class="md:col-span-8 col-span-12 flex flex-col gap-y-2">
-    <div class="text-lg font-bold text-center">Presentasi Kehadiran</div>
-    <KehadiranChart />
-    <div class="text-lg font-bold text-center">Ketepatan Waktu</div>
-    <KetepatanWaktuChart />
-  </div>
+    <div class="columns is-vcentered">
 
-</div>
+      <div class="column is-6">
+        <div class="subtitle has-text-weight-bold">Rangkuman Jadwal {formattedMonth}</div>
+      </div>
+
+      <div class="column is-6">
+        <MonthYearSelect 
+          bind:year={year}
+          bind:month={month}
+        />
+      </div>
+
+    </div>
+    <div class="columns">
+      <div class="column is-4">
+        <nav class="panel">
+          <p class="panel-heading">Statistik</p>
+          {#each pegawaiInfos as pi}
+            <div class="panel-block is-size-6 py-3 px-4 is-flex is-justify-content-space-between">
+              <div>{pi.label}</div>
+              <div>{pi.value}</div>
+            </div>
+          {/each}
+        </nav>
+      </div>
+      <div class="column">
+
+        <div class="card mb-5">
+          <div class="card-header">
+            <div class="card-header-title">
+              Presentasi Kehadiran
+            </div>
+          </div>
+          <div class="card-content">
+            <KehadiranChart />
+          </div>
+        </div>
+
+        <div class="card mb-5">
+          <div class="card-header">
+            <div class="card-header-title">
+              Ketepatan Waktu
+            </div>
+          </div>
+          <div class="card-content">
+            <KetepatanWaktuChart />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

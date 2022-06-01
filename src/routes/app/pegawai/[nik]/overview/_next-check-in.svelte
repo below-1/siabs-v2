@@ -39,39 +39,31 @@
   onMount(getNextCheckIn);
 </script>
 
-<button 
-  class="bg-blue-500 py-6"
+<div
+  class="hero is-primary is-small"
   class:animate-pulse={loading}
   on:click={onClick}
 >
-  <div class="container px-4 text-white">
-    <div class="text-sm text-left">Jadwal Masuk Selanjutnya</div>
-
-    {#if loading}
-    <div class="flex flex-wrap items-center justify-between gap-y-2">
-      <div class="text-xl font-black">
+  <div class="hero-body">
+    <div class="container">
+      <div class="has-text-left">Jadwal Masuk Selanjutnya</div>
+      {#if loading}
+      <div class="title">
         Loading...
       </div>
-    </div>
 
-    {:else if nextCheckIn}
-    <div class="flex flex-wrap items-center justify-between gap-y-2">
-      <div class="text-xl font-black">
+      {:else if nextCheckIn}
+      <div class="title">
         {day(nextCheckIn.alert_masuk).format('dddd, DD MMMM, YYYY [Pukul] HH:mm')}
       </div>
-      <div class="text-3xl font-bold">
-        14:24:00
-      </div>
-    </div>
 
-    {:else}
-    <div class="flex flex-wrap items-center justify-between gap-y-2">
-      <div class="text-xl font-black">
+      {:else}
+      <div class="title">
         Tidak Ada Jadwal
       </div>
+      {/if}
     </div>
 
-    {/if}
 
   </div>
-</button>
+</div>
