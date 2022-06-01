@@ -39,7 +39,6 @@
       <FButton 
         path="/app/unit-kerja/create"
         primary
-        disabled
       >
         tambah unit kerja
       </FButton>

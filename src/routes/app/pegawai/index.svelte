@@ -54,51 +54,67 @@
 </script>
 
 <PageHeader>
-  <div class="flex flex-col md:flex-row justify-between items-center gap-y-2">
-    <h1 class="font-black text-3xl">Daftar Pegawai</h1>
-    {#if user.tenant_admin}
-    <FButton 
-      size="lg"
-      path="/app/pegawai/create"
-      primary
+  <div class="columns">
+    <div class="column">
+      <div class="title">Daftar Pegawai</div>
+    </div>
+    <div class="column has-text-right-tablet">
+      {#if user.super_user}
+        <FButton 
+          path="/app/pegawai/create"
+          primary
+        >
+          tambah pegawai
+        </FButton>
+        {/if}
 
-    >
-      tambah pegawai
-    </FButton>
-    {/if}
+    </div>
   </div>
 </PageHeader>
 
-<section class="container py-6">
-  <div class="w-full flex flex-col mb-6">
-    <div class="px-4 w-full md:w-1/3 mb-6">
-      <FInput
-        name="keyword"
-        placeholder="Keyword..."
-        bind:value={keyword}
-      />
-    </div>
-    {#each items as item}
-      <a 
-        href={`/app/pegawai/${item.nik}/overview`}
-        class="outer-padding border-b border-gray-200 py-3 flex items-center gap-x-4">
-        <img
-          class="w-12 h-12 rounded"
-          src={item.avatar}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <FInput
+          name="keyword"
+          placeholder="Keyword..."
+          bind:value={keyword}
         />
-        <div>
-          <div class="font-bold">{item.nama}</div>
-          <div class="text-xs">NIP:{item.nip} NIK:{item.nik}</div>
-        </div>
-        <div class="flex-grow"></div>
-      </a>
-    {/each}
-  </div>
 
-  <div class="px-4 mb-6">
-    <FButton 
-      on:click={loadNext} 
-      outline
-    >Muat Lebih Banyak</FButton>
+        <div class="mb-4"></div>
+
+        {#each items as item}
+          <a 
+            href={`/app/pegawai/${item.nik}/overview`}
+            class="media"
+          >
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <img
+                  src={item.avatar}
+                />
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content hast-text-black" style="color: black;">
+                <div>{item.nama}</div>
+                <div class="is-size-7">
+                  <span>{item.nip}</span>
+                  <span>{item.nik}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {/each}
+
+        <div class="mb-4"></div>
+
+        <FButton 
+          on:click={loadNext} 
+          outline
+        >Muat Lebih Banyak</FButton>
+      </div>
+    </div>
   </div>
 </section>

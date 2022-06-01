@@ -18,7 +18,7 @@
     class:is-outlined={outline}
     class:is-large={size == 'lg'}
     class:is-small={size == 'sm'}
-    disabled={disabled ? undefined : 'disabled'}
+    disabled={disabled ? 'disabled' : undefined}
     class:is-loading={loading}
   >
     <slot></slot>
