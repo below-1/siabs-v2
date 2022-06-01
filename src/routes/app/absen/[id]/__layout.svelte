@@ -27,13 +27,20 @@
 </script>
 
 <PageHeader>
-  <div class="flex items-center justify-between">
-    <div>
-      <div class="text-2xl font-bold">Detail Absen</div>
-      <div class="font-bold text-gray-600">{item.absen.id}</div>
+  <div class="columns">
+    <div class="column">
+      <div class="title">Detail Absen</div>
+      <div class="subtitle">{item.absen.id}</div>
     </div>
-    <FButton danger>Hapus</FButton>
+    <div class="column has-text-right-tablet">
+      <FButton danger>Hapus</FButton>
+    </div>
   </div>
 </PageHeader>
 
-<slot></slot>
+<section class="section">
+  <div class="container">
+    <slot></slot>
+  </div>
+</section>
+

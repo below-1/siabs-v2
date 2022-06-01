@@ -8,14 +8,10 @@ export async function get(event) {
     select 
       row_to_json(ab) as absen,
       row_to_json(p) as pegawai,
-      row_to_json(s) as shift,
-      row_to_json(j) as jadwal,
       row_to_json(uk) as unit_kerja
     from absen ab 
       left join pegawai p on p.nik = ab.nik
-      left join shift s on s.id = ab.id_shift
-      left join jadwal j on s.id_jadwal = j.id
-      left join unit_kerja uk on uk.id = j.id_unit_kerja
+      left join unit_kerja uk on uk.id = ab.id_unit_kerja
     where ab.id = ${id}
   `
   return {
