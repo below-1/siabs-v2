@@ -41,68 +41,72 @@
 
 </script>
 
-<PageHeader>
-  <h1 class="text-2xl font-bold">Ubah Data {pegawai.nama}</h1>
-</PageHeader>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-5">
+        <h1 class="title">Ubah Data {pegawai.nama}</h1>
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          class="card"
+        >
+          <div class="card-content">
+            <Field label="Nama">
+              <FInput 
+                name="nama"
+                bind:value={nama}
+                error={verr.fields.nama}
+              />
+            </Field>
 
-<div class="container px-4 py-6">
-  <form
-    method="POST"
-    enctype="multipart/form-data"
-    class="md:w-1/2 flex flex-col gap-y-4"
-  >
-    <Field label="Nama">
-      <FInput 
-        name="nama"
-        bind:value={nama}
-        error={verr.fields.nama}
-      />
-    </Field>
+            <Field label="NIK">
+              <FInput 
+                name="nik"
+                bind:value={nik}
+                error={verr.fields.nik}
+              />
+            </Field>
 
-    <Field label="NIK">
-      <FInput 
-        name="nik"
-        bind:value={nik}
-        error={verr.fields.nik}
-      />
-    </Field>
+            <Field label="NIP">
+              <FInput 
+                name="nip"
+                bind:value={nip}
+              />
+            </Field>
 
-    <Field label="NIP">
-      <FInput 
-        name="nip"
-        bind:value={nip}
-      />
-    </Field>
+            <Field label="WhatsApp">
+              <FInput 
+                name="whatsapp"
+                bind:value={whatsapp}
+              />
+            </Field>
 
-    <Field label="WhatsApp">
-      <FInput 
-        name="whatsapp"
-        bind:value={whatsapp}
-      />
-    </Field>
+            <Field label="Jenis Kelamin">
+              <FSelect 
+                name="jenis_kelamin" 
+                options={[
+                  { value: 'Laki - Laki', text: 'Laki - Laki' },
+                  { value: 'Perempuan', text: 'Perempuan' }
+                ]}
+                bind:selected={jenis_kelamin}
+              />
+            </Field>
 
-    <Field label="Jenis Kelamin">
-      <FSelect 
-        name="jenis_kelamin" 
-        options={[
-          { value: 'Laki - Laki', text: 'Laki - Laki' },
-          { value: 'Perempuan', text: 'Perempuan' }
-        ]}
-        bind:selected={jenis_kelamin}
-      />
-    </Field>
+            <Field label="Tanggal Lahir">
+              <FDate name="tanggal_lahir" bind:value={tanggal_lahir} />
+            </Field>
 
-    <Field label="Tanggal Lahir">
-      <FDate name="tanggal_lahir" bind:value={tanggal_lahir} />
-    </Field>
+            <FButton 
+              primary={true} 
+              disabled={!verr.valid}
+            >
+              simpan data
+            </FButton>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <FButton 
-      primary={true} 
-      disabled={!verr.valid}
-      size="lg"
-    >
-      simpan data
-    </FButton>
-
-  </form>
-</div>

@@ -35,10 +35,11 @@ export async function get(event) {
       days.d as date,
         count(abd.id) as total_absen,
         json_agg(abd) as absen
-        from days
+      from days
       left join 
         absen_data abd on abd.d = days.d
-        group by days.d
+      group by days.d
+      order by days.d
   `;
   return {
     body: {

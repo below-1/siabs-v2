@@ -96,45 +96,54 @@
   }
 </script>
 
-<div class="container py-6">
-  <div 
-    class="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-2 outer-padding mb-6 sticky bg-white py-2"
-    style="top: 3.5rem;"
-  >
-    <h1 class="text-xl font-bold">Daftar Jadwal</h1>
-    <MonthYearSelect 
-      bind:year={year}
-      bind:month={month}
-    />
-  </div>
-
-  <div class="flex flex-col md:px-4">
-    {#each aggregation as dateGroup}
-      <div class="flex border-b hover:bg-gray-200">
-
-        <div class="bg-gray-100 p-2 flex flex-col items-center justify-center w-20">
-          <div class="text-lg font-bold">{day(dateGroup.date).format('DD')}</div>
-          <div class="text-xs font-bold">{day(dateGroup.date).format('dddd')}</div>
-        </div>
-
-        <div class="flex-grow flex flex-wrap items-center justify-end gap-x-4 pr-2 md:pr-0">
-          {#if dateGroup.total_absen != 0}
-            {#each dateGroup.absen as absen}
-              <a 
-                class="flex"
-                href={`/app/absen/${absen.id}/overview`}
-              >
-
-                <div class="bg-blue-500 px-2 text-white flex items-center">{absen.tipe}</div>
-
-                <div class="border-r border-t border-b border-blue-500 p-1 font-bold text-gray-700">
-                  {day(absen.alert_masuk).format('HH:mm')} - {day(absen.alert_keluar).format('HH:mm')}
-                </div>
-              </a>
-            {/each}
-          {/if}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Daftar Jadwal</h1>
+      </div>
+      <div class="column">
+        <div class="is-flex is-justify-content-flex-end">
+          <MonthYearSelect 
+            bind:year={year}
+            bind:month={month}
+          />
+          <button class="button is-info ml-2">
+            <Icon icon="mdi:clipboard-plus" class="is-small icon" />
+          </button>
         </div>
       </div>
+    </div>
+    {#each aggregation as dateGroup}
+      <article class="media">
+        <figure class="media-left">
+          <div 
+            class="image is-64x64 is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="background: rgb(245, 245, 245);"
+          >
+            <div class="is-size-5 has-text-weight-bold">{day(dateGroup.date).format('DD')}</div>
+            <div class="text-xs font-bold">{day(dateGroup.date).format('dddd')}</div>
+          </div>
+        </figure>
+        <div class="media-content">
+          <div class="content" style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
+            {#if dateGroup.total_absen != 0}
+              {#each dateGroup.absen as absen}
+                <a 
+                  class="is-flex is-align-items-center"
+                  href={`/app/absen/${absen.id}/overview`}
+                  style="border: 1px solid rgb(230, 230, 230); border-radius: 2%;"
+                >
+                  <div class="pr-2 has-background-info px-2 py-1 has-text-white">{absen.tipe}</div>
+                  <div class="px-2">
+                    {day(absen.alert_masuk).format('HH:mm')} - {day(absen.alert_keluar).format('HH:mm')}
+                  </div>
+                </a>
+              {/each}
+            {/if}
+          </div>
+        </div>
+      </article>
     {/each}
   </div>
-</div>
+</section>
