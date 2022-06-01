@@ -1,16 +1,39 @@
+<script context="module">
+  export async function load({ params, session, fetch }) {
+    let data = {};
+    try {
+      const response = await fetch(`/app/unit-kerja/${params.id}/jadwal/satpel`, {
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json'
+        }
+      });
+      const data = await response.json();
+    } catch (err) {
+      console.log(err);
+    }
+    return {
+      status: 200,
+      props: data
+    };
+  }
+</script>
+
 <script>
   import { getContext } from 'svelte';
   import { client_fetch_json } from '$lib/http';
-  import MonthYearSelect from '$lib/month-year-select.svelte';
   import day from '$lib/day';
+  import MonthYearSelect from '$lib/month-year-select.svelte';
+  import FButton from '$lib/fbutton.svelte';
   import ViewToggle from './_view-toggle.svelte';
   import PegawaiList from './_pegawai-list.svelte';
-  import FButton from '$lib/fbutton.svelte';
+  import CreateDialog from './_create.svelte';
+
+  export let aggregation = [];
+  export let pegawaiList = [];
 
   const unitKerja = getContext('unitKerja');
   const d = day();
-  export let aggregation = [];
-  export let pegawaiList = [];
 
   let activeTab = 'jadwal';
   let year = d.year();
@@ -42,10 +65,14 @@
       pegawaiList = response.pegawaiList;
     } catch (err) {
       console.log(err);
-      alert('gagal mengambil data');
+      // alert('gagal mengambil data');
     } finally {
       loading = true;
     }
+  }
+
+  function reload() {
+    getData(dateInterval);
   }
 </script>
 
@@ -69,11 +96,6 @@
           bind:month={month}
         />
       </div>
-      <div class="column is-4 has-text-right">
-        <FButton on:click={() => {
-          showCreateDialog = true;
-        }} outline>Tambah Pegawai</FButton>
-      </div>
     </div>
 
     {#if activeTab == 'jadwal'}
@@ -96,7 +118,7 @@
               <td>{row.shift_2}</td>
               <td>
                 <a
-                  href={`/app/unit-kerja/${unitKerja.id}/jadwal/${day(row.d).format('YYYY-MM-DD')}`}
+                  href={`/app/unit-kerja/${unitKerja.id}/jadwal/satpel/${day(row.d).format('YYYY-MM-DD')}`}
                 >detail</a>
               </td>
             </tr>
@@ -110,3 +132,11 @@
     {/if}
   </div>
 </section>
+
+<CreateDialog 
+  bind:show={showCreateDialog} 
+  {year}
+  {month}
+  excludeNIK={[]}
+  on:created={reload}
+/>

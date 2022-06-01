@@ -8,3 +8,8 @@ export const work_status_options = [
   { value: 'wfo', text: 'Work From Office' },
   { value: 'dl', text: 'Dinas Luar' }
 ]
+
+export const kode_shift_options = [
+  { value: 1, text: '08:00 - 16:00' },
+  { value: 2, text: '20:00 - 04:00' },
+]
