@@ -63,7 +63,7 @@ create table absen (
   -- 3: 00:00 - 23:59  DL, one day full
   kode_shift integer,
 
-  id_unit_kerja UUID NOT NULL REFERENCES public.unit_kerja(id) ON DELETE CASCADE,
+  id_unit_kerja UUID REFERENCES public.unit_kerja(id) ON DELETE CASCADE,
   nik STRING NOT NULL REFERENCES public.pegawai(nik) ON DELETE CASCADE
 );
 

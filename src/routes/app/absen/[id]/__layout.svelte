@@ -19,9 +19,11 @@
 <script>
   import { setContext, getContext, onMount } from 'svelte'
   import PageHeader from '$lib/page-header.svelte'
-  import FButton from '$lib/fbutton.svelte'
+  import FButton from '$lib/fbutton.svelte';
+  import DeleteDialog from './_delete.svelte';
 
   export let item = {};
+  let showDeleteDialog = false;
 
   setContext('item', item);
 </script>
@@ -33,7 +35,9 @@
       <div class="subtitle">{item.absen.id}</div>
     </div>
     <div class="column has-text-right-tablet">
-      <FButton danger>Hapus</FButton>
+      <FButton danger on:click={(event) => {
+          showDeleteDialog = true;
+        }}>Hapus</FButton>
     </div>
   </div>
 </PageHeader>
@@ -43,4 +47,8 @@
     <slot></slot>
   </div>
 </section>
+
+<DeleteDialog 
+  bind:show={showDeleteDialog}
+/>
 

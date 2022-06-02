@@ -46,7 +46,7 @@
         </div>
       </div>
     </a>
-    {#if item.unit_kerja}
+    {#if item.absen.tipe != 'dl'}
     <a class="media" href={`/app/unit-kerja/${item.unit_kerja.id}/edit-data`}>
       <figure class="media-left">
         <p class="image is-64x64">

@@ -73,9 +73,7 @@
               Presentasi Kehadiran
             </div>
           </div>
-          <div class="card-content">
-            <KehadiranChart />
-          </div>
+          <KehadiranChart />
         </div>
 
         <div class="card mb-5">
@@ -84,9 +82,7 @@
               Ketepatan Waktu
             </div>
           </div>
-          <div class="card-content">
-            <KetepatanWaktuChart />
-          </div>
+          <KetepatanWaktuChart />
         </div>
       </div>
     </div>

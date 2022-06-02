@@ -9,10 +9,9 @@
   $: user = $session.user;
   let showAccountMenu = false;
   let showMobileMenu = false;
+  let showSideMenu = false;
   $: menus = _menus($session, $page);
   $: accountAvatar = getAccountAvatar($session);
-
-  // Super user doesn't have pegawai
   $: isSuperUser = user.super_user;
 
   setContext('currentUser', {
@@ -33,7 +32,6 @@
     showAccountMenu = !showAccountMenu;
   }
 
-  let showSideMenu = false;
   function toggleSideMenu() {
     showSideMenu = !showSideMenu;
   }
@@ -96,11 +94,97 @@
   }
 </script>
 
-<TopNav
-  {toggleSideMenu}
-  {toggleAccountMenu}
-  {accountAvatar}
-/>
+<nav class="navbar is-black" style="z-index: 11;">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/" class="navbar-item is-flex">
+        <img src="/logo.svg" class="mr-2">
+        <div class="is-flex is-flex-direction-column">
+          <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
+          <small>Absensi Online</small>
+        </div>
+      </a>
+      <a 
+        role="button" 
+        class="navbar-burger" 
+        aria-label="menu" 
+        aria-expanded="false"
+        on:click={toggleMobileMenu}
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div 
+      class="navbar-menu"
+      class:is-active={showMobileMenu}
+    >
+      <div class="navbar-start">
+        {#each menus as menu}
+          <a href={menu.path} class="navbar-item">
+            {menu.label}
+          </a>
+        {/each}
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="navbar-end is-hidden-mobile">
+        <div class="navbar-item">
+          <button class="button is-dark">
+            <Icon icon="mdi-light:bell" class="icon" />
+            <span>Pesan</span>
+          </button>
+        </div>
+        <div class="navbar-item">
+          <div 
+            class="dropdown"
+            class:is-active={showAccountMenu}
+          >
+            <div class="dropdown-trigger">
+              <button 
+                class="button is-dark"
+                on:click={() => {
+                  showAccountMenu = !showAccountMenu;
+                }}
+              >
+                <Icon icon="mdi:account-settings" class="icon" />
+                <span>{user.username}</span>
+                <Icon icon="mdi:chevron-down" class="icon" />
+              </button>
+            </div>
+            <div class="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a href="#" class="dropdown-item">
+                  Ganti Password
+                </a>
+                <a href="/auth/logout" class="dropdown-item">
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="navbar-end is-hidden-tablet">
+        <a class="navbar-item">
+          <span>Pesan</span>
+        </a>
+        <a class="navbar-item">
+          <span>Ganti Password</span>
+        </a>
+        <a class="navbar-item" href="/auth/logout">
+          <span>Log Out</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-1"></div>
+</nav>
 
 <slot></slot>
 
@@ -114,7 +198,7 @@
   </div>
 </footer>
 
-<Backdrop bind:show={showAccountMenu}>
+<!-- <Backdrop bind:show={showAccountMenu}>
   <div class="bg-white shadow-xl border rounded">
     <div class="flex flex-col">
       <div class="flex items-center gap-x-4 border-b p-4">
@@ -141,7 +225,7 @@
       </a>
     </div>
   </div>
-</Backdrop>
+</Backdrop> -->
 
 {#if showSideMenu}
 <div 

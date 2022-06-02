@@ -40,6 +40,7 @@ export async function get(event) {
           from days
           left join absen_ctx ab on ab.tanggal = days.d
           group by days.d
+          order by days.d
   `;
 
   const pegawaiList = await sql`

@@ -6,6 +6,12 @@
   export let items = [];
 </script>
 
+<style>
+  table td {
+    vertical-align: middle;
+  }
+</style>
+
 <table class="table is-fullwidth is-hoverable">
   <thead>
     <tr>
@@ -17,7 +23,7 @@
   <tbody>
     {#each items as dateGroup}
       <tr on:click={(event) => {
-        window.location = `/app/unit-kerja/${unitKerja.id}/jadwal/${day(dateGroup.d).format('YYYY-MM-DD')}`
+        window.location = `/app/unit-kerja/${unitKerja.id}/jadwal/induk/${day(dateGroup.d).format('YYYY-MM-DD')}`
       }}>
         <td width="10%" style="background: rgb(250, 250, 250);">
           <div class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">

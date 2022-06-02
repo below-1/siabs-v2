@@ -58,10 +58,16 @@
           <small>Absensi Online</small>
         </div>
       </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
 
-    <div class="navbar-menu">
-
+    <div 
+      class="navbar-menu"
+    >
       <div class="navbar-start">
         {#each menus as menu}
           <a href={menu.path} class="navbar-item">
@@ -86,10 +92,7 @@
           </figure>
         </a>
       </div>
-
     </div>
-
-
 
   </div>
   <div class="bg-gradient-to-r from-purple-800 to-blue-500 h-1"></div>

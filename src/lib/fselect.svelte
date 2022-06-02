@@ -5,7 +5,7 @@
   export let error = null;
 </script>
 
-<div class="select">
+<div class="select is-fullwidth">
   <select
     name={name}
     class:border-red-600={error}

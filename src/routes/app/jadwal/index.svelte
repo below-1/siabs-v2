@@ -1,58 +1,118 @@
 <script>
-  import { getContext } from 'svelte'
-  import PageHeader from '$lib/page-header.svelte'
-  import FButton from '$lib/fbutton.svelte'
-  import ListItem from './_list-item.svelte'
+  import { getContext } from 'svelte';
+  import Icon from '@iconify/svelte';
+  import { browser } from '$app/env';
+  import { client_fetch_json } from '$lib/http';
+  import PageHeader from '$lib/page-header.svelte';
+  import MonthYearSelect from '$lib/month-year-select.svelte';
+  import FButton from '$lib/fbutton.svelte';
+  import day from '$lib/day';
+  import ListItem from './_list-item.svelte';
 
-  const cu = getContext('currentUser')
-  const user = cu.getUser()
+  const cu = getContext('currentUser');
+  const d = day();
+  const user = cu.getUser();
+  export let items = [];
+  let year = d.year();
+  let month = d.month();
+  let loading = false;
+  $: dateInterval = getDateInterval(year, month);
+  $: getData(dateInterval);
+  $: itemsWithTotal = items.map(withTotal);
 
-  function formatDates(d, user) {
-    const formatter = new Intl.DateTimeFormat('id-ID', {
-      timeZone: 'Asia/Makassar',
-      dateStyle: 'full'
-    })
+  function getDateInterval(year, month) {
+    const start = new Date(year, month, 1);
+    const end = day(start).endOf('month').toDate();
     return {
-      day_start: formatter.format(new Date(d.day_start)),
-      day_end: formatter.format(new Date(d.day_end))
+      start: start.toISOString(),
+      end: end.toISOString()
     }
   }
 
-  export let items = []
-  $: formatted = items.map(it => {
-    console.log(it);
-    if (it.jadwal.tipe == 'fixed') {
-      return {
-        ...it,
-        format: formatDates(it.jadwal, user)
-      }
-    } else if (it.jadwal.tipe == 'shift') {
-      return {
-        ...it,
-        format: formatDates(it.jadwal, user)
-      }
+  function withTotal(item) {
+    const total = parseInt(item.dl) + parseInt(item.shift_1) + parseInt(item.shift_2);
+    return {
+      ...item,
+      total
     }
-    return it
-  })
+  }
+
+  async function getData(dateInterval) {
+    if (!browser) {
+      return;
+    }
+    loading = true;
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: `/app/jadwal`,
+        params: dateInterval
+      });
+      items = response.items;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loading = true;
+    }
+  }
 </script>
 
 <PageHeader>
-  <div class="flex flex-col md:flex-row justify-between items-center gap-y-2">
-    <h1 class="font-black text-3xl">Daftar Jadwal</h1>
-    <FButton path="/app/jadwal/create" primary>tambah jadwal</FButton>
-  </div>
+  <div class="columns is-vcentered">
+    <div class="column">
+      <h1 class="title">Daftar Jadwal</h1>
+    </div>
+    <div class="column is-4 has-text-right-tablet">
+      <MonthYearSelect 
+        bind:year={year}
+        bind:month={month}
+      />
+    </div>
+  </div>  
+
 </PageHeader>
 
-<section class="container py-12">
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
 
-  {#each formatted as item}
-    <ListItem item={item} />
-  {/each}
-
-  <div class="text-center">
-    <button class="border rounded p-2 mt-6 bg-gray-100 text-gray-600 text-sm">
-      muat lebih banyak
-    </button>
+        <table class="table is-fullwidth is-bordered is-striped">
+          <thead>
+            <tr>
+              <th>Hari Tanggal</th>
+              <th>08:00 - 16:00</th>
+              <th>20:00 - 04:00</th>
+              <th>WFO</th>
+              <th>WFH</th>
+              <th>DL</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each itemsWithTotal as item}
+              <tr>
+                <td>{day(item.d).format('dddd, DD MMMM, YYYY')}</td>
+                <td>{item.shift_1}</td>
+                <td>{item.shift_2}</td>
+                <td>{item.wfo}</td>
+                <td>{item.wfh}</td>
+                <td>{item.dl}</td>
+                <td>{item.total}</td>
+                <td class='has-text-centered'>
+                  <a 
+                    href={`/app/jadwal/${day(item.d).format('YYYY-MM-DD')}`}
+                    class="button is-info is-small"
+                  >
+                    <Icon icon="mdi:eye" class="is-small icon" />
+                  </a>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-
 </section>

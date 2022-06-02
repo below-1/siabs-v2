@@ -1,31 +1,48 @@
-import db from '../../../db'
+import db from '../../../db';
+import day from '$lib/day';
 
 export async function get(event) {
-  const { user, tenant } = event.locals.session
-  const sql = db()
-  let response = {}
+  const id = event.params.id
+  const type = event.url.searchParams.get('type');
 
+  let start = event.url.searchParams.get('start');
+  start = start ? new Date(start) : day().startOf('month').toDate();
+  let end = event.url.searchParams.get('end');
+  end = end ? new Date(end) : day(start).endOf('month').toDate();
+
+  const sql = db();
   const items = await sql`
-    select
+      with 
+        days as (
+          select generate_series(
+            ${start},
+            ${end},
+            '1 day'::interval
+          ) as d
+        ),
+        absen_ctx as (
+          select 
+            absen.* 
+          from absen
+            where 
+              alert_masuk >= ${start}
+              and alert_masuk <= ${end}
+        )
+        select (days.d at time zone 'Asia/Makassar')::date as d,
+          count(ab.id) filter (where ab.tipe = 'dl') as dl,
+          count(ab.id) filter (where ab.tipe = 'wfh') as wfh,
+          count(ab.id) filter (where ab.tipe = 'wfo') as wfo,
+          count(ab.id) filter (where ab.kode_shift = 1) as shift_1,
+          count(ab.id) filter (where ab.kode_shift = 2) as shift_2
+          from days
+          left join absen_ctx ab on ab.alert_masuk >= days.d and ab.alert_masuk < (days.d + '1 day'::interval)
+          group by days.d
+          order by days.d
+  `;
 
-      row_to_json(j) as jadwal,
-      json_agg(t)->0 as tenant,
-      json_agg(uk)->0 as unit_kerja,
-      json_agg(shift) as shifts
-
-      from jadwal j
-        left join shift on shift.id_jadwal = j.id
-        left join tenant t on t.id = j.id_tenant
-        left join unit_kerja uk on uk.id = j.id_unit_kerja
-
-      where j.id_tenant = ${tenant.id}
-      group by j.id
-      order by j.day_start
-      limit 10
-  `
-  console.log(items)
-  response.status = 200
-  response.body = {}
-  response.body.items = items
-  return response
+  return {
+    body: {
+      items
+    }
+  }
 }
