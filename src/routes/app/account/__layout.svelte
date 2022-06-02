@@ -7,7 +7,7 @@
 </script>
 
 <PageHeader>
-  <h1 class="text-2xl font-bold">Akun {user.username}</h1>
+  <h1 class="title">Akun {user.username}</h1>
 </PageHeader>
 
 <slot>

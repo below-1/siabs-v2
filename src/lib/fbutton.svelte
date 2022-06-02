@@ -6,6 +6,7 @@
   export let loading = false;
   export let disabled = false;
   export let path = null;
+  export let fullwidth = false;
 </script>
 
 {#if path}
@@ -20,6 +21,7 @@
     class:is-small={size == 'sm'}
     disabled={disabled ? 'disabled' : undefined}
     class:is-loading={loading}
+    class:is-fullwidth={fullwidth}
   >
     <slot></slot>
   </a>
@@ -34,6 +36,7 @@
     class:is-small={size == 'sm'}
     disabled={disabled}
     class:is-loading={loading}
+    class:is-fullwidth={fullwidth}
   >
     {#if loading}
       <svg 
