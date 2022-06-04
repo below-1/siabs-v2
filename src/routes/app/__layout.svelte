@@ -4,6 +4,7 @@
   import Icon from '@iconify/svelte';
   import { session, page } from '$app/stores'
   import Backdrop from '$lib/backdrop.svelte';
+  import FFooter from '$lib/ffooter.svelte';
   import TopNav from './_top-nav.svelte';
 
   $: user = $session.user;
@@ -190,44 +191,8 @@
 
 <slot></slot>
 
-<footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-    </p>
-  </div>
-</footer>
-
-<!-- <Backdrop bind:show={showAccountMenu}>
-  <div class="bg-white shadow-xl border rounded">
-    <div class="flex flex-col">
-      <div class="flex items-center gap-x-4 border-b p-4">
-        <img 
-          src={accountAvatar}
-          alt="logo" 
-          class="w-10 h-10 rounded-full mr-2"
-        />
-        <div>
-          <div class="font-black text-lg" style="line-height: 1;">{$session.user.username}</div>
-
-          {#if $session.user.super_user}
-          <div class="text-sm">Super Admin</div>
-          {:else}
-          <div class="text-sm text-gray-600">Pegawai</div>
-          {/if}
-        </div>
-      </div>
-      <a href="/account/change-password" class="flex items-center p-2 border-b">
-        <span>Ganti Password</span>
-      </a>
-      <a href="/auth/logout" class="flex items-center p-2">
-        <span>Logout</span>
-      </a>
-    </div>
-  </div>
-</Backdrop> -->
+<FFooter>
+</FFooter>
 
 {#if showSideMenu}
 <div 
