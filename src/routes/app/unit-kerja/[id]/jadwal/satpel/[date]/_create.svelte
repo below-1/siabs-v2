@@ -5,6 +5,11 @@
     createEventDispatcher 
   } from 'svelte';
   import { page } from '$app/stores';
+  import { 
+    required,
+    watchError,
+    combineErrors
+  } from '$lib/validation';
   import day from '$lib/day';
   import Backdrop from '$lib/backdrop.svelte';
   import FField from '$lib/field.svelte';
@@ -29,6 +34,8 @@
   let nik = null;
   let tipe = 'wfo';
   let kode_shift = 1;
+  $: errorNik = watchError([ required('pegawai tidak boleh kosong') ])(nik);
+  $: formInvalid = combineErrors(errorNik);
 
   const dispatch = createEventDispatcher();
 
@@ -112,7 +119,11 @@
     <section class="modal-card-body">
 
       <FField label="Pegawai">
-        <FSelect bind:selected={nik} options={filteredOptions} />
+        <FSelect 
+          bind:selected={nik} 
+          options={filteredOptions} 
+          error={errorNik}
+        />
       </FField>
 
       <FField label="Status">
@@ -125,7 +136,10 @@
         />
       </FField>
 
-      <FButton primary on:click={addAbsen}>
+      <FButton 
+        primary on:click={addAbsen}
+        disabled={formInvalid}
+      >
         Tambah
       </FButton>
     </section>

@@ -4,6 +4,11 @@
     getContext, 
     createEventDispatcher } from 'svelte';
   import day from '$lib/day';
+  import { 
+    required,
+    watchError,
+    combineErrors
+  } from '$lib/validation';
   import Backdrop from '$lib/backdrop.svelte';
   import KodeShiftSelect from '$lib/kode-shift-select.svelte';
   import FField from '$lib/field.svelte';
@@ -26,6 +31,8 @@
   let nik = null;
   let tipe = 'wfo';
   let kode_shift = 1;
+  $: errorNik = watchError([ required('pegawai tidak boleh kosong') ])(nik);
+  $: formInvalid = combineErrors(errorNik);
 
   const dispatch = createEventDispatcher();
 
@@ -106,7 +113,11 @@
     </header>
     <section class="modal-card-body">
       <FField label="Pegawai">
-        <FSelect bind:selected={nik} options={filteredOptions} />
+        <FSelect 
+          bind:selected={nik} 
+          options={filteredOptions} 
+          error={errorNik}
+        />
       </FField>
 
       <FField label="Shift">
@@ -119,7 +130,10 @@
           bind:selected={tipe} />
       </FField>
 
-      <FButton primary on:click={addAbsen}>
+      <FButton 
+        primary on:click={addAbsen}
+        disabled={formInvalid}
+      >
         Tambah
       </FButton>
     </section>
