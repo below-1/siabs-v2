@@ -6,6 +6,11 @@
   import day from '$lib/day';
   import Backdrop from '$lib/backdrop.svelte';
   import WorkStatusSelect from '$lib/work-status-select.svelte';
+  import { 
+    required,
+    watchError,
+    combineErrors
+  } from '$lib/validation';
   import FField from '$lib/field.svelte';
   import FTime from '$lib/ftime.svelte';
   import FButton from '$lib/fbutton.svelte';
@@ -22,6 +27,9 @@
   let workDays = [true, true, true, true, true, false, false];
   let nik = null;
   let tipe = 'wfo';
+
+  $: errorNik = watchError([ required('pegawai tidak boleh kosong') ])(nik);
+  $: formInvalid = combineErrors(errorNik);
 
   const dispatch = createEventDispatcher();
 
@@ -109,7 +117,11 @@
     </header>
     <section class="modal-card-body">
       <FField label="Pegawai">
-        <FSelect bind:selected={nik} options={filteredOptions} />
+        <FSelect 
+          bind:selected={nik} 
+          options={filteredOptions} 
+          error={errorNik}
+        />
       </FField>
 
       <FField label="Status">
@@ -149,7 +161,10 @@
         </div>
       </FField>
 
-      <FButton primary on:click={addAbsen}>
+      <FButton 
+        primary on:click={addAbsen}
+        disabled={formInvalid}
+      >
         Tambah
       </FButton>
     </section>
