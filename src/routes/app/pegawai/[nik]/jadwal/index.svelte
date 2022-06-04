@@ -11,6 +11,8 @@
   export let aggregation = [];
 
   const pegawai = getContext('pegawai');
+  const cu = getContext('currentUser');
+  const currentUser = cu.getUser();
   let loading = false;
   const d = day();
   let year = d.year();
@@ -39,6 +41,77 @@
     })
     aggregation = response.aggregation;
   }
+
+  async function downloadCsv() {
+    if (!browser) {
+      return;
+    }
+    let items = [];
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: `/app/pegawai/${pegawai.nik}/jadwal/report`,
+        params: dateInterval
+      });
+      items = response.items;
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    function formatStatus(s) {
+      if (s == 'in-time') {
+        return 'Tepat Waktu';
+      } else if (s == 'late') {
+        return 'Terlambat';
+      } else if (s == 'alpa') {
+        return 'Alpa';
+      } else {
+        return '-';
+      }
+    }
+
+    const rows = items.map(item => {
+      const row = [
+        item.tipe.toUpperCase(),
+        day(item.alert_masuk).format('DD-MM-YYYY'),
+        day(item.alert_masuk).format('HH:mm'),
+        item.absen_masuk 
+          ? day(item.absen_masuk).format('HH:mm')
+          : 'Belum Absen',
+        formatStatus(item.status_masuk),
+
+        day(item.alert_keluar).format('DD-MM-YYYY'),
+        day(item.alert_keluar).format('HH:mm'),
+        item.absen_keluar
+          ? day(item.absen_keluar).format('HH:mm')
+          : 'Belum Absen',
+        formatStatus(item.status_keluar)
+      ];
+      const rowString = row.join(',');
+      return rowString;
+    });
+    const headers = [
+      'status',
+
+      'tanggal jadwal masuk',
+      'waktu jadwal masuk',
+      'waktu absen masuk',
+      'keterangan masuk',
+
+      'tanggal jadwal keluar',
+      'waktu jadwal keluar',
+      'waktu absen keluar',
+      'keterangan keluar',
+    ].join(',');
+
+    const fileContent = headers + '\n' + rows.join('\n');
+    const csvBlob = new Blob([fileContent], {
+      type: 'text/csv'
+    });
+    const url = URL.createObjectURL(csvBlob, );
+    window.open(url);
+  }
 </script>
 
 <section class="section">
@@ -53,10 +126,15 @@
             bind:year={year}
             bind:month={month}
           />
+          {#if currentUser.super_user}
           <button class="button is-info ml-2" on:click={() => {
               showCreateDialog = true;
             }}>
             <Icon icon="mdi:clipboard-plus" class="is-small icon" />
+          </button>
+          {/if}
+          <button class="button outline ml-2" on:click={downloadCsv}>
+            <Icon icon="carbon:document-download" class="is-small icon" />
           </button>
         </div>
       </div>

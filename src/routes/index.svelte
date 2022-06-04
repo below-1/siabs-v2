@@ -14,6 +14,12 @@
 </script>
 
 <style>
+  .layered {
+    background-image: 
+      linear-gradient(to right, rgba(250, 250, 250, 0.5), rgba(250, 250, 250, 0.9), rgba(250, 250, 250, 0.5)),
+      url(/bg.jpg);
+    background-size: cover;
+  }
   .catchphrase {
     background: linear-gradient(to right, red, blue);
     /*text-shadow: 0px 0px white;*/
@@ -23,6 +29,7 @@
     animation-duration: 9s;
     /*animation-direction: alternate;*/
     animation-timing-function: ease-in-out;
+    line-height: 100%;
   }
 
   .catchphrase._1 {
@@ -73,34 +80,35 @@
 </style>
 
 <svelte:head>
-  <title>SIABS -- Home</title>
+  <title>Sipeking -- Home</title>
 </svelte:head>
 
 <div>
 
-  <nav class="navbar is-light is-fixed-top">
-    <div class="container">
-      <div class="navbar-brand">
-        <a class="navbar-item is-flex">
-          <img src="/logo.svg" style="max-height: 2.5rem;" class="mr-2">
-          <div class="is-flex is-flex-direction-column">
-            <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
-            <small>Absensi Online</small>
+  <section class="hero is-fullheight">
+    <div class="hero-head">
+      <nav class="navbar is-light">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item is-flex">
+              <img src="/logo.svg" style="max-height: 2.5rem;" class="mr-2">
+              <div class="is-flex is-flex-direction-column">
+                <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
+                <small>Absensi Online</small>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
 
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <a class="navbar-item" href="/auth/signin">signin</a>
-          <a class="navbar-item" href="/about">about us</a>
+          <div class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="/auth/signin">signin</a>
+              <a class="navbar-item" href="/about">about us</a>
+            </div>
+          </div>
         </div>
-      </div>
+      </nav>
     </div>
-  </nav>
-
-  <section class="hero is-fullheight-with-navbar">
-    <div class="hero-body is-flex is-flex-direction-column is-justify-content-center is-align-items-center has-text-centered">
+    <div class="hero-body is-flex is-flex-direction-column is-justify-content-center is-align-items-center has-text-centered layered">
       {#each catchphrases as cp, i}
         <h1
           style="font-family: 'Bungee'; font-size: 5rem;" 
@@ -108,16 +116,18 @@
         >{cp}</h1>
       {/each}
       <h2 class="is-size-5">Sistem Informasi Absensi Online</h2>
+      <a href="/auth/signin" class="button button is-info is-large mt-4">
+        login
+      </a>
+    </div>
+    <div class="hero-foot">
+      <div class="content has-text-centered has-background-light p-5">
+        <p style="color: #888;">
+          <strong>Sipeking</strong> by <a href="https://jgthms.com">Jordan Meta</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+          is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+      </div>
     </div>
   </section>
-
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-      </p>
-    </div>
-  </footer>
 </div>

@@ -23,11 +23,7 @@
       <div class="columns is-vcentered">
         <div class="column">
           <h1 class="title">Dashboard</h1>
-        </div>
-        <div class="column">
-          <div class="title has-text-weight-bold has-text-right">
-            {d.format('dddd, DD MMMM, YYYY')}
-          </div>
+          <div class="subtitle">{d.format('dddd, DD MMMM, YYYY')}</div>
         </div>
       </div>
     </div>
