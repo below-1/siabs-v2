@@ -8,7 +8,7 @@ export async function post(event) {
   let pegawai_payload = {
     nama: data.get('nama'),
     nik: data.get('nik'),
-    nip: data.get('nip'),
+    nip: data.get('nik'),
     jenis_kelamin: data.get('jenis_kelamin'),
     tanggal_lahir: new Date(data.get('tanggal_lahir'))
   }
@@ -19,9 +19,9 @@ export async function post(event) {
   }
 
   let username = data.get('username');
-  username = username ? username : payload.nik;
+  username = username ? username : pegawai_payload.nik;
   let password = data.get('password');
-  password = password ? password : payload.nik;
+  password = password ? password : pegawai_payload.nik;
 
   let user_payload = {
     username,

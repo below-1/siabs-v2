@@ -15,9 +15,9 @@
   const cu = getContext('currentUser');
   const user = cu.getUser();
 
-  let nama = 'Jordan Meta';
-  let nip = '9329392893';
-  let nik = '9092999911';
+  let nama = '';
+  let nip = '';
+  let nik = '';
   let jenis_kelamin = 'Laki - Laki';
   let tanggal_lahir = '1997-01-20';
   let isAdminUnitKerja = null;
@@ -29,11 +29,10 @@
   $: payload = ({
     nama,
     nik,
-    nip,
     jenis_kelamin,
     tanggal_lahir,
-    username,
-    password,
+    username: nik,
+    password: nik,
     timezone
   });
 
@@ -44,17 +43,6 @@
     ],
     nik: [
       min_length(6, 'panjang NIK minimal 6 karakter') 
-    ],
-    nip: [
-      min_length(6, 'panjang NIP minimal 6 karakter') 
-    ],
-    username: [
-      required('username harus diisi'),
-      min_length(6, 'panjang NIP minimal 6 karakter')
-    ],
-    password: [
-      required('username harus diisi'),
-      min_length(6, 'panjang NIP minimal 6 karakter')
     ],
     timezone: [
       required('timezone harus diisi')
@@ -83,11 +71,8 @@
               <Field label="Nama Pegawai">
                 <Finput name="nama" bind:value={nama} error={verr.fields.nama} />
               </Field>
-              <Field label="NIK">
+              <Field label="NIP/NIK">
                 <Finput name="nik" bind:value={nik} error={verr.fields.nik} />
-              </Field>
-              <Field label="NIP">
-                <Finput name="nip" bind:value={nip} error={verr.fields.nip} />
               </Field>
               <Field label="Jenis Kelamin">
                 <FSelect 
@@ -101,12 +86,6 @@
               </Field>
               <Field label="Tanggal Lahir">
                 <FDate name="tanggal_lahir" bind:value={tanggal_lahir} />
-              </Field>
-              <Field label="Username">
-                <Finput name="username" bind:value={username} error={verr.fields.username} />
-              </Field>
-              <Field label="Password">
-                <Finput name="password" bind:value={password} error={verr.fields.password} />
               </Field>
               <Field label="Foto">
                 <Ffile name="avatar" />
