@@ -70,55 +70,62 @@
 </script>
 
 <PageHeader>
-  <h1 class="font-black text-3xl">Tambah Pegawai</h1>
+  <h1 class="title">Tambah Pegawai</h1>
 </PageHeader>
 
-<section>
+<section class="section">
   <div class="container px-4 py-12">
-    <div class="w-full md:w-1/2">
-      <form class="flex flex-col gap-y-4" method="post" enctype="multipart/form-data" on:submit{on_submit}>
-        <Field label="Nama Pegawai">
-          <Finput name="nama" bind:value={nama} error={verr.fields.nama} />
-        </Field>
-        <Field label="NIK">
-          <Finput name="nik" bind:value={nik} error={verr.fields.nik} />
-        </Field>
-        <Field label="NIP">
-          <Finput name="nip" bind:value={nip} error={verr.fields.nip} />
-        </Field>
-        <Field label="Jenis Kelamin">
-          <FSelect 
-            name="jenis_kelamin" 
-            options={[
-              { value: 'Laki - Laki', text: 'Laki - Laki' },
-              { value: 'Perempuan', text: 'Perempuan' }
-            ]}
-            bind:selected={jenis_kelamin}
-          />
-        </Field>
-        <Field label="Tanggal Lahir">
-          <FDate name="tanggal_lahir" bind:value={tanggal_lahir} />
-        </Field>
-        <Field label="Username">
-          <Finput name="username" bind:value={username} error={verr.fields.username} />
-        </Field>
-        <Field label="Password">
-          <Finput name="password" bind:value={password} error={verr.fields.password} />
-        </Field>
-        <Field label="Foto">
-          <Ffile name="avatar" />
-        </Field>
-        <Field label="Zona Waktu">
-          <FTimezone name="timezone" bind:selected={timezone} />
-        </Field>
-        <FButton 
-          primary={true} 
-          disabled={!verr.valid}
-          size="lg"
-        >
-          simpan data
-        </FButton>
-      </form>
+    <div class="columns">
+      <div class="column is-half">
+        <form class="card" method="post" enctype="multipart/form-data" on:submit{on_submit}>
+          <div class="card">
+            <div class="card-content">
+              <Field label="Nama Pegawai">
+                <Finput name="nama" bind:value={nama} error={verr.fields.nama} />
+              </Field>
+              <Field label="NIK">
+                <Finput name="nik" bind:value={nik} error={verr.fields.nik} />
+              </Field>
+              <Field label="NIP">
+                <Finput name="nip" bind:value={nip} error={verr.fields.nip} />
+              </Field>
+              <Field label="Jenis Kelamin">
+                <FSelect 
+                  name="jenis_kelamin" 
+                  options={[
+                    { value: 'Laki - Laki', text: 'Laki - Laki' },
+                    { value: 'Perempuan', text: 'Perempuan' }
+                  ]}
+                  bind:selected={jenis_kelamin}
+                />
+              </Field>
+              <Field label="Tanggal Lahir">
+                <FDate name="tanggal_lahir" bind:value={tanggal_lahir} />
+              </Field>
+              <Field label="Username">
+                <Finput name="username" bind:value={username} error={verr.fields.username} />
+              </Field>
+              <Field label="Password">
+                <Finput name="password" bind:value={password} error={verr.fields.password} />
+              </Field>
+              <Field label="Foto">
+                <Ffile name="avatar" />
+              </Field>
+              <Field label="Zona Waktu">
+                <FTimezone name="timezone" bind:selected={timezone} />
+              </Field>
+              <FButton 
+                primary={true} 
+                disabled={!verr.valid}
+                size="lg"
+              >
+                simpan data
+              </FButton>
+            </div>
+          </div>
+        </form>
+        
+      </div>
     </div>
   </div>
 </section>
