@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
-// import relativeTime from 'dayjs/plugin/relativeTime'
+import relativeTime from 'dayjs/plugin/relativeTime.js'
 
-import 'dayjs/locale/id'
+import 'dayjs/locale/id.js'
 
-// dayjs.extend(relativeTime)
+dayjs.extend(relativeTime)
 dayjs.locale('id')
 
 export default dayjs
