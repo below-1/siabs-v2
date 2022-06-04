@@ -1,5 +1,6 @@
 <script>
   import LandingNav from '$lib/LandingNav.svelte';
+  import LogoLink from '$lib/logo.svelte';
 
   const catchphrases = ['staf', 'jadwal', 'tugas']
 
@@ -12,13 +13,7 @@
 <nav class="navbar is-light is-fixed-top">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item is-flex">
-        <img src="/logo.svg" style="max-height: 2.5rem;" class="mr-2">
-        <div class="is-flex is-flex-direction-column">
-          <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
-          <small>Absensi Online</small>
-        </div>
-      </a>
+      <LogoLink />
     </div>
 
     <div class="navbar-menu">

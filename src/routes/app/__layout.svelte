@@ -4,6 +4,7 @@
   import Icon from '@iconify/svelte';
   import { session, page } from '$app/stores'
   import Backdrop from '$lib/backdrop.svelte';
+  import LogoLink from '$lib/logo.svelte';
   import FFooter from '$lib/ffooter.svelte';
   import TopNav from './_top-nav.svelte';
 
@@ -98,13 +99,7 @@
 <nav class="navbar is-black" style="z-index: 11;">
   <div class="container">
     <div class="navbar-brand">
-      <a href="/" class="navbar-item is-flex">
-        <img src="/logo.svg" class="mr-2">
-        <div class="is-flex is-flex-direction-column">
-          <span style="line-height: 100%;" class="has-text-weight-bold">Dinas Perhubungan NTT</span>
-          <small>Absensi Online</small>
-        </div>
-      </a>
+      <LogoLink />
       <a 
         role="button" 
         class="navbar-burger" 
