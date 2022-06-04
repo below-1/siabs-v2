@@ -10,6 +10,7 @@
   import ViewToggle from './_view-toggle.svelte';
   import JadwalList from './_jadwal-list.svelte';
   import PegawaiList from './_pegawai-list.svelte';
+  import ModalConfirmation from '$lib/modal-confirmation.svelte';
   import day from '$lib/day';
 
   const unitKerja = getContext('unitKerja');
@@ -23,10 +24,15 @@
   let year = d.year();
   let month = d.month();
   let showCreateDialog = false;
+  let showDeleteDialog = false;
+  let loadingDelete = false;
+  const titleDeleteDialog = 'Konfirmasi Hapus Jadwal';
+  const messageDeleteDialog = buildDeleteMessage(year, month);
   $: dateInterval = getDateInterval(year, month);
   $: nikList = pegawaiList.map(pegawai => {
     return pegawai.nik;
   });
+  $: loadAggregation(dateInterval);
 
   function getDateInterval(year, month) {
     const start = new Date(year, month, 1);
@@ -35,6 +41,12 @@
       start: start.toISOString(),
       end: end.toISOString()
     }
+  }
+
+  function buildDeleteMessage(year, month) {
+    const timestring = day(new Date(year, month, 1)).format('MMMM YYYY');
+    const message = `Anda akan menghapus semua jadwal pada bulan ${timestring}`;
+    return message;
   }
 
   async function loadAggregation(dateInterval) {
@@ -51,10 +63,29 @@
     aggregation = response.aggregation;
     pegawaiList = response.pegawaiList;
   }
-  $: loadAggregation(dateInterval);
 
   function reload() {
     loadAggregation(dateInterval);
+  }
+
+  async function onConfirmDelete() {
+    loadingDelete = true;
+    try {
+      await client_fetch_json({
+        method: 'GET',
+        path: `/app/absen/remove-for-uk`,
+        params: {
+          ...dateInterval,
+          id: unitKerja.id
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      alert('gagal menghapus jadwal');
+    } finally {
+      loadingDelete = true;
+      reload();
+    }
   }
 
 </script>
@@ -80,9 +111,18 @@
         />
       </div>
       <div class="column is-4 has-text-right">
+        <FButton 
+          outline 
+          danger
+          on:click={() => {
+            showDeleteDialog = true;
+          }}
+        >
+          Hapus Jadwal  
+        </FButton>
         <FButton on:click={() => {
           showCreateDialog = true;
-        }} outline>Tambah Pegawai</FButton>
+        }} outline>Tambah Jadwal</FButton>
       </div>
     </div>
     
@@ -106,3 +146,9 @@
   on:created={reload}
 />
 
+<ModalConfirmation
+  bind:show={showDeleteDialog}
+  title={titleDeleteDialog}
+  message={messageDeleteDialog}
+  onYes={onConfirmDelete}
+/>

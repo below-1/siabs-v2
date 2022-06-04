@@ -28,8 +28,8 @@ export async function initialize_pegawai({ sql }) {
     const alamat = randSentence()
     const avatar = `https://i.pravatar.cc/150?img=${nid}`
 
-    const username = randUserName()
-    const password = username
+    const username = nik
+    const password = nik
 
     payloads.push({
       nama,

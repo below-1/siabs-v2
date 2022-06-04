@@ -19,6 +19,7 @@
   export let excludeNIK = [];
   let pegawaiOptions = [];
   let excludeDays = [];
+  let workDays = [true, true, true, true, true, false, false];
   let nik = null;
   let tipe = 'wfo';
 
@@ -48,6 +49,7 @@
 
   function generateAbsenList(year, month) {
     let t = day(new Date(year, month, 1));
+    t = t.startOf('month');
     const end = t.endOf('month');
     let result = [];
     const basePayload = {
@@ -60,7 +62,13 @@
       let payload = { ...basePayload };
       payload.alert_masuk = t.hour(8).minute(0).toDate();
       payload.alert_keluar = t.hour(8).minute(0).add(8, 'hour');
-      result.push(payload);
+
+      const dow = day(payload.alert_masuk).day();
+      console.log(dow);
+      if ( workDays[dow] ) {
+        result.push(payload);
+      }
+
       t = t.add(1, 'day');
     }
     return result;
@@ -106,6 +114,39 @@
 
       <FField label="Status">
         <WorkStatusSelect bind:selected={tipe} />
+      </FField>
+
+      <FField label="Hari Kerja">
+        <div style="display: flex; flex-direction: column;">
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[1]}>
+            Senin
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[2]}>
+            Selasa
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[3]}>
+            Rabu
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[4]}>
+            Kamis 
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[5]}>
+            Jumat
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[6]}>
+            Sabtu
+          </label>
+          <label class="checkbox mb-2">
+            <input type="checkbox" bind:checked={workDays[0]}>
+            Minggu
+          </label>
+        </div>
       </FField>
 
       <FButton primary on:click={addAbsen}>

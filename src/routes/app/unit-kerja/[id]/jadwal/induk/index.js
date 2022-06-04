@@ -22,7 +22,7 @@ export async function get(event) {
             ${start},
             ${end},
             '1 day'::interval
-          )::date as d
+          ) as d
         ),
         absen_ctx as (
           select 
@@ -35,10 +35,13 @@ export async function get(event) {
               and alert_masuk <= ${end}
               and tipe != 'dl'
         )
-        select days.d,
+        select (days.d at time zone 'Asia/Makassar') as d,
           count(ab.id) as total_absen
           from days
-          left join absen_ctx ab on ab.tanggal = days.d
+          left join absen_ctx ab 
+            on 
+              ab.alert_masuk >= days.d 
+              and ab.alert_masuk < (days.d + '1 day'::interval)
           group by days.d
           order by days.d
   `;
