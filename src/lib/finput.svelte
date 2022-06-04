@@ -17,5 +17,5 @@
   {placeholder}
 />
 {#if error}
-  <small class="has-text-danger">{error}</small>
+  <small class="has-text-danger is-size-7">{error}</small>
 {/if}

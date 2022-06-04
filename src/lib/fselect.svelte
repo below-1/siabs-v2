@@ -8,8 +8,7 @@
 <div class="select is-fullwidth">
   <select
     name={name}
-    class:border-red-600={error}
-    class:border-2={error}
+    class:is-danger={error}
     bind:value={selected}
   >
     {#each options as option}
@@ -18,5 +17,5 @@
   </select>
 </div>
 {#if error}
-  <div class="text-xs text-red-500 font-semibold">{error}</div>
+  <div class="is-size-7 has-text-danger">{error}</div>
 {/if}

@@ -13,5 +13,5 @@
   bind:value={value}
 />
 {#if error}
-  <div class="text-xs text-red-500 font-semibold">{error}</div>
+  <div class="is-size-7 has-text-danger font-semibold">{error}</div>
 {/if}

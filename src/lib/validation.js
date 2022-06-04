@@ -43,3 +43,19 @@ export function useValidation(rules, obj) {
     valid: isEmpty(result)
   }
 }
+
+export function watchError(rules) {
+  return (value) => {
+    for (let r of rules) {
+      const vr = r(value)
+      if (vr) {
+        return vr;
+      }
+      return null;
+    }
+  }
+}
+
+export function combineErrors(...vals) {
+  return vals.find(v => !!v);
+}

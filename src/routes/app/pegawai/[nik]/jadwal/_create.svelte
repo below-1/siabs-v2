@@ -2,6 +2,13 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import day from '$lib/day';
+  import { 
+    required, 
+    min_length, 
+    max_length, 
+    watchError,
+    combineErrors
+  } from '$lib/validation';
   import WorkStatusSelect from '$lib/work-status-select.svelte';
   import FField from '$lib/field.svelte';
   import FDate from '$lib/fdate.svelte';
@@ -23,6 +30,18 @@
   let dl_lng = null;
   let loading = false;
   $: selectedUnitKerja = getSelectedUnitKerja(unitKerjaList, id_unit_kerja);
+
+  function unitKerjaValidator(v) {
+    if (!v) {
+      return 'unit kerja harus dipilih untuk WFO dan WFH';
+    }
+    return null;
+  }
+
+  // Define validation errors as reactive variables
+  $: errorUnitKerja = watchError([ unitKerjaValidator ])(id_unit_kerja);
+  $: errorTanggal = watchError([ required('Tanggal Harus Diisi') ])(tanggal);
+  $: formInvalid = combineErrors(errorTanggal, errorUnitKerja);
 
   async function getUnitKerja() {
     try {
@@ -120,7 +139,7 @@
     <section class="modal-card-body">
 
       <FField label="Tanggal">
-        <FDate bind:value={tanggal} />
+        <FDate bind:value={tanggal} error={errorTanggal} />
       </FField>
 
       <FField label="Status">
@@ -132,6 +151,7 @@
           <FSelect
             bind:selected={id_unit_kerja}
             options={unitKerjaOptions}
+            error={errorUnitKerja}
           />
         </FField>
 
@@ -148,6 +168,7 @@
       <FButton 
         primary on:click={save}
         {loading}
+        disabled={formInvalid}
       >
         Tambah
       </FButton>
