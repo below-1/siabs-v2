@@ -12,6 +12,9 @@
     right:  0;
     background: rgba(250, 250, 250, 0.5);
     z-index: 9;
+    display:  flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .backdrop-cover {
