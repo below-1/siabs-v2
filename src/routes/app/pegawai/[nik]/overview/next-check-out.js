@@ -15,8 +15,10 @@ export async function get(event) {
       ab.alert_keluar
       from absen ab
         where ab.nik = ${nik}
-          and ab.alert_keluar > ${now}
+          and ab.alert_keluar >= ${now}
           and ab.absen_keluar is null
+        order by ab.alert_keluar asc
+        limit 1
   `;
   console.log(result);
   if (result.length == 0) {

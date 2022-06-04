@@ -15,8 +15,10 @@ export async function get(event) {
       ab.alert_masuk
       from absen ab
         where ab.nik = ${nik}
-          and ab.alert_masuk > ${now}
+          and ab.alert_masuk >= ${now}
           and ab.absen_masuk is null
+        order by ab.alert_masuk asc
+        limit 1
   `;
   console.log(result);
   if (result.length == 0) {
