@@ -123,7 +123,13 @@
     >
       <div class="navbar-start">
         {#each menus as menu}
-          <a href={menu.path} class="navbar-item">
+          <a 
+            href={menu.path} 
+            class="navbar-item" 
+            on:click={() => {
+              showMobileMenu = false;
+            }}
+          >
             {menu.label}
           </a>
         {/each}

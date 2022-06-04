@@ -12,3 +12,10 @@
   font-family: 'Bungee';
   src:  url('/Bungee-Regular.ttf');
 }
+
+table.table {
+  th, td {
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+}

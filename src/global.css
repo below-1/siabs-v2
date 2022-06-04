@@ -1,0 +1,4 @@
+table.table th, table.table td {
+  white-space: nowrap;
+  vertical-align: middle;
+}

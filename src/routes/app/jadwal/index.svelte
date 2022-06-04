@@ -57,12 +57,6 @@
   }
 </script>
 
-<style>
-  table td {
-    vertical-align: middle;
-  }
-</style>
-
 <PageHeader>
   <div class="columns is-vcentered">
     <div class="column">
@@ -83,47 +77,49 @@
     <div class="columns">
       <div class="column">
 
-        <table class="table is-fullwidth is-bordered is-striped">
-          <thead>
-            <tr class="is-size-7">
-              <th>Hari Tanggal</th>
-              <th>08:00 - 16:00</th>
-              <th>20:00 - 04:00</th>
-              <th>WFO</th>
-              <th>WFH</th>
-              <th>DL</th>
-              <th>Tepat Waktu</th>
-              <th>Terlambat</th>
-              <th>Alpa</th>
-              <th>Total</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody class="is-size-7">
-            {#each itemsWithTotal as item}
-              <tr>
-                <td>{day(item.d).format('dddd, DD MMMM, YYYY')}</td>
-                <td>{item.shift_1}</td>
-                <td>{item.shift_2}</td>
-                <td>{item.wfo}</td>
-                <td>{item.wfh}</td>
-                <td>{item.dl}</td>
-                <td>{item.in_time}</td>
-                <td>{item.late}</td>
-                <td>{item.alpa}</td>
-                <td>{item.total}</td>
-                <td class='has-text-centered'>
-                  <a 
-                    href={`/app/jadwal/${day(item.d).format('YYYY-MM-DD')}`}
-                    class="button is-info is-small"
-                  >
-                    <Icon icon="mdi:eye" class="is-small icon" />
-                  </a>
-                </td>
+        <div class="table-container">
+          <table class="table is-fullwidth is-bordered is-striped">
+            <thead>
+              <tr class="is-size-7">
+                <th>Hari Tanggal</th>
+                <th>08:00 - 16:00</th>
+                <th>20:00 - 04:00</th>
+                <th>WFO</th>
+                <th>WFH</th>
+                <th>DL</th>
+                <th>Tepat Waktu</th>
+                <th>Terlambat</th>
+                <th>Alpa</th>
+                <th>Total</th>
+                <th></th>
               </tr>
-            {/each}
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="is-size-7">
+              {#each itemsWithTotal as item}
+                <tr>
+                  <td>{day(item.d).format('dddd, DD MMMM, YYYY')}</td>
+                  <td>{item.shift_1}</td>
+                  <td>{item.shift_2}</td>
+                  <td>{item.wfo}</td>
+                  <td>{item.wfh}</td>
+                  <td>{item.dl}</td>
+                  <td>{item.in_time}</td>
+                  <td>{item.late}</td>
+                  <td>{item.alpa}</td>
+                  <td>{item.total}</td>
+                  <td class='has-text-centered'>
+                    <a 
+                      href={`/app/jadwal/${day(item.d).format('YYYY-MM-DD')}`}
+                      class="button is-info is-small"
+                    >
+                      <Icon icon="mdi:eye" class="is-small icon" />
+                    </a>
+                  </td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
