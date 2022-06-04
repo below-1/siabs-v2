@@ -131,12 +131,14 @@
 
       <!-- Desktop Menu -->
       <div class="navbar-end is-hidden-mobile">
+        {#if !user.super_user}
         <div class="navbar-item">
-          <button class="button is-dark">
+          <a class="button is-dark" href="/app/me">
             <Icon icon="mdi-light:bell" class="icon" />
-            <span>Pesan</span>
-          </button>
+            <span>Check Absen</span>
+          </a>
         </div>
+        {/if}
         <div class="navbar-item">
           <div 
             class="dropdown"
