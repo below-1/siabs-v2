@@ -43,6 +43,8 @@ export async function get(event) {
           group by days.d
           order by days.d
   `;
+  console.log(items);
+  console.log('items');
 
   return {
     body: {

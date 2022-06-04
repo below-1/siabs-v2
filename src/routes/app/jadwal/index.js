@@ -29,6 +29,9 @@ export async function get(event) {
               and alert_masuk <= ${end}
         )
         select (days.d at time zone 'Asia/Makassar')::date as d,
+          count(ab.id) filter (where ab.status_masuk = 'alpa') as alpa,
+          count(ab.id) filter (where ab.status_masuk = 'in-time') as in_time,
+          count(ab.id) filter (where ab.status_masuk = 'late') as late,
           count(ab.id) filter (where ab.tipe = 'dl') as dl,
           count(ab.id) filter (where ab.tipe = 'wfh') as wfh,
           count(ab.id) filter (where ab.tipe = 'wfo') as wfo,

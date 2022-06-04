@@ -31,6 +31,8 @@ export async function get(event) {
   //   console.log(it.unit_kerja);
   // });
   // throw new Error('stop');
+  // console.log(items);
+  // throw new Error('stop');
 
   return {
     status: 200,

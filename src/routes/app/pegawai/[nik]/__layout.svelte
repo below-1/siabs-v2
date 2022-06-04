@@ -3,13 +3,8 @@
   import { page } from '$app/stores';
 
   export async function load({ params, session, fetch }) {
-    const response = await fetch(`/app/pegawai/${params.nik}/layout-data`, {
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json'
-      }
-    })
-    const data = await response.json()
+    const response = await fetch(`/app/pegawai/${params.nik}/layout-data`);
+    const data = await response.json();
     return {
       status: 200,
       props: data
@@ -30,17 +25,7 @@
 
   const { getUser } = getContext('currentUser');
   const currentUser = getUser();
-
-  const menus = [
-    { 
-      label: 'overview', 
-      path: `/app/pegawai/${pegawai.nik}/overview`, 
-      icon: '<ion-icon name="apps-outline"></ion-icon>' },
-    { label: 'jadwal', path: `/app/pegawai/${pegawai.nik}/jadwal` },
-    { label: 'edit data', path: `/app/pegawai/${pegawai.nik}/edit-data` },
-    { label: 'foto', path: `/app/pegawai/${pegawai.nik}/foto` }
-  ]
-
+  $: menus = buildMenus(currentUser);
   let deleteModal = false;
   $: deleteMessage = `Apakah anda menghapus ${pegawai.nama}`
 
@@ -51,6 +36,25 @@
 
   function onDelete() {
     window.location = `/app/user/remove?username=${pegawai.user.username}&section_redirect=pegawai`
+  }
+
+  function buildMenus(currentUser) {
+    let menus = [
+      { 
+        label: 'overview', 
+        path: `/app/pegawai/${pegawai.nik}/overview`, 
+        icon: '<ion-icon name="apps-outline"></ion-icon>' },
+      { label: 'jadwal', path: `/app/pegawai/${pegawai.nik}/jadwal` },
+      { label: 'edit data', path: `/app/pegawai/${pegawai.nik}/edit-data` },
+      { label: 'foto', path: `/app/pegawai/${pegawai.nik}/foto` }
+    ];
+    if (currentUser.super_user) {
+      menus.push({
+        label: 'Akun',
+        path: `/app/pegawai/${pegawai.nik}/account`
+      });
+    }
+    return menus;
   }
 </script>
 
@@ -68,6 +72,10 @@
       <h1 class="title">{pegawai.nama}</h1>
       <h3 class="subtitle mb-2">
         <span>{pegawai.nik}</span>
+      </h3>
+
+      <h3 class="subtitle mb-2">
+        <span>{pegawai.user.username}</span>
       </h3>
     </div>
     <div class="column is-2">

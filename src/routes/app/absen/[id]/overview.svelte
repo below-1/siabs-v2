@@ -2,6 +2,7 @@
   import { getContext } from 'svelte'
   import day from '$lib/day';
   import Icon from '@iconify/svelte';
+  import StatusBox from './_status-box.svelte';
 
   const item = getContext('item')
 
@@ -96,6 +97,11 @@
         </div>
       </div>
     </article>
+    <StatusBox
+      status={item.absen.status_masuk}
+      label="Status Check In"
+    >
+    </StatusBox>
   </div>
 
   <div class="column is-4">
@@ -111,7 +117,7 @@
         </div>
       </div>
     </article>
-    <article class="media">
+    <article class="media mb-4">
       <figure class="media-left">
         <Icon icon="mdi:information" class="image is-64x64" />
       </figure>
@@ -126,5 +132,10 @@
         </div>
       </div>
     </article>
+    <StatusBox
+      status={item.absen.status_keluar}
+      label="Status Check Out"
+    >
+    </StatusBox>
   </div>
 </div>

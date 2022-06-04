@@ -33,13 +33,28 @@
 
   async function buildSeries() {
     const data = await getAggregateData();
-    let _series = Array(3).fill(1).map((_, i) => ({ data: [] }));
+    let _series = [
+      {
+        data: [],
+        color: 'red',
+      },
+      {
+        data: [],
+        color: 'golden',
+      },
+      {
+        data: [],
+        color: 'green',
+      }
+    ];
     data.forEach(item => {
-      _series[0].data.push(item.alpa);
-      _series[1].data.push(item.in_time);
-      _series[2].data.push(item.late);
+      _series[0].data.push(parseInt(item.alpa));
+      _series[1].data.push(parseInt(item.in_time));
+      _series[2].data.push(parseInt(item.late));
     });
     series = _series;
+    console.log(series);
+    console.log('series');
   }
 
   function generateCategories() {

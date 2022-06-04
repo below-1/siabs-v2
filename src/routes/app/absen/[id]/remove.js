@@ -1,15 +1,24 @@
-import db from '../../../../db'
+import db from '../../../../db';
 
 export async function get(event) {
-  const id = event.params.id
+  let response = {
+    status: 200,
+    body: {}
+  };
+  const id = event.params.id;
+  const redirect = event.url.searchParams.get('redirect');
   const sql = db()
   const [ result ] = await sql`
     delete from absen where id = ${id}
       returning id
-  `
-  return {
-    body: {
-      ...result
-    }
+  `;
+  if (redirect) {
+    response.status = 303;
+    response.headers = {
+      location: redirect
+    };
+  } else {
+    response.body.message = 'success';
   }
+  return response;
 }

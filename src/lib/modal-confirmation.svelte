@@ -24,27 +24,35 @@
     left: 0;
     right: 0;
     padding:  12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
 
 <Backdrop bind:show={show}>
-  <div class="backdrop flex items-center justify-center">
-    <div class="rounded bg-white border-2 border-red-600 shadow-xl flex flex-col">
-      <div class="border-b py-4 px-4">
-        <h1 class="font-bold text-xl text-gray-700">{title}</h1>
+  <div 
+    class="backdrop flex items-center justify-center"
+    on:click|self={(event) => {
+      show = false;
+    }}
+  >
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-header-title">{title}</h1>
       </div>
-      <div class="p-4 border-b">
+      <div class="card-content">
         <h2 class="font-bold text-lg">{message}</h2>
-      </div>
-      <div class="p-4 flex items-center gap-x-4">
-        <FButton outline on:click={() => {
-          show = false;
-        }}>Batal</FButton>
-        {#if onYes}
-          <FButton danger on:click={wrappedOnYes}>
-            Lanjutkan
-          </FButton>
-        {/if}
+        <div class="buttons">
+          <FButton outline on:click={() => {
+            show = false;
+          }}>Batal</FButton>
+          {#if onYes}
+            <FButton danger on:click={wrappedOnYes}>
+              Lanjutkan
+            </FButton>
+          {/if}
+        </div>
       </div>
     </div>
   </div>
