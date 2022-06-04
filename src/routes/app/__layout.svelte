@@ -96,6 +96,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Sipeking -- Applikasi</title>
+</svelte:head>
+
 <nav class="navbar is-black" style="z-index: 11;">
   <div class="container">
     <div class="navbar-brand">

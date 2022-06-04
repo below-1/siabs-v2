@@ -31,15 +31,20 @@
   let loading = false;
   $: selectedUnitKerja = getSelectedUnitKerja(unitKerjaList, id_unit_kerja);
 
-  function unitKerjaValidator(v) {
-    if (!v) {
-      return 'unit kerja harus dipilih untuk WFO dan WFH';
+  function unitKerjaValidator(tipe) {
+    return (v) => {
+      if (tipe == 'dl') {
+        return null;
+      }
+      if (!v) {
+        return 'unit kerja harus dipilih untuk WFO dan WFH';
+      }
+      return null;
     }
-    return null;
   }
 
   // Define validation errors as reactive variables
-  $: errorUnitKerja = watchError([ unitKerjaValidator ])(id_unit_kerja);
+  $: errorUnitKerja = watchError([ unitKerjaValidator(tipe) ])(id_unit_kerja);
   $: errorTanggal = watchError([ required('Tanggal Harus Diisi') ])(tanggal);
   $: formInvalid = combineErrors(errorTanggal, errorUnitKerja);
 
