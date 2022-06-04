@@ -17,27 +17,28 @@ export async function get(event) {
           ${start},
           ${end},
           '1 day'::interval
-        )::date as d
+        ) as d
       ),
       absen_data as (
         select 
           absen.id,
-          absen.alert_masuk::date as d,
           absen.alert_masuk,
           absen.alert_keluar,
           absen.tipe
           from absen where 
             alert_masuk >= ${start}
-            and alert_keluar <= ${end}
+            and alert_masuk <= ${end}
             and nik = ${nik}
       )
     select 
-      days.d as date,
+        (days.d at time zone 'Asia/Makassar')::date as date,
         count(abd.id) as total_absen,
         json_agg(abd) as absen
       from days
       left join 
-        absen_data abd on abd.d = days.d
+        absen_data abd on 
+          abd.alert_masuk >= days.d 
+          and abd.alert_masuk < (days.d + '1 day'::interval)
       group by days.d
       order by days.d
   `;
