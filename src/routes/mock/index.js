@@ -5,7 +5,6 @@ import { initialize_pegawai } from './pegawai'
 
 export async function get(event) {
   const sql = db()
-  console.log(sql)
   await sql.begin(async sql => {
     const {
       user

@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import day from '$lib/day';
+  import { client_fetch_json } from '$lib/http';
   import MonthYearSelect from '$lib/month-year-select.svelte';
   import KehadiranChart from './_kehadiran-chart.svelte';
   import KetepatanWaktuChart from './_ketepatan-waktu-chart.svelte';
@@ -33,6 +34,16 @@
       end: end.toISOString()
     }
   }
+
+  // async function loadAggregate(dateInterval) {
+  //   try {
+  //     await client_fetch_json({
+  //       path: `/app/Z`
+  //     });
+  //   } catch (err) {
+
+  //   }
+  // }
 </script>
 
 <NextCheckIn />

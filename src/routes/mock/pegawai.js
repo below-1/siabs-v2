@@ -7,27 +7,58 @@ import {
   randUserName,
   rand
 } from '@ngneat/falso';
+import fs from 'fs';
+import CsvReadableStream from 'csv-reader';
+
+function loadCsvFile(path) {
+  const inputStream = fs.createReadStream(path, {
+    encoding: 'utf8'
+  });
+  return new Promise((resolve, reject) => {
+    let rows = [];
+    inputStream
+      .pipe(new CsvReadableStream({
+        parserNumbers: true,
+        trim: true
+      }))
+      .on('data', function (row) {
+        rows.push(row);
+      })
+      .on('error', function (err) {
+        console.log(err);
+        reject(err);
+      })
+      .on('end', function () {
+        resolve(rows);
+      })
+  })
+}
 
 export async function initialize_pegawai({ sql }) {
+  const items = await loadCsvFile('pegawai.csv');
   const jenis_kelamin_options = ['Laki - Laki', 'Perempuan']
   const t0 = new Date('1990-01-01')
   const t1 = new Date('2001-01-01')
   let payloads = []
   let user_payloads = []
-  const n = 100
+  const n = items.length;
   for (let i = 0; i < n; i++) {
     const nid = i + 1;
-    const nama = randFullName()
-    const nip = randAlphaNumeric({ length: 10 }).join('')
-    const nik = randAlphaNumeric({ length: 10 }).join('')
+    const nama = items[i][0]
+    let nik = items[i][1].length > 10
+      ? items[i][1]
+      : randAlphaNumeric({ length: 10 }).join('');
+    nik = nik
+      .replaceAll(' ', '')
+      .replace("'", '');
+    // console.log(`nik=${nik}`);
+    const nip = nik;
     const jenis_kelamin = rand(jenis_kelamin_options)
     const tanggal_lahir = randBetweenDate({ 
       from: t0,
       to: t1
     })
     const alamat = randSentence()
-    const avatar = `https://i.pravatar.cc/150?img=${nid}`
-
     const username = nik
     const password = nik
 
@@ -35,7 +66,6 @@ export async function initialize_pegawai({ sql }) {
       nama,
       nip,
       nik,
-      avatar,
       tanggal_lahir,
       jenis_kelamin,
       username

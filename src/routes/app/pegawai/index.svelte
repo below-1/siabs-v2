@@ -100,7 +100,6 @@
               <div class="content hast-text-black" style="color: black;">
                 <div>{item.nama}</div>
                 <div class="is-size-7">
-                  <span>{item.nip}</span>
                   <span>{item.nik}</span>
                 </div>
               </div>
