@@ -16,7 +16,7 @@ export async function get(event) {
 
   const sql = db();
 
-  const limitPart = limit 
+  const limitPart = (limit && limit != -1)
     ? sql`limit ${limit}`
     : sql``;
 
