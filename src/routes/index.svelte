@@ -103,8 +103,8 @@
     </div>
     <div class="hero-body is-flex is-flex-direction-column is-justify-content-center is-align-items-center has-text-centered layered">
       <h1
-        style="font-family: 'Bungee'; font-size: 5rem;" 
-        class="catchphrase  has-text-weight-bold"
+        style="font-family: 'Bungee';" 
+        class="catchphrase  has-text-weight-bold is-size-1"
       >SIPEKING</h1>
       <h2 class="is-size-5">Sistem Informasi Pengawasan Kinerja Pegawai</h2>
       <a href="/auth/signin" class="button button is-info is-large mt-4">
