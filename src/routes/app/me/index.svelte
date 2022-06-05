@@ -98,21 +98,21 @@
     const dtime = day(time);
     const dalert_masuk = day(alert_masuk);
     const dalert_keluar = day(alert_keluar);
-    if (!status_masuk) {
+    if (!status_masuk || !status_keluar) {
       const isBefore = dtime.isBefore(dalert_masuk);
+      const isAfter = dtime.isAfter(dalert_keluar);
+      status_absen = 'in-time';
       if (isBefore) {
         state = 'early-check-in';
         throw new Error(state);
       }
-      payload.absen_masuk = dtime.toISOString();
-      payload.status_masuk = 'in-time';
-    } else if (!status_keluar) {
-      const isAfter = dtime.isAfter(dalert_keluar);
       if (isAfter) {
         status_absen = 'late';
       }
+      payload.absen_masuk = dtime.toISOString();
+      payload.status_masuk = status_absen;
       payload.absen_keluar = dtime.toISOString();
-      payload.status_keluar = 'in-time';
+      payload.status_keluar = status_absen;
     } else {
       throw new Error('invariant violated: got absen with status_masuk and status_keluar both not null');
     }
