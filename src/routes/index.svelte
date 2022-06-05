@@ -102,13 +102,11 @@
       </nav>
     </div>
     <div class="hero-body is-flex is-flex-direction-column is-justify-content-center is-align-items-center has-text-centered layered">
-      {#each catchphrases as cp, i}
-        <h1
-          style="font-family: 'Bungee'; font-size: 5rem;" 
-          class={`catchphrase _${i + 1} has-text-weight-bold`}
-        >{cp}</h1>
-      {/each}
-      <h2 class="is-size-5">Sistem Informasi Absensi Online</h2>
+      <h1
+        style="font-family: 'Bungee'; font-size: 5rem;" 
+        class="catchphrase  has-text-weight-bold"
+      >SIPEKING</h1>
+      <h2 class="is-size-5">Sistem Informasi Pengawasan Kinerja Pegawai</h2>
       <a href="/auth/signin" class="button button is-info is-large mt-4">
         login
       </a>
