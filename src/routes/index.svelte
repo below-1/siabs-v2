@@ -21,27 +21,26 @@
     background-size: cover;
   }
   .catchphrase {
-    background: linear-gradient(to right, red, blue);
-    /*text-shadow: 0px 0px white;*/
+    /*background: linear-gradient(to right, red, blue);
     background-clip: text;
     -webkit-text-fill-color:  rgba(0, 0, 0, 1);
     animation-iteration-count: infinite;
     animation-duration: 9s;
-    /*animation-direction: alternate;*/
-    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out; */
     line-height: 100%;
   }
 
   .catchphrase._1 {
-    animation-name:  canim_1;
+    /* animation-name:  canim_1; */
     /*animation-direction: alternate;*/
   }
   .catchphrase._2 {
-    animation-name:  canim_2;
+    /* animation-name:  canim_2; */
     /*animation-direction: alternate;*/
   }
   .catchphrase._3 {
-    animation-name:  canim_3;
+    /* animation-name:  canim_3; */
     /*animation-direction: alternate;*/
   }
 

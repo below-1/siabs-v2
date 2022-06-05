@@ -80,6 +80,29 @@
     return result;
   }
 
+  let loadingCheckClashInvariant = false;
+  async function checkClashInvariant(nik, alert_masuk, alert_keluar) {
+    let payload = {
+      nik,
+      start: alert_masuk,
+      end: alert_keluar
+    };
+    loadingCheckClashInvariant = true;
+    try {
+      const response = await client_fetch_json({
+        method: 'POST',
+        path: '/app/absen/invariant/clash/check',
+        payload
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+      console.log('fail when check clash invariant');
+    } finally {
+      loadingCheckClashInvariant = false;
+    }
+  }
+
   function getPayload() {
     let payload = {};
     payload.tipe = tipe;
@@ -108,6 +131,18 @@
     loading = true;
     const payload = getPayload();
     try {
+      const checkClashInvariantResponse = await checkClashInvariant(
+        payload.nik, 
+        payload.alert_masuk,
+        payload.alert_keluar);
+      // console.log(checkClashInvariantResponse);
+      // throw new Error('stop');
+      if (checkClashInvariantResponse.message == 'CLASH') {
+        const { id } = checkClashInvariantResponse;
+        window.location = `/app/absen/invariant/clash`;
+        return;
+      }
+
       const response = await client_fetch_json({
         method: 'POST',
         path: '/app/absen/create',
