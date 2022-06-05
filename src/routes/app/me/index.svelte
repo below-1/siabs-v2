@@ -161,14 +161,13 @@
     if (!browser) {
       return;
     }
-    alert(time.toLocaleString());
     const location = await getLocation();
     const absenList = await loadCurrentAbsen(location, time);
     if (absenList.length == 0) {
       state = 'empty';
-      // setTimeout(() => {
-      //   window.location = `/app/pegawai/${pegawai.nik}/overview`;
-      // }, 3000);
+      setTimeout(() => {
+        window.location = `/app/pegawai/${pegawai.nik}/overview`;
+      }, 3000);
       return;
     }
     const absen = absenList[0];
