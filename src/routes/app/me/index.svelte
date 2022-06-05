@@ -52,21 +52,21 @@
 
       if ( isBefore ) {
         // Make sure timestamp is not 30 minutes earlier
-        if (dtime.diff(dalert_masuk, 'minute') > 30) {
+        if (dalert_masuk.diff(dtime, 'minute') > 30) {
           state = 'early-check-in';
-          return;
+          throw new Error(state);
         }
         status_absen = 'in-time';
       } else {
         status_absen = dtime.diff(dalert_masuk, 'minute') > 30 
-          ? 'late'
-          : 'alpa';
+          ? 'alpa'
+          : 'late';
       }
       payload.absen_masuk = dtime.toISOString();
       payload.status_masuk = status_absen;
     } else if (!status_keluar) {
       const dalert_keluar = day(alert_keluar);
-      const isBefore = dtime.isBefore(dalert_masuk);
+      const isBefore = dtime.isBefore(dalert_keluar);
       if (isBefore) {
         state = 'early-check-out';
         throw new Error(state);
@@ -119,7 +119,7 @@
     return payload;
   }
 
-  async function loadCurrentAbsen(position) {
+  async function loadCurrentAbsen(position, time) {
     const payload = {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
@@ -131,7 +131,7 @@
         method: 'GET',
         path: '/app/absen/current',
         params: {
-          now: (new Date()).toISOString()
+          now: time.toISOString()
         }
       });
       return currentAbsenResponse.items;
@@ -161,13 +161,14 @@
     if (!browser) {
       return;
     }
+    alert(time.toLocaleString());
     const location = await getLocation();
-    const absenList = await loadCurrentAbsen(location);
+    const absenList = await loadCurrentAbsen(location, time);
     if (absenList.length == 0) {
       state = 'empty';
-      setTimeout(() => {
-        window.location = `/app/pegawai/${pegawai.nik}/overview`;
-      }, 3000);
+      // setTimeout(() => {
+      //   window.location = `/app/pegawai/${pegawai.nik}/overview`;
+      // }, 3000);
       return;
     }
     const absen = absenList[0];

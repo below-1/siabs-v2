@@ -178,8 +178,8 @@
 
       <!-- Mobile Menu -->
       <div class="navbar-end is-hidden-tablet">
-        <a class="navbar-item">
-          <span>Pesan</span>
+        <a href="/app/me" class="navbar-item">
+          <span>Cek Absen</span>
         </a>
         <a class="navbar-item">
           <span>Ganti Password</span>
