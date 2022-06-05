@@ -76,7 +76,7 @@
     } else {
       t0 = t0.hour(20).minute(0);
     }
-    const t1 = t0.hour(4).add(1, 'day');
+    const t1 = t0.add(12, 'hour');
     const payload = {
       kode_shift,
       tipe,

@@ -13,15 +13,17 @@
   let shift2Items = [];
 
   function splitItems(items) {
+    let _shift1 = [];
+    let _shift2 = [];
     items.forEach(item => {
       if (item.kode_shift == 1) {
-        shift1Items.push(item);
+        _shift1.push(item);
       } else {
-        shift2Items.push(item);
+        _shift2.push(item);
       }
     });
-    shift1Items = [...shift1Items];
-    shift2Items = [...shift2Items];
+    shift1Items = _shift1;
+    shift2Items = _shift2;
   }
 
   async function reload() {
@@ -66,7 +68,7 @@
 
     <div class="columns">
       <div class="column">
-        <div class="subtitle is-size-4">08:00 - 16:00</div>
+        <div class="subtitle is-size-4">08:00 - 20:00</div>
         {#each shift1Items as item}
           <a 
             href={`/app/absen/${item.id}/overview`}
@@ -92,7 +94,7 @@
         {/each}
       </div>
       <div class="column">
-        <div class="subtitle is-size-4">20:00 - 04:00</div>
+        <div class="subtitle is-size-4">20:00 - 08:00</div>
         {#each shift2Items as item}
           <a 
             href={`/app/absen/${item.id}/overview`}

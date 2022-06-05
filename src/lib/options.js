@@ -10,6 +10,6 @@ export const work_status_options = [
 ]
 
 export const kode_shift_options = [
-  { value: 1, text: '08:00 - 16:00' },
-  { value: 2, text: '20:00 - 04:00' },
+  { value: 1, text: '08:00 - 20:00' },
+  { value: 2, text: '20:00 - 08:00' },
 ]
