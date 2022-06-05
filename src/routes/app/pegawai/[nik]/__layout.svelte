@@ -79,12 +79,14 @@
       </h3>
     </div>
     <div class="column is-2">
+      {#if currentUser.super_user}
       <FButton 
         on:click={showDeleteModal}
         danger
       >
         Hapus Data
       </FButton>
+      {/if}
     </div>
   </div>
 </PageHeader>
