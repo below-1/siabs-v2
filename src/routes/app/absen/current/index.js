@@ -108,3 +108,67 @@ export async function post(event) {
     return response;
   }
 }
+
+async function getWFOandWFHAbsen(now, nik, sql) {
+  const items = await sql`
+    with absen_ctx as (
+      select * 
+      from absen
+      where 
+        nik = ${nik}
+        and alert_masuk < (${now} + interval '1 hour')
+        and alert_masuk > (${now} - interval '1 day')
+        and (status_masuk is null or status_keluar is null)
+    )
+      select 
+        from absen_ctx
+          where 
+            alert_masuk < (${now} + interval '1 hour')
+    select * 
+      from absen
+      where 
+        nik = ${nik}
+        or (
+          (alert_masuk - interval '1 hour') < ${payload.time}
+          and (alert_masuk + interval '1 hour') > ${payload.time}
+        )
+         (alert_keluar + interval '1 hour') > ${payload.time}
+        and (
+          absen_masuk is null
+          or absen_keluar is null)
+  `;
+  return items;
+}
+
+async function getDLAbsen(now, nik, sql) {
+
+}
+
+export async function get(event) {
+  const { pegawai } = event.locals.session;
+  const { nik } = pegawai;
+  const nowParam = event.url.searchParams.get('now');
+  if (!nowParam) {
+    throw new Error('[now] param must be provided');
+  }
+  const now = new Date(nowParam);
+  const sql = db();
+
+  const items = await sql`
+    select 
+      (alert_masuk - ${now}) as diff,
+      absen.* 
+      from absen
+      where 
+        nik = ${nik}
+        and (alert_masuk - interval '1 hour') < ${now}
+        and (alert_keluar + interval '1 hour') > ${now}
+        and (absen_masuk is null or absen_keluar is null)
+      order by diff
+  `;
+  return {
+    body: {
+      items
+    }
+  }
+}

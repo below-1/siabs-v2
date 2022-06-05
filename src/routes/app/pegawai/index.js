@@ -4,7 +4,7 @@ export async function get(event) {
   const { tenant } = event.locals.session;
 
   let limit = event.url.searchParams.get('limit')
-  limit = limit ? parseInt(limit) : null;
+  limit = limit ? parseInt(limit) : 10;
   let after = event.url.searchParams.get('after')
   after = after ? after : ''
 

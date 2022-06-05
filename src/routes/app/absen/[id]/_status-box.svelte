@@ -11,7 +11,7 @@
     let color = null;
     let text = '';
     if (status == 'in-time') {
-      icon = 'bsx:like';
+      icon = 'bxs:like';
       color = 'success';
       text = 'Tepat Waktu';
     } else if (status == 'late') {

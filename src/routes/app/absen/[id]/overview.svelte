@@ -4,7 +4,9 @@
   import Icon from '@iconify/svelte';
   import StatusBox from './_status-box.svelte';
 
-  const item = getContext('item')
+  const item = getContext('item');
+  console.log(item);
+  console.log('item');
 
   const alert_masuk = day(item.absen.alert_masuk)
   const absen_masuk = day(item.absen.absen_masuk)
