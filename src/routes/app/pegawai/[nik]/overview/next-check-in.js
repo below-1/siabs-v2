@@ -15,8 +15,8 @@ export async function get(event) {
       ab.alert_masuk
       from absen ab
         where ab.nik = ${nik}
-          and ab.alert_masuk >= ${now}
-          and ab.absen_masuk is null
+          and ab.alert_masuk >= (${now} - '1 day'::interval)
+          and ab.status_masuk is null
         order by ab.alert_masuk asc
         limit 1
   `;
