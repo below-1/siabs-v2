@@ -41,7 +41,10 @@
     try {
       const response = await client_fetch_json({
         path: '/app/pegawai',
-        method: 'GET'
+        method: 'GET',
+        params: {
+          limit: -1
+        }
       });
       pegawaiOptions = response.items.map(item => {
         return {
