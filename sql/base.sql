@@ -18,7 +18,7 @@ create table pegawai (
   jenis_kelamin jenis_kelamin_type NOT NULL,
   avatar STRING,
   tanggal_lahir TIMESTAMPTZ NOT NULL,
-  username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE,
+  username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE ON UPDATE CASCADE,
   whatsapp STRING,
   PRIMARY KEY (nik, nip, nama)
 );
@@ -63,8 +63,8 @@ create table absen (
   -- 3: 00:00 - 23:59  DL, one day full
   kode_shift integer,
 
-  id_unit_kerja UUID REFERENCES public.unit_kerja(id) ON DELETE CASCADE,
-  nik STRING NOT NULL REFERENCES public.pegawai(nik) ON DELETE CASCADE
+  id_unit_kerja UUID REFERENCES public.unit_kerja(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  nik STRING NOT NULL REFERENCES public.pegawai(nik) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create index on absen (nik);

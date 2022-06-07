@@ -1,13 +1,44 @@
 <script>
   import { onMount } from 'svelte';
+  import { browser } from '$app/env';
+  import { client_fetch_json } from '$lib/http';
   import FField from '$lib/field.svelte';
   import FInput from '$lib/finput.svelte';
   import FButton from '$lib/fbutton.svelte';
+
   export let user = null;
 
+  let oldUsername = user.username;
   let username = user.username;
   let password = '';
   let repeat_password = '';
+  let loadingChangeUsername = false;
+
+  async function changeUsername() {
+    if (!browser) {
+      return;
+    }
+    loadingChangeUsername = true;
+    try {
+      const response = await client_fetch_json({
+        path: `/app/account/${oldUsername}`,
+        payload: {
+          username
+        },
+        method: 'POST'
+      });
+      console.log(response);
+      console.log('response');
+      alert('sukses mengubah akun');
+      window.location.reload();
+      // window.history.back();
+    } catch (err) {
+      console.log(err);
+      alert('gagal mengubah username');
+    } finally {
+      loadingChangeUsername = false;
+    }
+  }
 
   onMount(() => {
     username = user.username;
@@ -17,9 +48,7 @@
 <div class="columns">
   <div class="column is-5">
 
-    <form
-      method="POST"
-      enctype="multipart/form-data"
+    <div
       class="card mb-4"
     >
       <div class="card-header">
@@ -31,11 +60,12 @@
         </FField>
         <FButton
           primary
+          on:click={changeUsername}
         >
           simpan
         </FButton>
       </div>
-    </form>
+    </div>
 
     <form
       method="POST"
