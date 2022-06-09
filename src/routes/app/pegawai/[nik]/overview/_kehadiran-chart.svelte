@@ -2,6 +2,8 @@
   import { onMount } from 'svelte'
   import { browser } from '$app/env'
 
+  export let alpa = 0;
+  export let masuk = 0;
   let Highcharts = null;
 
   function draw_chart() {
@@ -32,7 +34,7 @@
           }
       },
       series: [{
-          data: [13, 2]
+          data: [masuk, alpa]
       }]
     });
   }

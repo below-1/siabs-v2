@@ -121,7 +121,10 @@
               Presentasi Kehadiran
             </div>
           </div>
-          <KehadiranChart />
+          <KehadiranChart
+            alpa={aggregate.alpa}
+            masuk={aggregate.masuk}
+          />
         </div>
 
         <div class="card mb-5">

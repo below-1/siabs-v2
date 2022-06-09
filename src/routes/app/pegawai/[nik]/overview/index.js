@@ -15,7 +15,9 @@ export async function get(event) {
       coalesce(count(1) filter (where tipe = 'wfo'), 0) as wfo,
       coalesce(count(1) filter (where tipe = 'wfh'), 0) as wfh,
       coalesce(count(1) filter (where kode_shift = 1), 0) as shift_1,
-      coalesce(count(1) filter (where kode_shift = 2), 0) as shift_2
+      coalesce(count(1) filter (where kode_shift = 2), 0) as shift_2,
+      coalesce(count(1) filter (where status_masuk = 'alpa'), 0) as alpa,
+      coalesce(count(1) filter (where status_masuk != 'alpa'), 0) as masuk
       from absen ab
         where ab.alert_masuk >= ${start.toDate()}
           and ab.alert_masuk <= ${end.toDate()}
