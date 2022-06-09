@@ -36,52 +36,52 @@
       </div>
     </div>
     <div class="columns">
-    <div class="column is-5">
-      <form
-        method="POST"
-        enctype="multipart/form-data"
-        class="card"
-      >
-        <div class="card-content">
-          <Field label="Nama">
-            <FInput 
-              name="nama"
-              bind:value={nama}
-              error={verr.fields.nama}
-            />
-          </Field>
+      <div class="column is-5">
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          class="card"
+        >
+          <div class="card-content">
+            <Field label="Nama">
+              <FInput 
+                name="nama"
+                bind:value={nama}
+                error={verr.fields.nama}
+              />
+            </Field>
 
-          <Field label="Alamat">
-            <FInput 
-              name="alamat" 
-              bind:value={alamat}
-              error={verr.fields.alamat}
-            />
-          </Field>
+            <Field label="Alamat">
+              <FInput 
+                name="alamat" 
+                bind:value={alamat}
+                error={verr.fields.alamat}
+              />
+            </Field>
 
-          <Field label="Latitude">
-            <FInput 
-              name="latitude" 
-              bind:value={latitude}
-            />
-          </Field>
+            <Field label="Latitude">
+              <FInput 
+                name="latitude" 
+                bind:value={latitude}
+              />
+            </Field>
 
-          <Field label="Longitude">
-            <FInput 
-              name="longitude" 
-              bind:value={longitude}
-            />
-          </Field>
-          <FButton
-            primary
-          >
-            Simpan
-          </FButton>
-        </div>
+            <Field label="Longitude">
+              <FInput 
+                name="longitude" 
+                bind:value={longitude}
+              />
+            </Field>
+            <FButton
+              primary
+            >
+              Simpan
+            </FButton>
+          </div>
 
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
   </div>
 </div>
 

@@ -6,6 +6,7 @@
   export let title = '';
   export let message = '';
   export let onYes = null;
+  export let loading = false;
 
   $: wrappedOnYes = async () => {
     if (onYes) {
@@ -48,7 +49,11 @@
             show = false;
           }}>Batal</FButton>
           {#if onYes}
-            <FButton danger on:click={wrappedOnYes}>
+            <FButton 
+              danger 
+              on:click={wrappedOnYes}
+              {loading}
+            >
               Lanjutkan
             </FButton>
           {/if}
