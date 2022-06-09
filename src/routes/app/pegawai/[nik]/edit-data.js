@@ -5,7 +5,6 @@ export async function post(event) {
   const fd = await event.request.formData()
   let payload = {
     nama: fd.get('nama'),
-    nip: fd.get('nip'),
     nik: fd.get('nik'),
     jenis_kelamin: fd.get('jenis_kelamin')
   }
@@ -22,12 +21,13 @@ export async function post(event) {
       sql(payload)
     } 
       where nik = ${nik}
+      returning nik
   `
 
   return {
     status: 303,
     headers: {
-      location: `/app/pegawai/${nik}/overview`
+      location: `/app/pegawai/${result.nik}/overview`
     }
   }
 }

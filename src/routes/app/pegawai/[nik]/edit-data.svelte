@@ -21,7 +21,6 @@
   $: payload = ({
     nama,
     nik,
-    nip,
     jenis_kelamin,
     tanggal_lahir
   });
@@ -33,9 +32,6 @@
     ],
     nik: [
       min_length(6, 'panjang NIK minimal 6 karakter') 
-    ],
-    nip: [
-      min_length(6, 'panjang NIP minimal 6 karakter') 
     ]
   }, payload);
 
@@ -60,18 +56,11 @@
               />
             </Field>
 
-            <Field label="NIK">
+            <Field label="NIK/NIP">
               <FInput 
                 name="nik"
                 bind:value={nik}
                 error={verr.fields.nik}
-              />
-            </Field>
-
-            <Field label="NIP">
-              <FInput 
-                name="nip"
-                bind:value={nip}
               />
             </Field>
 
