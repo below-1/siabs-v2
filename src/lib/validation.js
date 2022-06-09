@@ -51,8 +51,8 @@ export function watchError(rules) {
       if (vr) {
         return vr;
       }
-      return null;
     }
+    return null;
   }
 }
 

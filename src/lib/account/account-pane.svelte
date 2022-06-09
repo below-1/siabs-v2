@@ -1,18 +1,43 @@
 <script>
   import { onMount } from 'svelte';
   import { browser } from '$app/env';
+  import Icon from '@iconify/svelte';
   import { client_fetch_json } from '$lib/http';
+  import { 
+    required,
+    watchError, 
+    combineErrors 
+  } from '$lib/validation';
   import FField from '$lib/field.svelte';
   import FInput from '$lib/finput.svelte';
+  import FPassword from '$lib/fpassword.svelte';
   import FButton from '$lib/fbutton.svelte';
 
   export let user = null;
-
   let oldUsername = user.username;
   let username = user.username;
   let password = '';
   let repeat_password = '';
   let loadingChangeUsername = false;
+  let loadingChangePassword = false;
+  let showPasswords = false;
+
+  function passwordEqual(v) {
+    if (v != password) {
+      return 'Password tidak cocok';
+    }
+  }
+
+  $: passwordError = watchError([
+      required('password harus diisi')
+    ])(password);
+  $: repeatPasswordError = watchError([
+      required('ulangi password'),
+      passwordEqual
+    ])(repeat_password);
+  $: someChangePasswordError = combineErrors(
+    passwordError, 
+    repeatPasswordError);
 
   async function changeUsername() {
     if (!browser) {
@@ -21,7 +46,7 @@
     loadingChangeUsername = true;
     try {
       const response = await client_fetch_json({
-        path: `/app/account/${oldUsername}`,
+        path: `/app/account/${oldUsername}/username`,
         payload: {
           username
         },
@@ -37,6 +62,25 @@
       alert('gagal mengubah username');
     } finally {
       loadingChangeUsername = false;
+    }
+  }
+
+  async function changePassword() {
+    if (!browser) {
+      return;
+    }
+    loadingChangePassword = true;
+    try {
+      const response = await fetch(`/app/account/${oldUsername}/password`, {
+        method: 'POST',
+        body: JSON.stringify({
+          password
+        })
+      });
+      alert('sukses mengubah password');
+
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -67,28 +111,62 @@
       </div>
     </div>
 
-    <form
-      method="POST"
-      enctype="multipart/form-data"
+    <div
       class="card mb-4"
     >
       <div class="card-header">
         <h1 class="card-header-title">Ganti Password</h1>
       </div>
       <div class="card-content">
-        <FField label="Password">
-          <FInput name="password" bind:value={password} />
-        </FField>
-        <FField label="Ulangi Password">
-          <FInput name="repeat_password" bind:value={repeat_password} />
-        </FField>
-        <FButton
-          primary
-        >
-          simpan
-        </FButton>
+        {#if showPasswords}
+          <FField label="Password">
+            <FInput
+              name="password" 
+              bind:value={password} 
+              error={passwordError}
+            />
+          </FField>
+          <FField label="Ulangi Password">
+            <FInput
+              name="repeat_password" 
+              bind:value={repeat_password} 
+              error={repeatPasswordError}
+            />
+          </FField>
+        {:else}
+          <FField label="Password">
+            <FPassword
+              name="password" 
+              bind:value={password} 
+              error={passwordError}
+            />
+          </FField>
+          <FField label="Ulangi Password">
+            <FPassword
+              name="repeat_password" 
+              bind:value={repeat_password} 
+              error={repeatPasswordError}
+            />
+          </FField>
+        {/if}
+        <div class="flex items-center">
+          <FButton 
+            outline
+            on:click={() => {
+              showPasswords = !showPasswords;
+            }}
+          >
+            <Icon icon="bi:eye-fill"></Icon>
+          </FButton>
+          <FButton
+            primary
+            on:click={changePassword}
+          >
+            simpan
+          </FButton>
+        </div>
       </div>
-    </form>
+    </div>
 
     <div class="card">
       <div class="card-content">
