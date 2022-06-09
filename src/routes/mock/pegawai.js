@@ -42,16 +42,25 @@ export async function initialize_pegawai({ sql }) {
   let payloads = []
   let user_payloads = []
   const n = items.length;
+  let allNiks = new Set();
   for (let i = 0; i < n; i++) {
     const nid = i + 1;
     const nama = items[i][0]
-    let nik = items[i][1].length > 10
+
+    let nik = (items[i][1] && items[i][1].length) > 10
       ? items[i][1]
       : randAlphaNumeric({ length: 10 }).join('');
-    nik = nik
-      .replaceAll(' ', '')
-      .replace("'", '');
-    // console.log(`nik=${nik}`);
+
+    // nik = nik
+    //   .replaceAll(' ', '')
+    //   .replace("'", '');
+
+    if (allNiks.has(nik)) {
+      console.log(`nik=${nik}`);
+      throw new Error(nik)
+    }
+    allNiks.add(nik)
+
     const nip = nik;
     const jenis_kelamin = rand(jenis_kelamin_options)
     const tanggal_lahir = randBetweenDate({ 
@@ -76,6 +85,7 @@ export async function initialize_pegawai({ sql }) {
       timezone: '+08:00'
     })
   }
+  console.log(user_payloads)
   const user_list = await sql`
     insert into "user" ${sql(user_payloads)}
     returning *

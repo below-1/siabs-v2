@@ -3,6 +3,8 @@
   import { browser } from '$app/env'
 
   let Highcharts = null;
+  export let hadir = 0;
+  export let alpa = 0;
 
   function draw_chart() {
     const chart = Highcharts.chart('kehadiran-chart', {
@@ -32,7 +34,7 @@
           }
       },
       series: [{
-          data: [13, 2]
+          data: [hadir, alpa]
       }]
     });
   }

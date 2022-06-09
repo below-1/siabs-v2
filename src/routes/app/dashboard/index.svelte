@@ -116,7 +116,10 @@
         </div>
       </div>
       <div class="card-content">
-        <KetepatanWaktuChart />
+        <KetepatanWaktuChart 
+          hadir={aggregate_1.masuk}
+          alpa={aggregate_1.alpa}
+        />
       </div>
     </div>
   </div>

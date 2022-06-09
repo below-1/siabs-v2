@@ -98,6 +98,8 @@
     } catch (err) {
       console.log(err);
       alert('gagal menambah absen');
+    } finally {
+      show = false;
     }
   }
 
@@ -117,7 +119,13 @@
   <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">Tambah Pegawai</p>
-      <button class="delete" aria-label="close"></button>
+      <button 
+        class="delete" 
+        aria-label="close"
+        on:click={() => {
+          show = false;
+        }}
+      ></button>
     </header>
     <section class="modal-card-body">
 
