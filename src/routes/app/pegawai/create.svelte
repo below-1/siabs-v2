@@ -15,12 +15,16 @@
   const cu = getContext('currentUser');
   const user = cu.getUser();
 
+  export let unitKerjaList = [];
+  $: unitKerjaOptions = buildUnitKerjaOptions(unitKerjaList);
+
   let nama = '';
   let nip = '';
   let nik = '';
   let jenis_kelamin = 'Laki - Laki';
   let tanggal_lahir = '1997-01-20';
   let isAdminUnitKerja = null;
+  let id_unit_kerja = null;
   let username = '';
   let password = '';
   let unitKerjaId = null;
@@ -55,6 +59,20 @@
       return false;
     }
   }
+
+  function buildUnitKerjaOptions(unitKerjaList) {
+    let result = unitKerjaList.map(unitKerja => {
+      return {
+        text: unitKerja.nama,
+        value: unitKerja.id
+      }
+    });
+    result = [
+      { value: null, text: 'Tidak Ada' },
+      ...result
+    ]
+    return result;
+  }
 </script>
 
 <PageHeader>
@@ -73,6 +91,13 @@
               </Field>
               <Field label="NIP/NIK">
                 <Finput name="nik" bind:value={nik} error={verr.fields.nik} />
+              </Field>
+              <Field label="Unit Kerja">
+                <FSelect 
+                  name="id_unit_kerja" 
+                  bind:selected={id_unit_kerja} 
+                  options={unitKerjaOptions}
+                />
               </Field>
               <Field label="Jenis Kelamin">
                 <FSelect 

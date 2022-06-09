@@ -3,6 +3,11 @@ create database absensi_db;
 
 use absensi_db;
 
+create type jenis_kelamin_type as enum('Laki - Laki', 'Perempuan');
+create type work_type as enum('wfh', 'wfo', 'dl');
+create type absen_status_type as enum('in-time', 'late', 'alpa');
+create type tipe_unit_kerja as enum('induk', 'satpel');
+
 create table "user" (
   username STRING PRIMARY KEY NOT NULL,
   password STRING,
@@ -10,7 +15,6 @@ create table "user" (
   "timezone" STRING NOT NULL
 );
 
-create type jenis_kelamin_type as enum('Laki - Laki', 'Perempuan');
 create table pegawai (
   nik STRING NOT NULL UNIQUE,
   nama STRING NOT NULL,
@@ -20,10 +24,10 @@ create table pegawai (
   tanggal_lahir TIMESTAMPTZ NOT NULL,
   username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE ON UPDATE CASCADE,
   whatsapp STRING,
+  id_unit_kerja UUID,
   PRIMARY KEY (nik, nip, nama)
 );
 
-create type tipe_unit_kerja as enum('induk', 'satpel');
 create table unit_kerja (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nama STRING NOT NULL,
@@ -33,9 +37,6 @@ create table unit_kerja (
   avatar STRING,
   tipe tipe_unit_kerja
 );
-
-create type work_type as enum('wfh', 'wfo', 'dl');
-create type absen_status_type as enum('in-time', 'late', 'alpa');
 
 create table absen (
   id UUID not null primary key default gen_random_uuid(),
@@ -69,3 +70,4 @@ create table absen (
 
 create index on absen (nik);
 create index on absen (id_unit_kerja);
+create index on pegawai (id_unit_kerja);

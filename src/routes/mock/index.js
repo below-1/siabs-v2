@@ -10,7 +10,7 @@ export async function get(event) {
       user
     } = await initialize_tenant({ sql })
     const unit_kerja_list = await initialize_unit_kerja({ sql })
-    const pegawai_list = await initialize_pegawai({ sql })
+    // const pegawai_list = await initialize_pegawai({ sql })
   })
   return {
     status: 200,

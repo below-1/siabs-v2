@@ -1,6 +1,18 @@
 import db from '../../../db'
 import { upload_image } from '../../../upload'
 
+export async function get(event) {
+  const sql = db()
+  const unitKerjaList = await sql`
+    select * from unit_kerja
+  `;
+  return {
+    body: {
+      unitKerjaList
+    }
+  }
+}
+
 export async function post(event) {
   const session = event.locals.session;
   const data = await event.request.formData();
@@ -10,7 +22,8 @@ export async function post(event) {
     nik: data.get('nik'),
     nip: data.get('nik'),
     jenis_kelamin: data.get('jenis_kelamin'),
-    tanggal_lahir: new Date(data.get('tanggal_lahir'))
+    tanggal_lahir: new Date(data.get('tanggal_lahir')),
+    id_unit_kerja: data.get('id_unit_kerja')
   }
   const avatar_file = data.get('avatar');
   if (avatar_file) {

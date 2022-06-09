@@ -11,20 +11,24 @@
 
   const pegawai = getContext('pegawai');
 
+  console.log(pegawai);
+  console.log('pegawai');
+
+  export let unitKerjaList = [];
+  $: unitKerjaOptions = buildUnitKerjaOptions(unitKerjaList);
   let nama = pegawai.nama;
   let nip = pegawai.nip;
   let nik = pegawai.nik;
   let jenis_kelamin = pegawai.jenis_kelamin;
   let tanggal_lahir = pegawai.tanggal_lahir;
   let whatsapp = pegawai.whatsapp;
-
+  let id_unit_kerja = pegawai.id_unit_kerja;
   $: payload = ({
     nama,
     nik,
     jenis_kelamin,
     tanggal_lahir
   });
-
   $: verr = useValidation({
     nama: [
       required('nama harus diisi'), 
@@ -34,6 +38,20 @@
       min_length(6, 'panjang NIK minimal 6 karakter') 
     ]
   }, payload);
+
+  function buildUnitKerjaOptions(unitKerjaList) {
+    let result = unitKerjaList.map(unitKerja => {
+      return {
+        text: unitKerja.nama,
+        value: unitKerja.id
+      }
+    });
+    result = [
+      { value: null, text: 'Tidak Ada' },
+      ...result
+    ]
+    return result;
+  }
 
 </script>
 
@@ -63,6 +81,14 @@
                 error={verr.fields.nik}
               />
             </Field>
+
+            <Field label="Unit Kerja">
+                <FSelect 
+                  name="id_unit_kerja" 
+                  bind:selected={id_unit_kerja} 
+                  options={unitKerjaOptions}
+                />
+              </Field>
 
             <Field label="WhatsApp">
               <FInput 

@@ -12,6 +12,7 @@ export async function get(event) {
         p.jenis_kelamin,
         p.tanggal_lahir,
         p.avatar,
+        p.id_unit_kerja,
         u as "user"
         from pegawai p 
         left join "user" u 
