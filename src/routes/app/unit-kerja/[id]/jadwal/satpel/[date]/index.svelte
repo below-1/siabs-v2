@@ -2,12 +2,14 @@
   import { getContext } from 'svelte';
   import { page } from '$app/stores';
   import day from '$lib/day';
+  import Loader from '$lib/loader.svelte';
   import FButton from '$lib/fbutton.svelte';
   import CreateDialog from './_create.svelte';
 
   const unitKerja = getContext('unitKerja');
   const date = $page.params.date;
   export let items = [];
+  let loading = false;
   let showCreateDialog = false;
   let shift1Items = [];
   let shift2Items = [];
@@ -27,7 +29,7 @@
   }
 
   async function reload() {
-    
+    loading = false;
     try {
       const response = await fetch(`/app/unit-kerja/${unitKerja.id}/jadwal/satpel/${date}`, {
         method: 'GET',
@@ -40,6 +42,8 @@
       items = data.items;
     } catch (err) {
       console.log(err);
+    } finally {
+      loading = false;
     }
   }
 
@@ -67,58 +71,63 @@
     </div>
 
     <div class="columns">
-      <div class="column">
-        <div class="subtitle is-size-4">08:00 - 20:00</div>
-        {#each shift1Items as item}
-          <a 
-            href={`/app/absen/${item.id}/overview`}
-            class="media"
-          >
-            <figure class="media-left">
-              <p class="image is-48x48">
-                <img
-                  src={item.avatar}
-                />
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content hast-text-black" style="color: black;">
-                <div>{item.nama}</div>
-                <div class="is-size-7">
-                  <span>{item.nip}</span>
-                  <span>{item.nik}</span>
+      {#if loading}
+        <Loading />
+      {:else}
+        <div class="column">
+          <div class="subtitle is-size-4">08:00 - 20:00</div>
+          {#each shift1Items as item}
+            <a 
+              href={`/app/absen/${item.id}/overview`}
+              class="media"
+            >
+              <figure class="media-left">
+                <p class="image is-48x48">
+                  <img
+                    src={item.avatar}
+                  />
+                </p>
+              </figure>
+              <div class="media-content">
+                <div class="content hast-text-black" style="color: black;">
+                  <div>{item.nama}</div>
+                  <div class="is-size-7">
+                    <span>{item.nip}</span>
+                    <span>{item.nik}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        {/each}
-      </div>
-      <div class="column">
-        <div class="subtitle is-size-4">20:00 - 08:00</div>
-        {#each shift2Items as item}
-          <a 
-            href={`/app/absen/${item.id}/overview`}
-            class="media"
-          >
-            <figure class="media-left">
-              <p class="image is-48x48">
-                <img
-                  src={item.avatar}
-                />
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content hast-text-black" style="color: black;">
-                <div>{item.nama}</div>
-                <div class="is-size-7">
-                  <span>{item.nip}</span>
-                  <span>{item.nik}</span>
+            </a>
+          {/each}
+        </div>
+        <div class="column">
+          <div class="subtitle is-size-4">20:00 - 08:00</div>
+          {#each shift2Items as item}
+            <a 
+              href={`/app/absen/${item.id}/overview`}
+              class="media"
+            >
+              <figure class="media-left">
+                <p class="image is-48x48">
+                  <img
+                    src={item.avatar}
+                  />
+                </p>
+              </figure>
+              <div class="media-content">
+                <div class="content hast-text-black" style="color: black;">
+                  <div>{item.nama}</div>
+                  <div class="is-size-7">
+                    <span>{item.nip}</span>
+                    <span>{item.nik}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        {/each}
-      </div>
+            </a>
+          {/each}
+        </div>
+      {/if}
+
     </div>
   </div>
 </section>

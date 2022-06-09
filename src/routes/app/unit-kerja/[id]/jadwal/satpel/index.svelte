@@ -25,6 +25,7 @@
   import day from '$lib/day';
   import MonthYearSelect from '$lib/month-year-select.svelte';
   import FButton from '$lib/fbutton.svelte';
+  import Loader from '$lib/loader.svelte';
   import ViewToggle from './_view-toggle.svelte';
   import PegawaiList from './_pegawai-list.svelte';
   import CreateDialog from './_create.svelte';
@@ -67,7 +68,7 @@
       console.log(err);
       // alert('gagal mengambil data');
     } finally {
-      loading = true;
+      loading = false;
     }
   }
 
@@ -85,6 +86,7 @@
 <section class="section">
   <div class="container">
     <h1 class="title">Data Jadwal</h1>
+
     <div class="columns">
       <div class="column is-8 is-flex is-align-items-center is-flex-wrap-wrap" 
         style="row-gap:4px; column-gap: 4px;">
@@ -98,37 +100,41 @@
       </div>
     </div>
 
-    {#if activeTab == 'jadwal'}
-      <table class="table is-fullwidth">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Tanggal</th>
-            <th>08:00 - 16:00</th>
-            <th>20:00 - 04:00</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each aggregation as row}
+    {#if loading}
+      <Loader />
+    {:else}
+      {#if activeTab == 'jadwal'}
+        <table class="table is-fullwidth">
+          <thead>
             <tr>
-              <td>{day(row.d).format('dddd')}</td>
-              <td>{day(row.d).format('YYYY-MM-DD')}</td>
-              <td>{row.shift_1}</td>
-              <td>{row.shift_2}</td>
-              <td>
-                <a
-                  href={`/app/unit-kerja/${unitKerja.id}/jadwal/satpel/${day(row.d).format('YYYY-MM-DD')}`}
-                >detail</a>
-              </td>
+              <th></th>
+              <th>Tanggal</th>
+              <th>08:00 - 16:00</th>
+              <th>20:00 - 04:00</th>
+              <th></th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
-    {:else if activeTab == 'pegawai'}
-      <PegawaiList
-        items={pegawaiList}
-      />
+          </thead>
+          <tbody>
+            {#each aggregation as row}
+              <tr>
+                <td>{day(row.d).format('dddd')}</td>
+                <td>{day(row.d).format('YYYY-MM-DD')}</td>
+                <td>{row.shift_1}</td>
+                <td>{row.shift_2}</td>
+                <td>
+                  <a
+                    href={`/app/unit-kerja/${unitKerja.id}/jadwal/satpel/${day(row.d).format('YYYY-MM-DD')}`}
+                  >detail</a>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      {:else if activeTab == 'pegawai'}
+        <PegawaiList
+          items={pegawaiList}
+        />
+      {/if}
     {/if}
   </div>
 </section>

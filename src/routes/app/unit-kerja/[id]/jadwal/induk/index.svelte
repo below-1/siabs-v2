@@ -2,6 +2,7 @@
   import { getContext } from 'svelte';
   import { browser } from '$app/env';
   import PageHeader from '$lib/page-header.svelte';
+  import Loader from '$lib/loader.svelte';
   import ListItem from '../_list-item.svelte';
   import FButton from '$lib/fbutton.svelte';
   import MonthYearSelect from '$lib/month-year-select.svelte';
@@ -53,15 +54,24 @@
     if (!browser) {
       return;
     }
-    const response = await client_fetch_json({
-      method: 'GET',
-      path: `/app/unit-kerja/${unitKerja.id}/jadwal/induk`,
-      params: dateInterval
-    });
-    console.log(response);
-    console.log('response');
-    aggregation = response.aggregation;
-    pegawaiList = response.pegawaiList;
+    loading = true;
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: `/app/unit-kerja/${unitKerja.id}/jadwal/induk`,
+        params: dateInterval
+      });
+      console.log(response);
+      console.log('response');
+      aggregation = response.aggregation;
+      pegawaiList = response.pegawaiList;
+
+    } catch (err) {
+      console.log(err);
+      alert('gagal mengambil data');
+    } finally {
+      loading = false;
+    }
   }
 
   function reload() {
@@ -125,15 +135,19 @@
         }} outline>Tambah Jadwal</FButton>
       </div>
     </div>
-    
-    {#if activeTab == 'jadwal'}
-      <JadwalList
-        items={aggregation}
-      />
-    {:else if activeTab == 'pegawai'}
-      <PegawaiList
-        items={pegawaiList}
-      />
+
+    {#if loading}
+      <Loader />
+    {:else}
+      {#if activeTab == 'jadwal'}
+        <JadwalList
+          items={aggregation}
+        />
+      {:else if activeTab == 'pegawai'}
+        <PegawaiList
+          items={pegawaiList}
+        />
+      {/if}
     {/if}
   </div>
 </section>
