@@ -7,7 +7,13 @@ export async function get(event) {
     select * from pegawai 
       where 
         id_unit_kerja = ${event.params.id}
-        and nama ilike ${'%' + keyword + '%'}`
+        ${
+          keyword
+            ? sql`and nama ilike ${'%' + keyword + '%'}`
+            : sql``
+        }`;
+  console.log(pegawaiList);
+  console.log('pegawaiList');
   return {
     body: {
       items: pegawaiList

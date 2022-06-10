@@ -28,7 +28,6 @@
 
   export let show = false;
   export let excludeNIK = [];
-
   let pegawaiOptions = [];
   let excludeDays = [];
   let nik = null;
@@ -49,13 +48,11 @@
   }
 
   async function loadPegawai() {
+    const url = `/app/unit-kerja/${unitKerja.id}/pegawai`;
     try {
       const response = await client_fetch_json({
-        path: '/app/pegawai',
-        method: 'GET',
-        params: {
-          limit: -1
-        }
+        path: url,
+        method: 'GET'
       });
       pegawaiOptions = response.items.map(item => {
         return {
@@ -106,19 +103,33 @@
   onMount(loadPegawai);
 </script>
 
-<div 
-  class="modal"
-  class:is-active={show}
->
-  <div 
-    class="modal-background"
-    on:click|self={() => {
-      show = false;
-    }} 
-  ></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Tambah Pegawai</p>
+<style lang="scss">
+  .AddPegawaiSatpel {
+    color: $black;
+    box-shadow: 0 0 6px 0 #eee;
+    background: white;
+    padding: 14px;
+    margin: 1rem;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      .heading {
+        margin: 0;
+        font-size: 1.2rem;
+        color: $black;
+      }
+    }
+  }
+</style>
+
+<Backdrop bind:show={show}>
+  <div class="AddPegawaiSatpel">
+    <header>
+      <p class="heading">Tambah Pegawai</p>
       <button 
         class="delete" 
         aria-label="close"
@@ -127,8 +138,7 @@
         }}
       ></button>
     </header>
-    <section class="modal-card-body">
-
+    <section>
       <FField label="Pegawai">
         <FSelect 
           bind:selected={nik} 
@@ -155,5 +165,5 @@
       </FButton>
     </section>
   </div>
-</div>
+</Backdrop>
 
