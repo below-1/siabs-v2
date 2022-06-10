@@ -5,29 +5,43 @@
   import PageHeader from '$lib/page-header.svelte'
   import FButton from '$lib/fbutton.svelte'
   import FInput from '$lib/finput.svelte'
+  import SearchBox from '$lib/search-box.svelte'
+  import Loader from '$lib/loader.svelte'
   import { client_fetch_json } from '$lib/http'
+  import debounce from '$lib/debounce'
 
   const cu = getContext('currentUser');
   const user = cu.getUser();
 
   let keyword = '';
   let limit = 10;
+  let loading = true;
   export let items = [];
 
-  async function searcItems(keyword) {
+  async function _searchItems(keyword) {
     if (!browser) {
       return;
     }
-    const response = await client_fetch_json({
-      method: 'GET',
-      path: '/app/pegawai',
-      params: {
-        keyword,
-        limit
-      }
-    });
-    items = response.items;
+    loading = true;
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: '/app/pegawai',
+        params: {
+          keyword,
+          limit
+        }
+      });
+      items = response.items;
+    } catch (err) {
+      console.log(err)
+      alert('gagal mengambil data pegawai');
+    } finally {
+      loading = false;
+    }
   }
+
+  const searchItems = debounce(_searchItems, 500);
 
   async function loadNext() {
     if (items.length == 0) {
@@ -50,7 +64,7 @@
     ]
   }
 
-  $: searcItems(keyword);
+  $: searchItems(keyword);
 </script>
 
 <PageHeader>
@@ -76,36 +90,39 @@
   <div class="container">
     <div class="columns">
       <div class="column">
-        <FInput
-          name="keyword"
-          placeholder="Keyword..."
-          bind:value={keyword}
+        <SearchBox
+          bind:keyword={keyword}
         />
 
         <div class="mb-4"></div>
 
-        {#each items as item}
-          <a 
-            href={`/app/pegawai/${item.nik}/overview`}
-            class="media"
-          >
-            <figure class="media-left">
-              <p class="image is-48x48">
-                <img
-                  src={item.avatar}
-                />
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content hast-text-black" style="color: black;">
-                <div>{item.nama}</div>
-                <div class="is-size-7">
-                  <span>{item.nik}</span>
+        {#if loading}
+          <Loader />
+        {:else}
+          {#each items as item}
+            <a 
+              href={`/app/pegawai/${item.nik}/overview`}
+              class="media"
+            >
+              <figure class="media-left">
+                <p class="image is-48x48">
+                  <img
+                    src={item.avatar}
+                  />
+                </p>
+              </figure>
+              <div class="media-content">
+                <div class="content hast-text-black" style="color: black;">
+                  <div>{item.nama}</div>
+                  <div class="is-size-7">
+                    <span>{item.nik}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-        {/each}
+            </a>
+          {/each}
+        {/if}
+
 
         <div class="mb-4"></div>
 
