@@ -22,8 +22,11 @@ export async function post(event) {
     nik: data.get('nik'),
     nip: data.get('nik'),
     jenis_kelamin: data.get('jenis_kelamin'),
-    tanggal_lahir: new Date(data.get('tanggal_lahir')),
-    id_unit_kerja: data.get('id_unit_kerja')
+    tanggal_lahir: new Date(data.get('tanggal_lahir'))
+  }
+  const id_unit_kerja = data.get('id_unit_kerja')
+  if (id_unit_kerja) {
+    pegawai_payload.id_unit_kerja = id_unit_kerja
   }
   const avatar_file = data.get('avatar');
   if (avatar_file) {

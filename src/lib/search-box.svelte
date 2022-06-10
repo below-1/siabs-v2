@@ -2,9 +2,10 @@
   import Icon from '@iconify/svelte';
 
   export let keyword = '';
+  export let placeholder = '#Keyword';
 </script>
 
-<style>
+<style lang="scss">
   .SearchBox {
     background: rgb(245, 245, 250);
     padding: 8px 12px;
@@ -15,7 +16,7 @@
   }
 
   .SearchBox:focus-within {
-    background: #333;
+    background: $info;
     font-weight: bold;
   }
 
@@ -49,7 +50,7 @@
   </div>
   <input
     type="text"
-    placeholder="#Keyword"
+    {placeholder}
     bind:value={keyword}
   />
 </div>

@@ -8,12 +8,14 @@
   import Loader from '$lib/loader.svelte';
   import ModalConfirmation from '$lib/modal-confirmation.svelte';
   import debounce from '$lib/debounce';
+  import AddPegawai from './_add-pegawai.svelte'
 
   const unitKerja = getContext('unitKerja');
   export let items = [];
-  let loading = false;
+  let loading = true;
   let selectedNik = null;
   let showDeleteDialog = false;
+  let showAddPegawai = false;
   let loadingDelete = false;
   const titleDeleteDialog = 'Konfirmasi Hapus Pegawai Dari Unit Kerja';
   $: selectedPegawai = items.find(item => {
@@ -22,6 +24,7 @@
   $: messageDeleteDialog = buildDeleteMessage(selectedPegawai);
   let keyword = '';
   $: onKeywordChange(keyword);
+  $: niks = items.map(item => item.nik);
 
   function showDeleteDialogFor(nik) {
     selectedNik = nik;
@@ -84,8 +87,20 @@
       <div class="column is-8">
         <h1 class="title is-size-4">Daftar Pegawai</h1>
       </div>
-      <div class="column is-4 has-text-right">
+      <div class="column is-3 has-text-right">
         <SearchBox bind:keyword={keyword} />
+      </div>
+      <div class="column is-1 has-text-right">
+        <button 
+          class="addPegawaiButton button is-info"
+          style="width: 100%;"
+          on:click={() => {
+            console.log(niks);
+            showAddPegawai = true;
+          }}
+        >
+          <Icon icon="mdi:plus" style="font-size: 2rem;" />
+        </button>
       </div>
     </div>
 
@@ -153,3 +168,9 @@
   loading={loadingDelete}
 >
 </ModalConfirmation>
+
+<AddPegawai
+  bind:show={showAddPegawai}
+  on:created={reload}
+  excludedNiks={niks}
+/>

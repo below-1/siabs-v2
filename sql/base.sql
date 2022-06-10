@@ -15,19 +15,6 @@ create table "user" (
   "timezone" STRING NOT NULL
 );
 
-create table pegawai (
-  nik STRING NOT NULL UNIQUE,
-  nama STRING NOT NULL,
-  nip STRING,
-  jenis_kelamin jenis_kelamin_type NOT NULL,
-  avatar STRING,
-  tanggal_lahir TIMESTAMPTZ NOT NULL,
-  username STRING NOT NULL REFERENCES public.user(username) ON DELETE CASCADE ON UPDATE CASCADE,
-  whatsapp STRING,
-  id_unit_kerja UUID,
-  PRIMARY KEY (nik, nip, nama)
-);
-
 create table unit_kerja (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   nama STRING NOT NULL,
@@ -36,6 +23,23 @@ create table unit_kerja (
   longitude STRING,
   avatar STRING,
   tipe tipe_unit_kerja
+);
+
+create table pegawai (
+  nik STRING NOT NULL UNIQUE,
+  nama STRING NOT NULL,
+  nip STRING,
+  jenis_kelamin jenis_kelamin_type NOT NULL,
+  avatar STRING,
+  tanggal_lahir TIMESTAMPTZ NOT NULL,
+  username STRING NOT NULL 
+    REFERENCES public.user(username) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  whatsapp STRING,
+  id_unit_kerja UUID 
+    REFERENCES public.unit_kerja
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (nik, nip, nama)
 );
 
 create table absen (
@@ -64,10 +68,15 @@ create table absen (
   -- 3: 00:00 - 23:59  DL, one day full
   kode_shift integer,
 
-  id_unit_kerja UUID REFERENCES public.unit_kerja(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  nik STRING NOT NULL REFERENCES public.pegawai(nik) ON DELETE CASCADE ON UPDATE CASCADE
+  id_unit_kerja UUID 
+    REFERENCES public.unit_kerja(id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE,
+  nik STRING NOT NULL 
+    REFERENCES public.pegawai(nik) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
-create index on absen (nik);
-create index on absen (id_unit_kerja);
-create index on pegawai (id_unit_kerja);
+create index on absen (nik, id_unit_kerja, alert_masuk);
+create index on pegawai (id_unit_kerja, nama);
