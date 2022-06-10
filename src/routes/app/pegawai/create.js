@@ -29,6 +29,8 @@ export async function post(event) {
   if (avatar_file) {
     const avatar = await upload_image(avatar_file);
     pegawai_payload.avatar = avatar;
+  } else {
+    pegawai_payload.avatar = `/user.jpg`;
   }
 
   let username = data.get('username');

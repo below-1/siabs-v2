@@ -21,77 +21,27 @@
   export let show = false;
   export let year;
   export let month;
-  export let excludeNIK = [];
-  let pegawaiOptions = [];
-  let excludeDays = [];
-  let workDays = [true, true, true, true, true, false, false];
+  let workDays = [false, true, true, true, true, true, false];
   let nik = null;
   let tipe = 'wfo';
 
-  $: errorNik = watchError([ required('pegawai tidak boleh kosong') ])(nik);
-  $: formInvalid = combineErrors(errorNik);
-
   const dispatch = createEventDispatcher();
 
-  $: filteredOptions = pegawaiOptions.filter(option => {
-    return !excludeNIK.includes(option.value);
-  });
-
-  async function loadPegawai() {
-    try {
-      const response = await client_fetch_json({
-        path: '/app/pegawai',
-        method: 'GET',
-        params: {
-          limit: -1
-        }
-      });
-      pegawaiOptions = response.items.map(item => {
-        return {
-          text: item.nama,
-          value: item.nik
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      alert('gagal memuat pegawai');
-    }
-  }
-
-  function generateAbsenList(year, month) {
-    let t = day(new Date(year, month, 1));
-    t = t.startOf('month');
-    const end = t.endOf('month');
-    let result = [];
-    const basePayload = {
-      nik,
-      tipe,
-      id_unit_kerja: unitKerja.id,
-      kode_shift: 1
-    }
-    while (t.isBefore(end)) {
-      let payload = { ...basePayload };
-      payload.alert_masuk = t.hour(8).minute(0).toDate();
-      payload.alert_keluar = t.hour(8).minute(0).add(8, 'hour');
-
-      const dow = day(payload.alert_masuk).day();
-      console.log(dow);
-      if ( workDays[dow] ) {
-        result.push(payload);
-      }
-
-      t = t.add(1, 'day');
-    }
-    return result;
-  }
-
   async function addAbsen() {
-    const payloadList = generateAbsenList(year, month);
+    const start = day(new Date(year, month, 1));
+    const end = start.endOf('month');
+    const payload = {
+      id_unit_kerja: unitKerja.id,
+      start: start.toDate(),
+      end: end.toDate(),
+      tipe,
+      workDays
+    }
     try {
       await client_fetch_json({
         path: '/app/absen/create/induk',
         method: 'POST',
-        payload: payloadList
+        payload
       });
       dispatch('created');
     } catch (err) {
@@ -99,8 +49,6 @@
       alert('gagal menambah absen');
     }
   }
-
-  onMount(loadPegawai);
 </script>
 
 <div 
@@ -119,14 +67,6 @@
       <button class="delete" aria-label="close"></button>
     </header>
     <section class="modal-card-body">
-      <FField label="Pegawai">
-        <FSelect 
-          bind:selected={nik} 
-          options={filteredOptions} 
-          error={errorNik}
-        />
-      </FField>
-
       <FField label="Status">
         <WorkStatusSelect bind:selected={tipe} />
       </FField>
@@ -166,7 +106,6 @@
 
       <FButton 
         primary on:click={addAbsen}
-        disabled={formInvalid}
       >
         Tambah
       </FButton>

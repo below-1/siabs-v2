@@ -3,8 +3,11 @@
   import { page } from '$app/stores';
   import Icon from '@iconify/svelte';
   import FInput from '$lib/finput.svelte';
+  import Empty from '$lib/empty.svelte';
+  import SearchBox from '$lib/search-box.svelte';
   import Loader from '$lib/loader.svelte';
   import ModalConfirmation from '$lib/modal-confirmation.svelte';
+  import debounce from '$lib/debounce';
 
   const unitKerja = getContext('unitKerja');
   export let items = [];
@@ -18,6 +21,7 @@
   });
   $: messageDeleteDialog = buildDeleteMessage(selectedPegawai);
   let keyword = '';
+  $: onKeywordChange(keyword);
 
   function showDeleteDialogFor(nik) {
     selectedNik = nik;
@@ -31,8 +35,13 @@
     return `Anda akan menghapus pegawai ${selectedPegawai.nama} dari unit kerja ${unitKerja.nama}`
   }
 
+  const onKeywordChange = debounce((keyword) => {
+    reload();
+  }, 300);
+
   async function reload() {
     const url = $page.url;
+    url.searchParams.set('keyword', keyword)
     loading = true;
     try {
       const response = await fetch(url, {
@@ -72,23 +81,21 @@
   <div class="container">
 
     <div class="columns">
-      <div class="column">
+      <div class="column is-8">
         <h1 class="title is-size-4">Daftar Pegawai</h1>
+      </div>
+      <div class="column is-4 has-text-right">
+        <SearchBox bind:keyword={keyword} />
       </div>
     </div>
 
     <div class="columns">
       <div class="column">
-        <FInput
-          name="keyword"
-          placeholder="Keyword..."
-          bind:value={keyword}
-        />
-
-        <div class="mb-4"></div>
 
         {#if loading}
           <Loader />
+        {:else if items.length == 0}
+          <Empty />
         {:else}
           <div class="table-container">
             <table class="table is-fullwidth is-striped">
@@ -104,7 +111,7 @@
                   <tr>
                     <td width="10%">
                       <figure class="image is-32x32 mr-4">
-                        <img src={item.avatar} />
+                        <img src={item.avatar} alt="avatar" />
                       </figure>
                     </td>
                     <td>

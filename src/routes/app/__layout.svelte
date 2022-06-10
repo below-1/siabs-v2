@@ -57,6 +57,9 @@
   }
 
   function _menus(sess, page) {
+    if (!sess) {
+      return new Error('session is empty');
+    }
     const current_path_pattern = '/' + page.routeId
     let result = []
     if (sess.user.super_user) {
