@@ -9,6 +9,7 @@ export async function get(event) {
       from pegawai where nik != ${id}
         ${keyword
           ? sql`and nama ilike ${'%' + keyword + '%'}`
+          : sql ``
         }
       limit 5
   `
