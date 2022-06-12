@@ -2,6 +2,15 @@ import db from '../../../../db';
 import day from '$lib/day';
 
 export async function post(event) {
+  const { user } = event.locals.session;
+  const { timezone } = user;
+  // const timestr = timezone.substring(1, 5);
+  // const toff = parseInt(timestr);
+  // const offset = timezone.substring(0, 1);
+  // const withOffset = offset == '+'
+  //   ? (d) => d.subtract(toff, 'hour');
+  //   : (d) => d.add(toff, 'hour')
+
   const payload = await event.request.json();
   const {
     workDays,
@@ -19,11 +28,10 @@ export async function post(event) {
       let pegawaiAbsenList = [];
       const end = day(payload.end)
       let t = day(payload.start)
-        .hour(8)
-        .minute(0);
+        .add(8, 'hour');
       let i = 0;
       while (t.isBefore(end)) {
-        const t1 = t.hour(18).minute(0);
+        const t1 = t.add(10, 'hour');
         const dayOfTheWeek = t.day();
 
         if (workDays[dayOfTheWeek]) {
