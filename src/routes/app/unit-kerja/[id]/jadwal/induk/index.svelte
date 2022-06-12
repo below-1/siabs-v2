@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { browser } from '$app/env';
+  import Icon from '@iconify/svelte';
   import { client_fetch_json } from '$lib/http';
   import PageHeader from '$lib/page-header.svelte';
   import Loader from '$lib/loader.svelte';
@@ -97,6 +98,80 @@
     }
   }
 
+  async function downloadCsv() {
+    if (!browser) {
+      return;
+    }
+    let items = [];
+    try {
+      const response = await client_fetch_json({
+        method: 'GET',
+        path: `/app/unit-kerja/${unitKerja.id}/jadwal/induk/report`,
+        params: dateInterval
+      });
+      items = response.items;
+      console.log(items);
+      console.log('download items');
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+
+    function formatStatus(s) {
+      if (s == 'in-time') {
+        return 'Tepat Waktu';
+      } else if (s == 'late') {
+        return 'Terlambat';
+      } else if (s == 'alpa') {
+        return 'Alpa';
+      } else {
+        return '-';
+      }
+    }
+
+    const rows = items.map(item => {
+      const row = [
+        item.nama,
+        
+        day(item.alert_masuk).format('DD-MM-YYYY'),
+        day(item.alert_masuk).format('HH:mm'),
+        item.absen_masuk 
+          ? day(item.absen_masuk).format('HH:mm')
+          : 'Belum Absen',
+        formatStatus(item.status_masuk),
+
+        day(item.alert_keluar).format('DD-MM-YYYY'),
+        day(item.alert_keluar).format('HH:mm'),
+        item.absen_keluar
+          ? day(item.absen_keluar).format('HH:mm')
+          : 'Belum Absen',
+        formatStatus(item.status_keluar)
+      ];
+      const rowString = row.join(',');
+      return rowString;
+    });
+    const headers = [
+      'nama',
+
+      'tanggal jadwal masuk',
+      'waktu jadwal masuk',
+      'waktu absen masuk',
+      'keterangan masuk',
+
+      'tanggal jadwal keluar',
+      'waktu jadwal keluar',
+      'waktu absen keluar',
+      'keterangan keluar',
+    ].join(',');
+
+    const fileContent = headers + '\n' + rows.join('\n');
+    const csvBlob = new Blob([fileContent], {
+      type: 'text/csv'
+    });
+    const url = URL.createObjectURL(csvBlob, );
+    window.open(url);
+  }
+
 </script>
 
 <style>
@@ -109,7 +184,7 @@
   <div class="container">
     <h1 class="title">Data Jadwal</h1>
     <div class="columns">
-      <div class="column is-8 is-flex is-align-items-center is-flex-wrap-wrap" 
+      <div class="column is-7 is-flex is-align-items-center is-flex-wrap-wrap" 
         style="row-gap:4px; column-gap: 4px;">
         <ViewToggle
           bind:active={activeTab}
@@ -119,7 +194,7 @@
           bind:month={month}
         />
       </div>
-      <div class="column is-4 has-text-right">
+      <div class="column is-5 has-text-right">
         <FButton 
           outline 
           danger
@@ -132,6 +207,10 @@
         <FButton on:click={() => {
           showCreateDialog = true;
         }} outline>Tambah Jadwal</FButton>
+        <button class="button outline" on:click={downloadCsv}>
+          <span>Download CSV</span>
+          <Icon icon="carbon:document-download" class="is-small icon" />
+        </button>
       </div>
     </div>
 
