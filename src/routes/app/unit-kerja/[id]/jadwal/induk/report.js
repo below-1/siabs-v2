@@ -32,7 +32,10 @@ export async function get(event) {
 
       from absen ab
         join pegawai p on ab.nik = p.nik
-      where ab.id_unit_kerja = ${id}
+      where 
+        ab.id_unit_kerja = ${id}
+        and ab.alert_masuk >= ${start}
+        and ab.alert_masuk <= ${end}
       order by ab.alert_masuk
   `;
 
