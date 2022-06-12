@@ -23,7 +23,7 @@ export async function post(event) {
         .minute(0);
       let i = 0;
       while (t.isBefore(end)) {
-        const t1 = t.add(8, 'hour');
+        const t1 = t.hour(18).minute(0);
         const dayOfTheWeek = t.day();
 
         if (workDays[dayOfTheWeek]) {
