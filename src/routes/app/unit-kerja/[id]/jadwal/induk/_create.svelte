@@ -32,8 +32,8 @@
     const end = start.endOf('month');
     const payload = {
       id_unit_kerja: unitKerja.id,
-      start: start.toDate(),
-      end: end.toDate(),
+      start: start.toISOString(),
+      end: end.toISOString(),
       tipe,
       workDays
     }
