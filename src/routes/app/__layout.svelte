@@ -66,14 +66,14 @@
       result = [
         { path: '/app/dashboard', label: 'Dashboard', icon: 'mdi:view-dashboard' },
         { path: '/app/unit-kerja', label: 'Unit Kerja', icon: 'mdi:office-building-cog' },
-        { path: '/app/pegawai', label: 'Pegawai', icon: 'raphael:employee' },
+        { path: '/app/pegawai?keyword=', label: 'Pegawai', icon: 'raphael:employee' },
         { path: '/app/jadwal', label: 'Jadwal', icon: 'clarity:calendar-solid' },
         { path: '/app/account', label: 'Akun', icon: 'mdi:account-cog' }
       ]
     } else if (sess.user.uk_admin) {
       result = [
         { path: '/app/unit-kerja', label: 'unit kerja' },
-        { path: '/app/pegawai', label: 'pegawai' },
+        { path: '/app/pegawai?keyword=', label: 'pegawai' },
         { path: '/app/jadwal', label: 'jadwal' },
         { path: '/app/account', label: 'Akun', icon: 'mdi:account-cog' }
       ]

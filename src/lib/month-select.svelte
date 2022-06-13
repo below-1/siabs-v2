@@ -1,11 +1,11 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import FSelect from '$lib/fselect.svelte';
-  import FInput from '$lib/finput.svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let month;
-  export let year;
-
-  let monthOptions = [
+  const monthOptions = [
     { text: 'Januari', value: 0 },
     { text: 'Februari', value: 1 },
     { text: 'Maret', value: 2 },
@@ -21,20 +21,10 @@
   ];
 </script>
 
-<div class="is-flex" style="column-gap: 4px;">
-  <FSelect
-    bind:selected={month}
-    options={monthOptions}
-    on:change={(event) => {
-      console.log(event)
-      console.log('event')
-    }}
-  />
-  <input 
-    class="input"
-    type="number"
-    min=2021
-    max=2050
-    bind:value={year}
-  />
-</div>
+<FSelect
+  selected={month}
+  options={monthOptions}
+  on:change={(event) => {
+    dispatch('change', parseInt(event.target.value))
+  }}
+/>

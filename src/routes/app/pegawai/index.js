@@ -8,7 +8,8 @@ export async function get(event) {
   let after = event.url.searchParams.get('after')
   after = after ? after : ''
 
-  let keyword = event.url.searchParams.get('keyword')
+  let keyword = event.url.searchParams.get('keyword');
+  keyword = keyword ? keyword : '';
 
   let response = {};
   response.status = 200;
@@ -32,5 +33,6 @@ export async function get(event) {
       ${limitPart}
   `
   response.body.items = items
+  response.body.keyword = keyword
   return response
 }

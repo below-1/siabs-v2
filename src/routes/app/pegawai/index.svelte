@@ -1,6 +1,8 @@
 <script>
   import {getContext } from 'svelte'
   import { browser } from '$app/env'
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
 
   import PageHeader from '$lib/page-header.svelte'
   import FButton from '$lib/fbutton.svelte'
@@ -13,34 +15,19 @@
   const cu = getContext('currentUser');
   const user = cu.getUser();
 
-  let keyword = '';
-  let limit = 10;
-  let loading = true;
+  export let keyword = '';
   export let items = [];
+  let limit = 10;
+  let loading = false;
 
   async function _searchItems(keyword) {
     if (!browser) {
       return;
     }
-    loading = true;
-    try {
-      const response = await client_fetch_json({
-        method: 'GET',
-        path: '/app/pegawai',
-        params: {
-          keyword,
-          limit
-        }
-      });
-      items = response.items;
-    } catch (err) {
-      console.log(err)
-      alert('gagal mengambil data pegawai');
-    } finally {
-      loading = false;
-    }
+    const url = new URL($page.url);
+    url.searchParams.set('keyword', keyword);
+    goto(url);
   }
-
   const searchItems = debounce(_searchItems, 500);
 
   async function loadNext() {
@@ -63,8 +50,6 @@
       ...response.items
     ]
   }
-
-  $: searchItems(keyword);
 </script>
 
 <PageHeader>
@@ -92,13 +77,11 @@
       <div class="column">
         <SearchBox
           bind:keyword={keyword}
+          on:keyup={event => {
+            searchItems(event.target.value);
+          }}
         />
-
-        <div class="mb-4"></div>
-
-        {#if loading}
-          <Loader />
-        {:else}
+        <div class="py-4">
           {#each items as item}
             <a 
               href={`/app/pegawai/${item.nik}/overview`}
@@ -121,11 +104,7 @@
               </div>
             </a>
           {/each}
-        {/if}
-
-
-        <div class="mb-4"></div>
-
+        </div>
         <FButton 
           on:click={loadNext} 
           outline

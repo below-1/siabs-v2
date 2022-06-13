@@ -12,11 +12,10 @@ export async function get(event) {
             ? sql`and nama ilike ${'%' + keyword + '%'}`
             : sql``
         }`;
-  console.log(pegawaiList);
-  console.log('pegawaiList');
   return {
     body: {
-      items: pegawaiList
+      items: pegawaiList,
+      keyword
     }
   }
 }

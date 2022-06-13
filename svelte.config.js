@@ -1,6 +1,7 @@
 import preprocess from "svelte-preprocess";
 // import adapter from '@sveltejs/adapter-auto';
 import adapter from "@sveltejs/adapter-vercel";
+import { resolve } from "path";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -20,6 +21,11 @@ const config = {
           },
         },
       },
+      resolve: {
+        alias: {
+          $src: resolve('./src')
+        }
+      }
     },
   },
 

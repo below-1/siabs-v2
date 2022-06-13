@@ -16,7 +16,7 @@
   }
 
   .SearchBox:focus-within {
-    background: $info;
+    background: hsl(171deg, 100%, 41%);
     font-weight: bold;
   }
 
@@ -52,5 +52,6 @@
     type="text"
     {placeholder}
     bind:value={keyword}
+    on:keyup
   />
 </div>

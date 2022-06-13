@@ -1,7 +1,8 @@
 <script>
   import { getContext } from 'svelte';
-  import Icon from '@iconify/svelte';
   import { browser } from '$app/env';
+  import { goto } from '$app/navigation';
+  import Icon from '@iconify/svelte';
   import { client_fetch_json } from '$lib/http';
   import PageHeader from '$lib/page-header.svelte';
   import MonthYearSelect from '$lib/month-year-select.svelte';
@@ -54,6 +55,18 @@
     } finally {
       loading = true;
     }
+  }
+
+  function onClickDetail(date) {
+    let url = `/app/jadwal/date`
+    const searchParams = new URLSearchParams()
+    const start = day(date).startOf('day').toISOString()
+    const end = day(date).endOf('day').toISOString()
+    searchParams.set('start', start)
+    searchParams.set('end', end)
+    searchParams.set('nochange', true)
+    url += '?' + searchParams
+    goto(url)
   }
 </script>
 
@@ -108,12 +121,12 @@
                   <td>{item.alpa}</td>
                   <td>{item.total}</td>
                   <td class='has-text-centered'>
-                    <a 
-                      href={`/app/jadwal/${day(item.d).format('YYYY-MM-DD')}`}
+                    <button
                       class="button is-info is-small"
+                      on:click={() => onClickDetail(item.d)}
                     >
                       <Icon icon="mdi:eye" class="is-small icon" />
-                    </a>
+                    </button>
                   </td>
                 </tr>
               {/each}

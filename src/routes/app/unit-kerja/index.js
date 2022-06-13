@@ -3,7 +3,8 @@ import db from '../../../db'
 export async function get(event) {
   const sql = db()
   let response = {}
-  let keyword = event.url.searchParams.get('keyword')
+  const { searchParams } = event.url;
+  let keyword = event.url.searchParams.get('keyword');
   keyword = keyword ? keyword : ''
 
   const items = await sql`
@@ -14,5 +15,6 @@ export async function get(event) {
   response.status = 200
   response.body = {}
   response.body.items = items
+  response.body.keyword = keyword;
   return response
 }

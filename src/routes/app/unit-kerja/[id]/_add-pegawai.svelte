@@ -89,12 +89,7 @@
   }
 
   .UKSearchPegawai .pegawai-list > li:hover {
-    background: $primary;
     color:  white;
-
-    img {
-      background: $info;
-    }
   }
 
   .UKSearchPegawai .pegawai-list > li .text-content {

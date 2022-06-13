@@ -1,9 +1,20 @@
 <script>
-  import { getContext } from 'svelte';
+  import { getContext, createEventDispatcher } from 'svelte';
+  import { goto } from '$app/navigation';
   import day from '$lib/day';
 
+  const dispatch = createEventDispatcher();
   const unitKerja = getContext('unitKerja');
   export let items = [];
+
+  function onClickRow(date) {
+    const start = day(date).startOf('day').toISOString()
+    const end = day(date).endOf('day').toISOString()
+    dispatch('detail', {
+      start,
+      end
+    })
+  }
 </script>
 
 <style>
@@ -22,9 +33,7 @@
   </thead>
   <tbody>
     {#each items as dateGroup}
-      <tr on:click={(event) => {
-        window.location = `/app/unit-kerja/${unitKerja.id}/jadwal/induk/${day(dateGroup.d).format('YYYY-MM-DD')}`
-      }}>
+      <tr on:click={(event) => onClickRow(dateGroup.d)}>
         <td width="10%" style="background: rgb(250, 250, 250);">
           <div class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
             <div class="has-text-weight-bold is-size-5">{day(dateGroup.d).format('DD')}</div>

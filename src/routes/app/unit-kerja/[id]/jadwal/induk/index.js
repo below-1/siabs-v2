@@ -63,7 +63,9 @@ export async function get(event) {
   return {
     body: {
       aggregation,
-      pegawaiList
+      pegawaiList,
+      start,
+      end
     }
   }
 }

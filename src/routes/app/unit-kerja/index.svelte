@@ -1,7 +1,9 @@
 <script>
   import {getContext } from 'svelte'
-
   import { browser } from '$app/env'
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+
   import FButton from '$lib/fbutton.svelte'
   import FInput from '$lib/finput.svelte'
   import SearchBox from '$lib/search-box.svelte'
@@ -14,34 +16,14 @@
   const user = cu.getUser();
 
   export let items = [];
-  let keyword = '';
-  let loading = false;
+  export let keyword = '';
 
   async function _loadUnitKerjas(keyword) {
-    if (!browser) {
-      return;
-    }
-    loading = true;
-    try {
-      const response = await client_fetch_json({
-        method: 'GET',
-        path: '/app/unit-kerja',
-        params: {
-          keyword
-        }
-      })
-      items = response.items;
-    } catch (err) {
-      console.log(err);
-      alert('gagal mengambil data unit kerja')
-    } finally {
-      loading = false;
-    }
+    const url = new URL($page.url);
+    url.searchParams.set('keyword', keyword);
+    goto(url);
   }
-
   const loadUnitKerjas = debounce(_loadUnitKerjas, 500);
-
-  $: loadUnitKerjas(keyword);
 </script>
 
 <PageHeader>
@@ -65,34 +47,33 @@
     <div class="mb-4">
       <SearchBox
         bind:keyword={keyword}
+        on:keyup={event => {
+          loadUnitKerjas(event.target.value);
+        }}
       />
     </div>
-    {#if loading}
-      <Loader />
-    {:else}
-      {#each items as item}
-        <a 
-          href={`/app/unit-kerja/${item.id}/edit-data`}
-          class="media"
-        >
-          <figure class="media-left">
-            <p class="image is-48x48">
-              <img
-                src={item.avatar}
-              />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content hast-text-black" style="color: black;">
-              <div>{item.nama}</div>
-              <div class="is-size-7">
-                <span>{item.tipe}</span>
-                <span>{item.alamat}</span>
-              </div>
+    {#each items as item}
+      <a 
+        href={`/app/unit-kerja/${item.id}/edit-data`}
+        class="media"
+      >
+        <figure class="media-left">
+          <p class="image is-48x48">
+            <img
+              src={item.avatar}
+            />
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content hast-text-black" style="color: black;">
+            <div>{item.nama}</div>
+            <div class="is-size-7">
+              <span>{item.tipe}</span>
+              <span>{item.alamat}</span>
             </div>
           </div>
-        </a>
-      {/each}
-    {/if}
+        </div>
+      </a>
+    {/each}
   </div>
 </section>

@@ -10,6 +10,7 @@
     name={name}
     class:is-danger={error}
     bind:value={selected}
+    on:change
   >
     {#each options as option}
       <option value={option.value}>{option.text}</option>

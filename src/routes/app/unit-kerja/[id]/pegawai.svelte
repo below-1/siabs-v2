@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
   import FInput from '$lib/finput.svelte';
   import Empty from '$lib/empty.svelte';
@@ -12,7 +13,9 @@
 
   const unitKerja = getContext('unitKerja');
   export let items = [];
-  let loading = true;
+  export let keyword = '';
+
+  let loading = false;
   let selectedNik = null;
   let showDeleteDialog = false;
   let showAddPegawai = false;
@@ -22,8 +25,6 @@
     return item.nik == selectedNik;
   });
   $: messageDeleteDialog = buildDeleteMessage(selectedPegawai);
-  let keyword = '';
-  $: onKeywordChange(keyword);
   $: niks = items.map(item => item.nik);
 
   function showDeleteDialogFor(nik) {
@@ -38,28 +39,15 @@
     return `Anda akan menghapus pegawai ${selectedPegawai.nama} dari unit kerja ${unitKerja.nama}`
   }
 
-  const onKeywordChange = debounce((keyword) => {
-    reload();
-  }, 300);
-
-  async function reload() {
-    const url = $page.url;
+  async function _reload(keyword) {
+    const url = new URL($page.url);
     url.searchParams.set('keyword', keyword)
-    loading = true;
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await response.json()
-      items = data.items;
-    } catch (err) {
-    } finally {
-      loading = false;
-    }
+    goto(url);
   }
+
+  const reload = debounce((keyword) => {
+    _reload(keyword);
+  }, 600);
 
   async function onConfirmDelete() {
     loadingDelete = true;
@@ -75,7 +63,7 @@
       alert('gagal mengeluarkan pegawai dari unit kerja');
     } finally {
       loadingDelete = false;
-      reload();
+      reload(keyword);
     }
   }
 </script>
@@ -88,7 +76,12 @@
         <h1 class="title is-size-4">Daftar Pegawai</h1>
       </div>
       <div class="column is-3 has-text-right">
-        <SearchBox bind:keyword={keyword} />
+        <SearchBox 
+          keyword={keyword}
+          on:keyup={event => {
+            reload(event.target.value);
+          }}
+        />
       </div>
       <div class="column is-1 has-text-right">
         <button 
@@ -106,10 +99,7 @@
 
     <div class="columns">
       <div class="column">
-
-        {#if loading}
-          <Loader />
-        {:else if items.length == 0}
+        {#if items.length == 0}
           <Empty />
         {:else}
           <div class="table-container">

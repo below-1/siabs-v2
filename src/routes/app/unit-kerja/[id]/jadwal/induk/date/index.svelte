@@ -2,37 +2,29 @@
   import Icon from '@iconify/svelte';
   import { browser } from '$app/env';
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import { client_fetch_json } from '$lib/http';
   import day from '$lib/day';
   import Loader from '$lib/loader.svelte';
   import FDate from '$lib/fdate.svelte';
   import MonthYearSelect from '$lib/month-year-select.svelte';
 
-  let date = $page.params.date;
-  let items = [];
+  export let date = $page.params.date;
+  export let start;
+  export let end;
+  export let items = [];
+  let innerDate = day(start).format('YYYY-MM-DD');
   let loading = false;
-  $: getItems(date);
 
-  async function getItems(date) {
-    if (!browser) {
-      return;
-    }
-    loading = true;
-    try {
-      const response = await client_fetch_json({
-        path: `/app/unit-kerja/${$page.params.id}/jadwal/induk/on-date`,
-        params: {
-          start: day(date).startOf('day').toISOString(),
-          end: day(date).endOf('day').toISOString()
-        }
-      });
-      items = response.items;
-    } catch (err) {
-      console.log(err);
-      alert('gagal mengambil data');
-    } finally {
-      loading = false;
-    }
+  $: onInnerDateChange(innerDate);
+
+  function onInnerDateChange(date) {
+    const _start = day(date).startOf('day').toISOString();
+    const _end =day(date).endOf('day').toISOString();
+    const url = new URL($page.url);
+    url.searchParams.set('start', _start);
+    url.searchParams.set('end', _end);
+    goto(url);
   }
 </script>
 
@@ -47,7 +39,7 @@
       <div class="column is-3 is-flex is-align-items-center">
         <label class="is-size-5 mr-2">Tanggal</label>
         <FDate
-          bind:value={date}
+          bind:value={innerDate}
         />
       </div>
     </div>
