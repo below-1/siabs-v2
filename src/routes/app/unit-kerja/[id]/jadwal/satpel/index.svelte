@@ -1,29 +1,12 @@
-<script context="module">
-  export async function load({ params, session, fetch }) {
-    let data = {};
-    try {
-      const response = await fetch(`/app/unit-kerja/${params.id}/jadwal/satpel`, {
-        headers: {
-          accept: 'application/json',
-          'content-type': 'application/json'
-        }
-      });
-      const data = await response.json();
-    } catch (err) {
-      console.log(err);
-    }
-    return {
-      status: 200,
-      props: data
-    };
-  }
-</script>
-
 <script>
   import { getContext } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import { client_fetch_json } from '$lib/http';
   import day from '$lib/day';
   import MonthYearSelect from '$lib/month-year-select.svelte';
+  import FNumber from '$lib/fnumber.svelte';
+  import MonthSelect from '$lib/month-select.svelte';
   import FButton from '$lib/fbutton.svelte';
   import Loader from '$lib/loader.svelte';
   import ViewToggle from './_view-toggle.svelte';
@@ -32,18 +15,15 @@
 
   export let aggregation = [];
   export let pegawaiList = [];
-
+  export let start;
+  export let end;
   const unitKerja = getContext('unitKerja');
   const d = day();
-
+  $: year = day(start).year();
+  $: month = day(month).month();
   let activeTab = 'jadwal';
-  let year = d.year();
-  let month = d.month();
   let showCreateDialog = false;
   let loading = false;
-  $: dateInterval = getDateInterval(year, month);
-
-  $: getData(dateInterval);
 
   function getDateInterval(year, month) {
     const start = new Date(year, month, 1);
@@ -54,26 +34,12 @@
     }
   }
 
-  async function getData(dateInterval) {
-    loading = true;
-    try {
-      const response = await client_fetch_json({
-        method: 'GET',
-        path: `/app/unit-kerja/${unitKerja.id}/jadwal/satpel`,
-        params: dateInterval
-      });
-      aggregation = response.aggregation;
-      pegawaiList = response.pegawaiList;
-    } catch (err) {
-      console.log(err);
-      // alert('gagal mengambil data');
-    } finally {
-      loading = false;
-    }
-  }
-
-  function reload() {
-    getData(dateInterval);
+  function reload(year, month) {
+    const dateInterval = getDateInterval(year, month);
+    const url = new URL($page.url);
+    url.searchParams.set('start', dateInterval.start);
+    url.searchParams.set('end', dateInterval.end);
+    goto(url);
   }
 </script>
 
@@ -89,13 +55,28 @@
 
     <div class="columns">
       <div class="column is-8 is-flex is-align-items-center is-flex-wrap-wrap" 
-        style="row-gap:4px; column-gap: 4px;">
+        style="row-gap:4px; column-gap: 4px;"
+      >
+        <div style="display: flex; column-gap: 4px;">
+          <FNumber
+            value={year}
+            min={2020}
+            max={2050}
+            on:change={event => {
+              const year = parseInt(event.target.value);
+              reload(year, month);
+            }}
+          />
+          <MonthSelect
+            month={month}
+            on:change={(event) => {
+              const month = event.detail;
+              reload(year, month);
+            }}
+          />
+        </div>
         <ViewToggle
           bind:active={activeTab}
-        />
-        <MonthYearSelect 
-          bind:year={year}
-          bind:month={month}
         />
       </div>
     </div>

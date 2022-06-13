@@ -11,6 +11,7 @@
   class:border-red-600={error}
   class:border-2={error}
   bind:value={value}
+  on:change
 />
 {#if error}
   <div class="is-size-7 has-text-danger font-semibold">{error}</div>

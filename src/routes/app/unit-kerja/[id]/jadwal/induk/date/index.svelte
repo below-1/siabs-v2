@@ -16,9 +16,7 @@
   let innerDate = day(start).format('YYYY-MM-DD');
   let loading = false;
 
-  $: onInnerDateChange(innerDate);
-
-  function onInnerDateChange(date) {
+  function reload(date) {
     const _start = day(date).startOf('day').toISOString();
     const _end =day(date).endOf('day').toISOString();
     const url = new URL($page.url);
@@ -40,6 +38,9 @@
         <label class="is-size-5 mr-2">Tanggal</label>
         <FDate
           bind:value={innerDate}
+          on:change={(event) => {
+            reload(event.target.value);
+          }}
         />
       </div>
     </div>

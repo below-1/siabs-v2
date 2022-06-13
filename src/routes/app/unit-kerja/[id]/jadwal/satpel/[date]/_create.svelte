@@ -105,7 +105,6 @@
 
 <style lang="scss">
   .AddPegawaiSatpel {
-    color: $black;
     box-shadow: 0 0 6px 0 #eee;
     background: white;
     padding: 14px;
@@ -120,7 +119,6 @@
       .heading {
         margin: 0;
         font-size: 1.2rem;
-        color: $black;
       }
     }
   }
