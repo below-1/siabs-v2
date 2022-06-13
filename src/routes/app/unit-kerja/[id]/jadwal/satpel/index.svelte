@@ -41,6 +41,17 @@
     url.searchParams.set('end', dateInterval.end);
     goto(url);
   }
+
+  function onClickDetail(date) {
+    const start = day(date).startOf('day').toISOString();
+    const end = day(date).endOf('day').toISOString();
+    let url = `/app/unit-kerja/${unitKerja.id}/jadwal/satpel/date`
+    const searchParams = new URLSearchParams();
+    searchParams.set('start', start)
+    searchParams.set('end', end)
+    url += '?' + searchParams
+    goto(url)
+  }
 </script>
 
 <style>
@@ -104,9 +115,11 @@
                   <td>{row.shift_1}</td>
                   <td>{row.shift_2}</td>
                   <td>
-                    <a
-                      href={`/app/unit-kerja/${unitKerja.id}/jadwal/satpel/${day(row.d).format('YYYY-MM-DD')}`}
-                    >detail</a>
+                    <button
+                      class="button is-small is-info"
+                      on:click={() => onClickDetail(row.d)}
+                    >detail
+                    </button>
                   </td>
                 </tr>
               {/each}
