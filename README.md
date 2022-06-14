@@ -1,6 +1,6 @@
-# create-svelte
+# SIABS-v2
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Sipeking. Sistem Absensi Online. Memudahkan proses absensi online pada instansi kementrian perhubungan Wilayah NTT.
 
 ## Creating a project
 
