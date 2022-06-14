@@ -2,7 +2,7 @@
 
 Sipeking. Sistem Absensi Online. Memudahkan proses absensi online pada instansi kementrian perhubungan Wilayah NTT. Menggunakan sistem GPS pada proses absensi.
 
-***
+---
 
 ## Creating a project
 
